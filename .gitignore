@@ -32,3 +32,6 @@ proguard/
 .DS_Store
 /build
 /captures
+
+#secrets
+slapikey.xml
