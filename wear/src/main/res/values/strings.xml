@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SLWear</string>
-    <string name="hello_world">Hello World!</string>
-    <string name="destination">Från:</string>
+    <string name="from">Från:</string>
+    <string name="minutes">min</string>
 </resources>
