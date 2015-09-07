@@ -7,17 +7,25 @@ import java.util.Locale;
  */
 public class RealTimeRequest {
     private final int siteId;
-    private String url ="api.sl.se/api2/realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
+    private final String url ="api.sl.se/api2/realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
 
-    private String responseFormat;
+    private final String responseFormat;
+    private final String key;
+    private int timeWindow;
 
-    public RealTimeRequest(RealTimeResponseFormat responseFormat, int siteId){
+    public RealTimeRequest(RealTimeResponseFormat responseFormat, String key, int siteId, int timeWindow){
+        this.key = key;
+        this.timeWindow = timeWindow;
         this.responseFormat = responseFormat.toString().toLowerCase(Locale.US);
         this.siteId = siteId;
+
+        if(timeWindow > 60) {
+            throw new IllegalArgumentException("timeWindow can't be greater than 60");
+        }
     }
 
     @Override
     public String toString() {
-        return String.format(Locale.US, url, responseFormat, null, siteId, null);
+        return String.format(Locale.US, url, responseFormat, key, siteId, timeWindow);
     }
 }
