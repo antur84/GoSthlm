@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi.contract.response;
+package com.filreas.slwear.slapi.contract.response.extras;
 
 /**
  * Created by Andreas on 9/7/2015.

@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi.contract.response;
+package com.filreas.slwear.slapi.contract.response.extras;
 
 import com.filreas.slwear.slapi.contract.response.vehicles.Bus;
 import com.filreas.slwear.slapi.contract.response.vehicles.Metro;

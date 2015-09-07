@@ -1,6 +1,6 @@
 package com.filreas.slwear.slapi.contract.response.vehicles;
 
-import com.filreas.slwear.slapi.contract.response.Deviation;
+import com.filreas.slwear.slapi.contract.response.extras.Deviation;
 
 import java.util.Date;
 import java.util.List;

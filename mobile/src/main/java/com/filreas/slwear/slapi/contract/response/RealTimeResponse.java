@@ -1,5 +1,7 @@
 package com.filreas.slwear.slapi.contract.response;
 
+import com.filreas.slwear.slapi.contract.response.extras.Departure;
+
 /**
  * Created by Andreas on 9/7/2015.
  */
