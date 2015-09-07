@@ -1,10 +1,13 @@
 package com.filreas.slwear.slapi.contract;
 
+import com.filreas.slwear.slapi.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.contract.request.RealTimeResponseFormat;
+
 import org.junit.Test;
 
 import java.util.Locale;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
