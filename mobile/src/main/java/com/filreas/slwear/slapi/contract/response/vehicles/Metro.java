@@ -3,7 +3,7 @@ package com.filreas.slwear.slapi.contract.response.vehicles;
 /**
  * Created by Andreas on 9/7/2015.
  */
-public class Metro extends TransportType {
+public class Metro {
     private int departureGroupId;
     private String destination;
     private String displayTime;
