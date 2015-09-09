@@ -7,7 +7,7 @@ import java.util.Locale;
  */
 public class RealTimeRequest {
     private final int siteId;
-    private final String url ="api.sl.se/api2/realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
+    private final String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
 
     private final String responseFormat;
     private final String key;
