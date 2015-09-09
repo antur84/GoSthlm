@@ -1,7 +1,7 @@
 package com.filreas.slwear.slapi.contract;
 
-import com.filreas.slwear.slapi.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.contract.request.RealTimeResponseFormat;
+import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeResponseFormat;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi.contract.request;
+package com.filreas.slwear.slapi.real_time_station_info.contract.request;
 
 import java.util.Locale;
 

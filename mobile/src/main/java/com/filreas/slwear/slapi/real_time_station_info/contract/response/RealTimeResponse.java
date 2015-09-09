@@ -1,6 +1,6 @@
-package com.filreas.slwear.slapi.contract.response;
+package com.filreas.slwear.slapi.real_time_station_info.contract.response;
 
-import com.filreas.slwear.slapi.contract.response.extras.Departure;
+import com.filreas.slwear.slapi.real_time_station_info.contract.response.extras.Departure;
 import com.google.gson.annotations.SerializedName;
 
 /**

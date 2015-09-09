@@ -1,9 +1,9 @@
 package com.filreas.slwear.slapi.real_time_station_info;
 
 import com.filreas.slwear.slapi.SLRestApiClient;
-import com.filreas.slwear.slapi.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.contract.request.RealTimeResponseFormat;
-import com.filreas.slwear.slapi.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeResponseFormat;
+import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import org.junit.Before;
