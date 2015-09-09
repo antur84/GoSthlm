@@ -1,20 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#474b4e"
-    android:id="@+id/mainRelativeLayout">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/from"
-        android:id="@+id/textView"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="18dp"
-        android:textColor="#FFFFFF"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        app:layout_box="all"
+        android:rowCount="6"
+        android:columnCount="2"
+        android:id="@+id/mainRelativeLayout">
 
-</RelativeLayout>
+        <TextView
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/from"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:theme="@style/TextView.Large"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_alignParentLeft="false"
+            android:layout_marginLeft="0dp"
+            android:id="@+id/fromText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="18sp"
+            android:text="@string/destination"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/destinationText"
+            android:fontFamily="sans-serif-thin"
+            android:layout_alignTop="@+id/lineIconTop"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="18sp"
+            android:text="@string/displayTime"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/timeToDepartureText"
+            android:fontFamily="sans-serif-thin"
+            android:layout_below="@+id/lineIconTop"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:background="@null"
+            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:src="@drawable/t10_small"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/lineIconTop" />
+
+        <ImageButton
+            android:background="@null"
+            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:src="@drawable/t10_small"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="50dp"
+            android:id="@+id/lineIconBottom" />
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/settingsButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/refresh"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:background="#474b4e" />
+
+    </RelativeLayout>
+</android.support.wearable.view.BoxInsetLayout>

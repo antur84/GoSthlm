@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">SLWear</string>
-    <string name="from">Från:</string>
-    <string name="minutes">min</string>
+    <string name="from">SOLNA STRAND</string>
+    <string name="destination">Kungsträdgården</string>
+    <string name="displayTime">5 min</string>
 </resources>
