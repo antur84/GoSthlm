@@ -12,7 +12,7 @@ public class SLApiKeyFetcher {
     private Context context;
     private String cachedKey;
 
-    public SLApiKeyFetcher(Resources resources, Context context){
+    public SLApiKeyFetcher(Resources resources, Context context) {
 
         this.resources = resources;
         this.context = context;

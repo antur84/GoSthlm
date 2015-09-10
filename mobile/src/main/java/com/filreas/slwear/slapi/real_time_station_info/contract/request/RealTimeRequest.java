@@ -13,13 +13,13 @@ public class RealTimeRequest {
     private final String key;
     private int timeWindow;
 
-    public RealTimeRequest(RealTimeResponseFormat responseFormat, String key, int siteId, int timeWindow){
+    public RealTimeRequest(RealTimeResponseFormat responseFormat, String key, int siteId, int timeWindow) {
         this.key = key;
         this.timeWindow = timeWindow;
         this.responseFormat = responseFormat.toString().toLowerCase(Locale.US);
         this.siteId = siteId;
 
-        if(timeWindow > 60) {
+        if (timeWindow > 60) {
             throw new IllegalArgumentException("timeWindow can't be greater than 60");
         }
     }
