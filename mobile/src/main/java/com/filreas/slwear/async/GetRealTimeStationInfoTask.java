@@ -43,4 +43,9 @@ public class GetRealTimeStationInfoTask extends AsyncTask<RealTimeRequest, Void,
             responseHandler.onTaskComplete(new GetRealTimeStationInfoTaskResult(realTimeResponse));
         }
     }
+
+    @Override
+    protected void onCancelled(RealTimeResponse realTimeResponse) {
+        // do nothing
+    }
 }

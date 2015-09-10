@@ -11,12 +11,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +49,7 @@ public class GetRealTimeStationInfoTaskTest {
         sut.doInBackground(realTimeRequest, realTimeRequest);
     }
 
-    @Test()
+    @Test
     public void doInBackground_should_call_slApi_with_first_param_and_return_result() {
         when(slApi.getRealTimeStationInfo(realTimeRequest)).thenReturn(realTimeResponse);
         RealTimeResponse actual = sut.doInBackground(realTimeRequest);
@@ -55,7 +57,7 @@ public class GetRealTimeStationInfoTaskTest {
         assertThat(actual, is(realTimeResponse));
     }
 
-    @Test()
+    @Test
     public void doInBackground_should_call_slApi_and_return_null_on_HttpRequestException() {
         when(slApi.getRealTimeStationInfo(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
         RealTimeResponse actual = sut.doInBackground(realTimeRequest);
@@ -63,7 +65,7 @@ public class GetRealTimeStationInfoTaskTest {
         assertThat(actual, is(nullValue()));
     }
 
-    @Test()
+    @Test
     public void onPostExecute_should_call_responseHandler_with_parameter_containing_response() {
         sut.onPostExecute(realTimeResponse);
 
@@ -72,7 +74,7 @@ public class GetRealTimeStationInfoTaskTest {
         assertThat(result.getValue().getResponse(), is(realTimeResponse));
     }
 
-    @Test()
+    @Test
     public void onPostExecute_should_call_responseHandler_with_parameter_containing_exception_if_response_null() {
         when(slApi.getRealTimeStationInfo(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
 
@@ -82,5 +84,11 @@ public class GetRealTimeStationInfoTaskTest {
         ArgumentCaptor<GetRealTimeStationInfoTaskResult> result = ArgumentCaptor.forClass(GetRealTimeStationInfoTaskResult.class);
         verify(responseHandler).onTaskComplete(result.capture());
         assertThat(result.getValue().getException(), isA(Exception.class));
+    }
+
+    @Test
+    public void onCancelled_should_not_call_responseHandler() {
+        sut.onCancelled(null);
+        verify(responseHandler, never()).onTaskComplete(Mockito.any(GetRealTimeStationInfoTaskResult.class));
     }
 }
