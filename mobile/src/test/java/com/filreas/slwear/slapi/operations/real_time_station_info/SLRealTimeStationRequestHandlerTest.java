@@ -1,8 +1,14 @@
 package com.filreas.slwear.slapi.operations.real_time_station_info;
 
+import android.util.LruCache;
+
 import com.filreas.slwear.slapi.SLRestApiClient;
+import com.filreas.slwear.slapi.operations.CacheType;
+import com.filreas.slwear.slapi.operations.CachedHttpRequest;
+import com.filreas.slwear.slapi.operations.ResponseCacheStrategy;
+import com.filreas.slwear.slapi.operations.ResponseFormat;
+import com.filreas.slwear.slapi.operations.SLRequestHandler;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeResponseFormat;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.github.kevinsawicki.http.HttpRequest;
 
@@ -29,7 +35,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SLRealTimeStationRequestHandlerTest {
 
-    private SLRealTimeStationRequestHandler sut;
+    private SLRequestHandler<RealTimeRequest, RealTimeResponse> sut;
     private RealTimeRequest request;
 
     @Mock
@@ -38,10 +44,13 @@ public class SLRealTimeStationRequestHandlerTest {
     @Mock
     private SLRestApiClient apiClientMock;
 
+    @Mock
+    private LruCache<String, CachedHttpRequest> cacheMock;
+
     @Before
     public void setup() {
-        request = new RealTimeRequest(RealTimeResponseFormat.JSON, "key", 1, 1);
-        sut = new SLRealTimeStationRequestHandler(apiClientMock);
+        request = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.NONE, 0));
+        sut = new SLRequestHandler<>(apiClientMock, RealTimeResponse.class, cacheMock);
     }
 
     @Test

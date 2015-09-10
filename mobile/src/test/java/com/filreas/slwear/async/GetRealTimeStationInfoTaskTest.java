@@ -1,8 +1,10 @@
 package com.filreas.slwear.async;
 
 import com.filreas.slwear.slapi.ISLApi;
+import com.filreas.slwear.slapi.operations.CacheType;
+import com.filreas.slwear.slapi.operations.ResponseCacheStrategy;
+import com.filreas.slwear.slapi.operations.ResponseFormat;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeResponseFormat;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.github.kevinsawicki.http.HttpRequest;
 
@@ -40,7 +42,7 @@ public class GetRealTimeStationInfoTaskTest {
     @Before
     public void setup() {
         realTimeResponse = new RealTimeResponse();
-        realTimeRequest = new RealTimeRequest(RealTimeResponseFormat.JSON, "key", 1, 1);
+        realTimeRequest = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.NONE, 0));
         sut = new GetRealTimeStationInfoTask(slApi, responseHandler);
     }
 

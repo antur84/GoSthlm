@@ -1,6 +1,6 @@
 package com.filreas.slwear.slapi;
 
-import com.filreas.slwear.slapi.operations.real_time_station_info.SLRealTimeStationRequestHandler;
+import com.filreas.slwear.slapi.operations.SLRequestHandler;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 
@@ -9,9 +9,9 @@ import com.filreas.slwear.slapi.operations.real_time_station_info.contract.respo
  */
 public class SLApi implements ISLApi {
 
-    private SLRealTimeStationRequestHandler realTimeStationRequestHandler;
+    private SLRequestHandler<RealTimeRequest, RealTimeResponse> realTimeStationRequestHandler;
 
-    public SLApi(SLRealTimeStationRequestHandler realTimeStationRequestHandler) {
+    public SLApi(SLRequestHandler realTimeStationRequestHandler) {
         this.realTimeStationRequestHandler = realTimeStationRequestHandler;
     }
 
