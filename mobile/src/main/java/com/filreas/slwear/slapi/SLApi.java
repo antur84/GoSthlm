@@ -1,7 +1,7 @@
 package com.filreas.slwear.slapi;
 
-import com.filreas.slwear.slapi.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.slwear.slapi.real_time_station_info.SLRealTimeStationRequestHandler;
 
 /**
