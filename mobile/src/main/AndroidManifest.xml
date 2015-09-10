@@ -20,4 +20,5 @@
         <activity android:name=".Help" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
