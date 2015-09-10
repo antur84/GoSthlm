@@ -1,7 +1,7 @@
 package com.filreas.slwear.slapi.real_time_station_info;
 
 import com.filreas.slwear.slapi.ISLRestApiClient;
-import com.filreas.slwear.slapi.SLGson;
+import com.filreas.slwear.slapi.SLGsonThreadSafeSingleton;
 import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
 import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -13,8 +13,6 @@ import java.io.StringReader;
  * Created by Andreas on 9/8/2015.
  */
 public class SLRealTimeStationRequestHandler implements ISLRealTimeStationRequestHandler {
-
-    private static SLGson gson = new SLGson();
     private final ISLRestApiClient apiClient;
 
     public SLRealTimeStationRequestHandler(ISLRestApiClient apiClient) {
@@ -24,6 +22,6 @@ public class SLRealTimeStationRequestHandler implements ISLRealTimeStationReques
     @Override
     public RealTimeResponse get(RealTimeRequest request) {
         HttpRequest response = apiClient.get(request.toString());
-        return gson.getInstance().fromJson(new JsonReader(new StringReader(response.body())), RealTimeResponse.class);
+        return SLGsonThreadSafeSingleton.getInstance().fromJson(new JsonReader(new StringReader(response.body())), RealTimeResponse.class);
     }
 }

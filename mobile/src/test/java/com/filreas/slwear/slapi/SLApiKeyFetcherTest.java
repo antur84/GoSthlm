@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -36,7 +36,16 @@ public class SLApiKeyFetcherTest {
     }
 
     @Test
-    public void getKeyShouldReadFromResource(){
+    public void getKey_should_read_from_resource() {
         assertThat(sut.getKey(), is(SLApiKeyResourceMock.FakeKey));
+    }
+
+    @Test
+    public void getKey_consecutive_calls_should_return_cached_key() {
+        String first = sut.getKey();
+        String second = sut.getKey();
+
+        assertThat(resourceMock.numberOfCallsToGetString(), is(1));
+        assertThat(first, is(second));
     }
 }

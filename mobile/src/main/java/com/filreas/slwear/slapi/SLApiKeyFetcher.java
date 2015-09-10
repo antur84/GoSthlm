@@ -10,6 +10,7 @@ public class SLApiKeyFetcher {
 
     private Resources resources;
     private Context context;
+    private String cachedKey;
 
     public SLApiKeyFetcher(Resources resources, Context context){
 
@@ -18,8 +19,13 @@ public class SLApiKeyFetcher {
     }
 
     public String getKey() {
-        int idOfApiKey = resources.getIdentifier("slapikey", "string", context.getPackageName());
-        String key = resources.getString(idOfApiKey);
-        return key;
+
+        if (cachedKey == null) {
+            int idOfApiKey = resources.getIdentifier("slapikey", "string", context.getPackageName());
+            String key = resources.getString(idOfApiKey);
+            cachedKey = key;
+        }
+
+        return cachedKey;
     }
 }
