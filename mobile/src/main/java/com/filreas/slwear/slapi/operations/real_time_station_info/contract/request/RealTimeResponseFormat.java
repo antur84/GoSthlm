@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi.real_time_station_info.contract.request;
+package com.filreas.slwear.slapi.operations.real_time_station_info.contract.request;
 
 /**
  * Created by Andreas on 9/6/2015.

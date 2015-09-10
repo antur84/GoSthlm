@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi;
+package com.filreas.slwear.slapi.serializers;
 
 /**
  * Created by Andreas on 9/10/2015.

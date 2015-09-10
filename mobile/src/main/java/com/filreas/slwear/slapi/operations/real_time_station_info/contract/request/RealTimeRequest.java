@@ -1,11 +1,13 @@
-package com.filreas.slwear.slapi.real_time_station_info.contract.request;
+package com.filreas.slwear.slapi.operations.real_time_station_info.contract.request;
+
+import com.filreas.slwear.slapi.operations.SLApiRequest;
 
 import java.util.Locale;
 
 /**
  * Created by Andreas on 9/6/2015.
  */
-public class RealTimeRequest {
+public class RealTimeRequest extends SLApiRequest {
     private final int siteId;
     private final String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
 

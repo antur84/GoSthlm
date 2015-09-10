@@ -1,10 +1,10 @@
-package com.filreas.slwear.slapi.real_time_station_info.contract.response.extras;
+package com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.extras;
 
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.vehicles.Bus;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.vehicles.Metro;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.vehicles.Ship;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.vehicles.Train;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.vehicles.Tram;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Bus;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Ship;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Train;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Tram;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;

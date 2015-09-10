@@ -1,9 +1,9 @@
 package com.filreas.slwear.slapi;
 
-import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeResponseFormat;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
-import com.filreas.slwear.slapi.real_time_station_info.SLRealTimeStationRequestHandler;
+import com.filreas.slwear.slapi.operations.real_time_station_info.SLRealTimeStationRequestHandler;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeResponseFormat;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 
 import org.junit.Before;
 import org.junit.Test;

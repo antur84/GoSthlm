@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi;
+package com.filreas.slwear.slapi.serializers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

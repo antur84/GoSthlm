@@ -1,9 +1,9 @@
-package com.filreas.slwear.slapi.real_time_station_info;
+package com.filreas.slwear.slapi.operations.real_time_station_info;
 
 import com.filreas.slwear.slapi.ISLRestApiClient;
-import com.filreas.slwear.slapi.SLGsonThreadSafeSingleton;
-import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.serializers.SLGsonThreadSafeSingleton;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.stream.JsonReader;
 

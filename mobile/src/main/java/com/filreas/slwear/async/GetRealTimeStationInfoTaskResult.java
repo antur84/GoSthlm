@@ -1,6 +1,6 @@
 package com.filreas.slwear.async;
 
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 
 /**
  * Created by Andreas on 9/10/2015.

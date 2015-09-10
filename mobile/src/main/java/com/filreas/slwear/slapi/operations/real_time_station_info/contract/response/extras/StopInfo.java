@@ -1,4 +1,4 @@
-package com.filreas.slwear.slapi.real_time_station_info.contract.response.extras;
+package com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.extras;
 
 import com.google.gson.annotations.SerializedName;
 

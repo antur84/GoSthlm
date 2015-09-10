@@ -1,6 +1,6 @@
-package com.filreas.slwear.slapi.real_time_station_info.contract.response.vehicles;
+package com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles;
 
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.extras.Deviation;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.extras.Deviation;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;

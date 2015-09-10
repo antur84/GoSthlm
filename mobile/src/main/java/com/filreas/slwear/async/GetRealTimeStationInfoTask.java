@@ -3,8 +3,8 @@ package com.filreas.slwear.async;
 import android.os.AsyncTask;
 
 import com.filreas.slwear.slapi.ISLApi;
-import com.filreas.slwear.slapi.real_time_station_info.contract.request.RealTimeRequest;
-import com.filreas.slwear.slapi.real_time_station_info.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.github.kevinsawicki.http.HttpRequest;
 
 /**
