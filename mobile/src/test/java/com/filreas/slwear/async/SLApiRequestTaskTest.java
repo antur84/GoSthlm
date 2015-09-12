@@ -1,6 +1,5 @@
 package com.filreas.slwear.async;
 
-import com.filreas.slwear.slapi.ISLApi;
 import com.filreas.slwear.slapi.operations.CacheType;
 import com.filreas.slwear.slapi.operations.ResponseCacheStrategy;
 import com.filreas.slwear.slapi.operations.ResponseFormat;
@@ -12,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -28,22 +28,26 @@ import static org.mockito.Mockito.when;
  * Created by Andreas on 9/10/2015.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GetRealTimeStationInfoTaskTest {
+public class SLApiRequestTaskTest {
 
-    private GetRealTimeStationInfoTask sut;
-
-    @Mock
-    private ISLApi slApi;
-    @Mock
-    private IGetRealTimeStationInfoTaskResultHandler responseHandler;
+    private SLApiRequestTask<RealTimeResponse> sut;
     private RealTimeRequest realTimeRequest;
     private RealTimeResponse realTimeResponse;
+
+    @Captor
+    private ArgumentCaptor<SLApiTaskResult<RealTimeResponse>> realTimeResponseCaptor;
+
+    @Mock
+    private ISLApiCall<RealTimeResponse> slApiCall;
+
+    @Mock
+    private ISLApiTaskResponseHandler responseHandler;
 
     @Before
     public void setup() {
         realTimeResponse = new RealTimeResponse();
         realTimeRequest = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.NONE, 0));
-        sut = new GetRealTimeStationInfoTask(slApi, responseHandler);
+        sut = new SLApiRequestTask<>(slApiCall, responseHandler);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -53,7 +57,7 @@ public class GetRealTimeStationInfoTaskTest {
 
     @Test
     public void doInBackground_should_call_slApi_with_first_param_and_return_result() {
-        when(slApi.getRealTimeStationInfo(realTimeRequest)).thenReturn(realTimeResponse);
+        when(slApiCall.perform(realTimeRequest)).thenReturn(realTimeResponse);
         RealTimeResponse actual = sut.doInBackground(realTimeRequest);
 
         assertThat(actual, is(realTimeResponse));
@@ -61,7 +65,7 @@ public class GetRealTimeStationInfoTaskTest {
 
     @Test
     public void doInBackground_should_call_slApi_and_return_null_on_HttpRequestException() {
-        when(slApi.getRealTimeStationInfo(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
+        when(slApiCall.perform(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
         RealTimeResponse actual = sut.doInBackground(realTimeRequest);
 
         assertThat(actual, is(nullValue()));
@@ -70,20 +74,18 @@ public class GetRealTimeStationInfoTaskTest {
     @Test
     public void onPostExecute_should_call_responseHandler_with_parameter_containing_response() {
         sut.onPostExecute(realTimeResponse);
-
-        ArgumentCaptor<GetRealTimeStationInfoTaskResult> result = ArgumentCaptor.forClass(GetRealTimeStationInfoTaskResult.class);
-        verify(responseHandler).onTaskComplete(result.capture());
-        assertThat(result.getValue().getResponse(), is(realTimeResponse));
+        verify(responseHandler).onTaskComplete(realTimeResponseCaptor.capture());
+        assertThat(realTimeResponseCaptor.getValue().getResponse(), is(realTimeResponse));
     }
 
     @Test
     public void onPostExecute_should_call_responseHandler_with_parameter_containing_exception_if_response_null() {
-        when(slApi.getRealTimeStationInfo(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
+        when(slApiCall.perform(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
 
         sut.doInBackground(realTimeRequest);
         sut.onPostExecute(null);
 
-        ArgumentCaptor<GetRealTimeStationInfoTaskResult> result = ArgumentCaptor.forClass(GetRealTimeStationInfoTaskResult.class);
+        ArgumentCaptor<SLApiTaskResult> result = ArgumentCaptor.forClass(SLApiTaskResult.class);
         verify(responseHandler).onTaskComplete(result.capture());
         assertThat(result.getValue().getException(), isA(Exception.class));
     }
@@ -91,6 +93,6 @@ public class GetRealTimeStationInfoTaskTest {
     @Test
     public void onCancelled_should_not_call_responseHandler() {
         sut.onCancelled(null);
-        verify(responseHandler, never()).onTaskComplete(Mockito.any(GetRealTimeStationInfoTaskResult.class));
+        verify(responseHandler, never()).onTaskComplete(Mockito.any(SLApiTaskResult.class));
     }
 }
