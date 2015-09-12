@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SLApiRequestTaskTest {
 
-    private SLApiRequestTask<RealTimeResponse> sut;
+    private SLApiRequestTask<RealTimeRequest, RealTimeResponse> sut;
     private RealTimeRequest realTimeRequest;
     private RealTimeResponse realTimeResponse;
 
@@ -38,7 +38,7 @@ public class SLApiRequestTaskTest {
     private ArgumentCaptor<SLApiTaskResult<RealTimeResponse>> realTimeResponseCaptor;
 
     @Mock
-    private ISLApiCall<RealTimeResponse> slApiCall;
+    private ISLApiCall<RealTimeRequest, RealTimeResponse> slApiCall;
 
     @Mock
     private ISLApiTaskResponseHandler responseHandler;

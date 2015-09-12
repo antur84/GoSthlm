@@ -33,13 +33,13 @@ public class SLRequestHandler<TRequest extends SLApiRequest, TResponse> implemen
             String cacheKey = request.getCacheKey();
             CachedHttpRequest cachedHttpRequest = cache.get(cacheKey);
             if (cachedHttpRequest == null) {
-                AddToCache(cacheKey, apiClient);
+                AddToCache(cacheKey, request);
             } else {
                 Date cachedDatePlusExpirationTime = new Date(cachedHttpRequest.getTimeCreated().getTime() + (cacheStrategy.getMinutes() * ONE_MINUTE_IN_MILLIS));
                 Date currentTime = new Date();
                 if (currentTime.after(cachedDatePlusExpirationTime)) {
                     cache.remove(cacheKey);
-                    AddToCache(cacheKey, apiClient);
+                    AddToCache(cacheKey, request);
                 }
             }
             response = cache.get(cacheKey).getValue();
@@ -49,8 +49,8 @@ public class SLRequestHandler<TRequest extends SLApiRequest, TResponse> implemen
         return SLGsonThreadSafeSingleton.getInstance().fromJson(new JsonReader(new StringReader(response)), responseClass);
     }
 
-    private void AddToCache(String cacheKey, ISLRestApiClient apiClient) {
-        HttpRequest httpRequest = this.apiClient.get(apiClient.toString());
+    private void AddToCache(String cacheKey, TRequest request) {
+        HttpRequest httpRequest = apiClient.get(request.toString());
         CachedHttpRequest value = new CachedHttpRequest(httpRequest.body());
         cache.put(cacheKey, value);
     }

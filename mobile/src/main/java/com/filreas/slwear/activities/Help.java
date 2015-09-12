@@ -1,7 +1,9 @@
-package com.filreas.slwear;
+package com.filreas.slwear.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.filreas.slwear.R;
 
 /**
  * @author Filip G

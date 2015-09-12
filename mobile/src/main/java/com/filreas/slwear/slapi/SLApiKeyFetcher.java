@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * Created by Andreas on 9/6/2015.
  */
-public class SLApiKeyFetcher {
+public class SLApiKeyFetcher implements ISLApiKeyFetcher {
 
     private Resources resources;
     private Context context;
@@ -20,6 +20,7 @@ public class SLApiKeyFetcher {
         this.context = context;
     }
 
+    @Override
     public String getKey(String key) {
 
         if (!cachedKeys.containsKey(key)) {
