@@ -7,4 +7,5 @@
     <string name="spinnerStartText">Select station</string>
     <string name="about">About</string>
     <string name="help">Help</string>
+    <string name="selectStation">Select station</string>
 </resources>

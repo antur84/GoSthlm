@@ -1,6 +1,8 @@
 package com.filreas.slwear.slapi;
 
 
+import android.util.Log;
+
 import com.github.kevinsawicki.http.HttpRequest;
 
 /**
@@ -15,6 +17,8 @@ public class SLRestApiClient implements ISLRestApiClient {
 
     @Override
     public HttpRequest get(String url) {
-        return HttpRequest.get(getAbsoluteUrl(url)).acceptGzipEncoding().uncompress(true);
+        String requestUrl = getAbsoluteUrl(url);
+        Log.d("slwear", "request fired: " + requestUrl);
+        return HttpRequest.get(requestUrl).acceptGzipEncoding().uncompress(true);
     }
 }

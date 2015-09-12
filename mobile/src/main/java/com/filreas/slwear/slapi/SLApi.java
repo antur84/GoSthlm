@@ -1,5 +1,8 @@
 package com.filreas.slwear.slapi;
 
+import android.util.LruCache;
+
+import com.filreas.slwear.slapi.operations.CachedHttpRequest;
 import com.filreas.slwear.slapi.operations.SLRequestHandler;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.LocationFinderRequest;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.LocationFinderResponse;
@@ -11,6 +14,7 @@ import com.filreas.slwear.slapi.operations.real_time_station_info.contract.respo
  */
 public class SLApi implements ISLApi {
 
+    private final LruCache<String, CachedHttpRequest> cache = new LruCache<>(20);
     private SLRequestHandler<RealTimeRequest, RealTimeResponse> realTimeStationRequestHandler;
     private SLRequestHandler<LocationFinderRequest, LocationFinderResponse> locationFinderRequestHandler;
 
@@ -19,6 +23,11 @@ public class SLApi implements ISLApi {
             SLRequestHandler<LocationFinderRequest, LocationFinderResponse> locationFinderRequestHandler) {
         this.realTimeStationRequestHandler = realTimeStationRequestHandler;
         this.locationFinderRequestHandler = locationFinderRequestHandler;
+    }
+
+    public SLApi(ISLRestApiClient slRestApiClient) {
+        this.realTimeStationRequestHandler = new SLRequestHandler<>(slRestApiClient, RealTimeResponse.class, cache);
+        this.locationFinderRequestHandler = new SLRequestHandler<>(slRestApiClient, LocationFinderResponse.class, cache);
     }
 
     @Override

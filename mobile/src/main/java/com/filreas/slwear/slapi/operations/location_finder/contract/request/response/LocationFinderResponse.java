@@ -19,7 +19,7 @@ public class LocationFinderResponse {
     private long executionTime;
 
     @SerializedName("ResponseData")
-    private List<Site> responseDate;
+    private List<Site> responseData;
 
     public int getStatusCode() {
         return statusCode;
@@ -33,7 +33,7 @@ public class LocationFinderResponse {
         return executionTime;
     }
 
-    public List<Site> getResponseDate() {
-        return responseDate;
+    public List<Site> getResponseData() {
+        return responseData;
     }
 }
