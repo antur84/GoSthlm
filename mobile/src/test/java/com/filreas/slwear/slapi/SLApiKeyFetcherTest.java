@@ -37,15 +37,20 @@ public class SLApiKeyFetcherTest {
 
     @Test
     public void getKey_should_read_from_resource() {
-        assertThat(sut.getKey(), is(SLApiKeyResourceMock.FakeKey));
+        assertThat(sut.getKey("slapikey"), is(SLApiKeyResourceMock.FakeKey));
     }
 
     @Test
     public void getKey_consecutive_calls_should_return_cached_key() {
-        String first = sut.getKey();
-        String second = sut.getKey();
+        String first = sut.getKey("slapikey");
+        String second = sut.getKey("slapikey");
 
         assertThat(resourceMock.numberOfCallsToGetString(), is(1));
         assertThat(first, is(second));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getKey_throws_if_no_such_key() {
+        sut.getKey("nope");
     }
 }

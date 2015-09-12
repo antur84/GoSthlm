@@ -67,6 +67,6 @@ public class RealTimeRequestTest {
     @Test
     public void getCacheKey_should_return_string_using_className_and_parameters() {
         RealTimeRequest sut = new RealTimeRequest(ResponseFormat.JSON, key, siteId, timeWindow, cacheStrategy);
-        assertThat(sut.getCacheKey(), is("json" + key + siteId + RealTimeRequest.class.getCanonicalName()));
+        assertThat(sut.getCacheKey(), is(RealTimeRequest.class.getCanonicalName() + "json" + key + siteId));
     }
 }

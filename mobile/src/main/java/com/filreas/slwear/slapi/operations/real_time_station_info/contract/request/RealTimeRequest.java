@@ -13,15 +13,11 @@ public class RealTimeRequest extends SLApiRequest {
     private final int siteId;
     private final String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
 
-    private final String responseFormat;
-    private final String key;
     private int timeWindow;
 
     public RealTimeRequest(ResponseFormat responseFormat, String key, int siteId, int timeWindow, ResponseCacheStrategy cacheStrategy) {
-        super(cacheStrategy);
-        this.key = key;
+        super(responseFormat, key, cacheStrategy);
         this.timeWindow = timeWindow;
-        this.responseFormat = responseFormat.toString().toLowerCase(Locale.US);
         this.siteId = siteId;
 
         if (timeWindow > 60) {
@@ -31,11 +27,11 @@ public class RealTimeRequest extends SLApiRequest {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, url, responseFormat, key, siteId, timeWindow);
+        return String.format(Locale.US, url, getResponseFormat(), getKey(), siteId, timeWindow);
     }
 
     @Override
     public String getCacheKey() {
-        return String.format(Locale.US, "%s%s%s%s", responseFormat, key, siteId, RealTimeRequest.class.getCanonicalName());
+        return String.format(Locale.US, "%s%s%s%s", RealTimeRequest.class.getCanonicalName(), getResponseFormat(), getKey(), siteId);
     }
 }

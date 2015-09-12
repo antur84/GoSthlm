@@ -22,6 +22,10 @@ public class SLApiKeyResourceMock extends MockResources {
 
     @Override
     public int getIdentifier(String name, String defType, String defPackage) {
+        if (name == "nope") {
+            return 0;
+        }
+
         return 1;
     }
 }
