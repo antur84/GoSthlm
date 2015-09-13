@@ -60,6 +60,8 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
             }
         });
 
+        this.autoCompleteTextView.setAdapter(dataAdapter);
+
         this.autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
