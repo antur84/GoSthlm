@@ -3,6 +3,7 @@ package com.filreas.slwear.activities.Main;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
     private LocationFinderRequest request;
     private AutoCompleteTextView autoCompleteTextView;
     private StationsAdapter dataAdapter;
+    protected boolean stationSelected;
 
     public AutoCompleteStationSearch(ISLApi slApi, ISLApiKeyFetcher slApiKeyFetcher) {
         this.slApi = slApi;
@@ -43,6 +45,16 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
         this.autoCompleteTextView = autoCompleteTextView;
 
         dataAdapter = new StationsAdapter(autoCompleteTextView.getContext(), R.layout.station_item_row);
+
+        dataAdapter.setOnClickListener(new OnStationClickListener() {
+
+            @Override
+            public void onClick(Site site) {
+                stationSelected = true;
+                autoCompleteTextView.setText(site.getName());
+                autoCompleteTextView.selectAll();
+            }
+        });
 
         this.autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -58,6 +70,10 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
                     return;
                 }
 
+                if(stationSelected){
+                    return;
+                }
+
                 request.setSearchString(charSequence.toString());
 
                 SLApiRequestTask<LocationFinderRequest, LocationFinderResponse> searchTask = new SLApiRequestTask<>(new ISLApiCall<LocationFinderRequest, LocationFinderResponse>() {
@@ -70,8 +86,9 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
                             @Override
                             public void onTaskComplete(SLApiTaskResult<LocationFinderResponse> result) {
                                 dataAdapter.clear();
-                                if (result.getResponse().getStatusCode() != 0 && result.getResponse().getResponseData() != null) {
-                                    Toast.makeText(autoCompleteTextView.getContext(), "SL Api responded: " + result.getResponse().getMessage(), Toast.LENGTH_SHORT);
+                                if (result.getResponse().getStatusCode() != 0 &&
+                                        result.getResponse().getResponseData() != null) {
+                                    Toast.makeText(autoCompleteTextView.getContext(), "SL Api responded: " + result.getResponse().getMessage(), Toast.LENGTH_SHORT).show();
                                 } else {
                                     Log.d("slwear", "number of stations: " + result.getResponse().getResponseData().size());
                                     for (Site site : result.getResponse().getResponseData()) {
@@ -89,6 +106,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
             @Override
             public void afterTextChanged(Editable s) {
+                stationSelected = false;
             }
         });
     }
