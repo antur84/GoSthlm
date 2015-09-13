@@ -38,7 +38,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
     @Override
     public void init(final AutoCompleteTextView autoCompleteTextView) {
-        request = new LocationFinderRequest(ResponseFormat.JSON, slApiKeyFetcher.getKey("slplatsuppslag"), "", new ResponseCacheStrategy(CacheType.NONE, 60));
+        request = new LocationFinderRequest(ResponseFormat.JSON, slApiKeyFetcher.getKey("slplatsuppslag"), "", new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
 
         this.autoCompleteTextView = autoCompleteTextView;
 
