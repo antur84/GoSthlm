@@ -1,4 +1,4 @@
-package com.filreas.slwear.utils;
+package com.filreas.shared.utils;
 
 import android.util.Log;
 

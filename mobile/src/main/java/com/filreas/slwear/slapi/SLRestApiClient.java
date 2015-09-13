@@ -1,7 +1,7 @@
 package com.filreas.slwear.slapi;
 
 
-import com.filreas.slwear.utils.SLWearLog;
+import com.filreas.shared.utils.SLWearLog;
 import com.github.kevinsawicki.http.HttpRequest;
 
 /**

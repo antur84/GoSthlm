@@ -21,7 +21,8 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
     private ArrayList<Site> siteDataSource;
     private Context context;
     private int resource;
-    private ArrayList<OnItemClickListener> onClickListeners;
+    private ArrayList<OnItemClickListener<Site>> onClickListeners;
+    private boolean isLoading;
 
     public StationsAdapter(Context context, @LayoutRes int resource) {
         super(context, resource);
@@ -34,7 +35,6 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
     @Override
     public void add(Site object) {
         siteDataSource.add(object);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -50,7 +50,6 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
     @Override
     public void clear() {
         siteDataSource.clear();
-        notifyDataSetChanged();
     }
 
     @Override
@@ -71,28 +70,43 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
             holder = (StationGuiItem) row.getTag();
         }
 
-        Site station = this.getItem(position);
-        holder.txtTitle.setText(station.getName());
-        holder.imgIcon.setImageResource(R.drawable.ic_launcher);
+        if (!isLoading) {
+            Site station = this.getItem(position);
+            holder.txtTitle.setText(station.getName());
+            holder.imgIcon.setImageResource(R.drawable.ic_launcher);
 
-        row.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (OnItemClickListener listener :
-                        onClickListeners) {
-                    listener.onClick(getItem(position));
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (OnItemClickListener<Site> listener :
+                            onClickListeners) {
+                        listener.onClick(getItem(position));
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            holder.txtTitle.setText(context.getResources().getText(R.string.searching));
+            row.findViewById(R.id.stationIcon).setVisibility(View.GONE);
+            row.findViewById(R.id.stationProgressbar).setVisibility(View.VISIBLE);
+        }
 
         return row;
     }
 
-    public void setOnClickListener(OnItemClickListener listener) {
+    public void setOnClickListener(OnItemClickListener<Site> listener) {
         this.onClickListeners.add(listener);
     }
 
-    static class StationGuiItem {
+    public void setIsLoading(boolean isLoading) {
+        this.isLoading = isLoading;
+        this.clear();
+        if (isLoading) {
+            this.add(new Site());
+            this.notifyDataSetChanged();
+        }
+    }
+
+    class StationGuiItem {
         ImageView imgIcon;
         TextView txtTitle;
     }
