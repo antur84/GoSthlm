@@ -2,6 +2,7 @@ package com.filreas.slwear.activities.Main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,7 +43,7 @@ public class MobileMainActivity extends BaseMobileActivity {
                 TextView textView = (TextView) findViewById(R.id.departuresResults);
                 textView.setText("");
                 for (Metro metro : response.getResponseData().getMetros()) {
-                    textView.append(metro.getDestination() + " : " + metro.getDisplayTime());
+                    textView.append(metro.getDestination() + ": " + metro.getDisplayTime() + "\n");
                 }
             }
         });
