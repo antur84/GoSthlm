@@ -7,14 +7,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.filreas.slwear.R;
 import com.filreas.slwear.activities.About;
 import com.filreas.slwear.activities.BaseMobileActivity;
 import com.filreas.slwear.activities.Help;
+import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
+import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 
 public class MobileMainActivity extends BaseMobileActivity {
+
+    private DepartureSearch departureSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +29,44 @@ public class MobileMainActivity extends BaseMobileActivity {
 
         initStationSelectionSpinner();
         initStationsSearch();
+        initDeparturesSearch();
+    }
+
+    private void initDeparturesSearch() {
+        departureSearch = new DepartureSearch(getSlApi(), getSlApiKeyFetcher());
+        Button btn = (Button) findViewById(R.id.btnDepartures);
+        departureSearch.onDepartureSearchListener(new OnDepartureSearchListener() {
+            @Override
+            public void onSearchCompleted(RealTimeResponse response) {
+
+                TextView textView = (TextView) findViewById(R.id.departuresResults);
+                textView.setText("");
+                for (Metro metro : response.getResponseData().getMetros()) {
+                    textView.append(metro.getDestination() + " : " + metro.getDisplayTime());
+                }
+            }
+        });
+        departureSearch.init(btn);
     }
 
     private void initStationsSearch() {
         AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
+        final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
+        autoCompleteStationSearch.setOnClickListener(new OnStationClickListener() {
+            @Override
+            public void onClick(Site station) {
+                ((TextView) findViewById(R.id.selectedStationText)).setText(station.getName());
+                departureSearch.setSiteId(station.getSiteId());
+                departureSearch.search();
+            }
+        });
         autoCompleteStationSearch.init(textView);
     }
 
     private void initStationSelectionSpinner() {
-        Spinner stationSpinner = (Spinner) findViewById(R.id.stationSpinner);
-        stationSpinner.setOnItemSelectedListener(new StationSpinnerItemSelectedListener());
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.stations_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        stationSpinner.setAdapter(adapter);
     }
 
     @Override

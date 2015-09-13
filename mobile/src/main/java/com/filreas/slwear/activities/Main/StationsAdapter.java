@@ -1,9 +1,7 @@
 package com.filreas.slwear.activities.Main;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.LayoutRes;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.filreas.slwear.R;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
 
 import java.util.ArrayList;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
 public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
 
     private ArrayList<Site> siteDataSource;
@@ -83,8 +77,8 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (OnStationClickListener listener:
-                     onClickListeners) {
+                for (OnStationClickListener listener :
+                        onClickListeners) {
                     listener.onClick(getItem(position));
                 }
             }
@@ -93,7 +87,7 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
         return row;
     }
 
-    public void setOnClickListener(OnStationClickListener listener){
+    public void setOnClickListener(OnStationClickListener listener) {
         this.onClickListeners.add(listener);
     }
 

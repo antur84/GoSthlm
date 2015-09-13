@@ -10,9 +10,8 @@ import java.util.Locale;
  * Created by Andreas on 9/6/2015.
  */
 public class RealTimeRequest extends SLApiRequest {
-    private final int siteId;
     private final String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
-
+    private int siteId;
     private int timeWindow;
 
     public RealTimeRequest(ResponseFormat responseFormat, String key, int siteId, int timeWindow, ResponseCacheStrategy cacheStrategy) {
@@ -33,5 +32,9 @@ public class RealTimeRequest extends SLApiRequest {
     @Override
     public String getCacheKey() {
         return String.format(Locale.US, "%s%s%s%s", RealTimeRequest.class.getCanonicalName(), getResponseFormat(), getKey(), siteId);
+    }
+
+    public void setSiteId(int siteId) {
+        this.siteId = siteId;
     }
 }

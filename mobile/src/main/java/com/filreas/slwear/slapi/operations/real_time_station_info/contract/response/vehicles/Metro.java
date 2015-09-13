@@ -38,4 +38,48 @@ public class Metro {
 
     @SerializedName("TransportMode")
     private String transportMode;
+
+    public int getDepartureGroupId() {
+        return departureGroupId;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getDisplayTime() {
+        return displayTime;
+    }
+
+    public String getGroupOfLine() {
+        return groupOfLine;
+    }
+
+    public int getGroupOfLineId() {
+        return groupOfLineId;
+    }
+
+    public int getJourneyDirection() {
+        return journeyDirection;
+    }
+
+    public String getLineNumber() {
+        return lineNumber;
+    }
+
+    public String getPlatformMessage() {
+        return platformMessage;
+    }
+
+    public int getSiteId() {
+        return siteId;
+    }
+
+    public String getStopAreaName() {
+        return stopAreaName;
+    }
+
+    public String getTransportMode() {
+        return transportMode;
+    }
 }

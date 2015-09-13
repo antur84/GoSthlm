@@ -20,21 +20,25 @@ import com.filreas.slwear.slapi.operations.location_finder.contract.request.resp
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.slwear.utils.SLWearLog;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andreas on 9/12/2015.
  */
 public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
-    protected boolean stationSelected;
+    private ArrayList<OnStationClickListener> onClickListeners;
     private ISLApi slApi;
     private ISLApiKeyFetcher slApiKeyFetcher;
     private LocationFinderRequest request;
     private AutoCompleteTextView autoCompleteTextView;
     private StationsAdapter dataAdapter;
+    private boolean stationSelected;
 
     public AutoCompleteStationSearch(ISLApi slApi, ISLApiKeyFetcher slApiKeyFetcher) {
         this.slApi = slApi;
         this.slApiKeyFetcher = slApiKeyFetcher;
+        this.onClickListeners = new ArrayList<>();
     }
 
     @Override
@@ -52,6 +56,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
                 stationSelected = true;
                 autoCompleteTextView.setText(site.getName());
                 autoCompleteTextView.selectAll();
+                notifyOnClickListeners(site);
             }
         });
 
@@ -108,5 +113,16 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
                 stationSelected = false;
             }
         });
+    }
+
+    public void setOnClickListener(OnStationClickListener listener) {
+        this.onClickListeners.add(listener);
+    }
+
+    private void notifyOnClickListeners(Site site) {
+        for (OnStationClickListener listener :
+                onClickListeners) {
+            listener.onClick(site);
+        }
     }
 }
