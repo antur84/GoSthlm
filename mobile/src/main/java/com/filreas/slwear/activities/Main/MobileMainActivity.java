@@ -2,7 +2,6 @@ package com.filreas.slwear.activities.Main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import com.filreas.slwear.activities.Help;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
+import com.filreas.slwear.utils.OnItemClickListener;
 
 public class MobileMainActivity extends BaseMobileActivity {
 
@@ -28,7 +28,6 @@ public class MobileMainActivity extends BaseMobileActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initStationSelectionSpinner();
         initStationsSearch();
         initDeparturesSearch();
     }
@@ -53,7 +52,7 @@ public class MobileMainActivity extends BaseMobileActivity {
     private void initStationsSearch() {
         AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
         final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
-        autoCompleteStationSearch.setOnClickListener(new OnStationClickListener() {
+        autoCompleteStationSearch.setOnClickListener(new OnItemClickListener<Site>() {
             @Override
             public void onClick(Site station) {
                 ((TextView) findViewById(R.id.selectedStationText)).setText(station.getName());
@@ -62,12 +61,6 @@ public class MobileMainActivity extends BaseMobileActivity {
             }
         });
         autoCompleteStationSearch.init(textView);
-    }
-
-    private void initStationSelectionSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.stations_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     @Override

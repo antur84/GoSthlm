@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.filreas.slwear.R;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
+import com.filreas.slwear.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
     private ArrayList<Site> siteDataSource;
     private Context context;
     private int resource;
-    private ArrayList<OnStationClickListener> onClickListeners;
+    private ArrayList<OnItemClickListener> onClickListeners;
 
     public StationsAdapter(Context context, @LayoutRes int resource) {
         super(context, resource);
@@ -77,7 +78,7 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (OnStationClickListener listener :
+                for (OnItemClickListener listener :
                         onClickListeners) {
                     listener.onClick(getItem(position));
                 }
@@ -87,7 +88,7 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
         return row;
     }
 
-    public void setOnClickListener(OnStationClickListener listener) {
+    public void setOnClickListener(OnItemClickListener listener) {
         this.onClickListeners.add(listener);
     }
 

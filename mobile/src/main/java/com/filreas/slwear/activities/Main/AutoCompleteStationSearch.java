@@ -18,6 +18,7 @@ import com.filreas.slwear.slapi.operations.ResponseFormat;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.LocationFinderRequest;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.LocationFinderResponse;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
+import com.filreas.slwear.utils.OnItemClickListener;
 import com.filreas.slwear.utils.SLWearLog;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  */
 public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
-    private ArrayList<OnStationClickListener> onClickListeners;
+    private ArrayList<OnItemClickListener> onClickListeners;
     private ISLApi slApi;
     private ISLApiKeyFetcher slApiKeyFetcher;
     private LocationFinderRequest request;
@@ -48,8 +49,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
         this.autoCompleteTextView = autoCompleteTextView;
 
         dataAdapter = new StationsAdapter(autoCompleteTextView.getContext(), R.layout.station_item_row);
-
-        dataAdapter.setOnClickListener(new OnStationClickListener() {
+        dataAdapter.setOnClickListener(new OnItemClickListener<Site>() {
 
             @Override
             public void onClick(Site site) {
@@ -117,12 +117,12 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
         });
     }
 
-    public void setOnClickListener(OnStationClickListener listener) {
+    public void setOnClickListener(OnItemClickListener listener) {
         this.onClickListeners.add(listener);
     }
 
     private void notifyOnClickListeners(Site site) {
-        for (OnStationClickListener listener :
+        for (OnItemClickListener listener :
                 onClickListeners) {
             listener.onClick(site);
         }
