@@ -2,8 +2,6 @@ package com.filreas.slwear.activities.Main;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
@@ -20,18 +18,19 @@ import com.filreas.slwear.slapi.operations.ResponseFormat;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.LocationFinderRequest;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.LocationFinderResponse;
 import com.filreas.slwear.slapi.operations.location_finder.contract.request.response.Site;
+import com.filreas.slwear.utils.SLWearLog;
 
 /**
  * Created by Andreas on 9/12/2015.
  */
 public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
+    protected boolean stationSelected;
     private ISLApi slApi;
     private ISLApiKeyFetcher slApiKeyFetcher;
     private LocationFinderRequest request;
     private AutoCompleteTextView autoCompleteTextView;
     private StationsAdapter dataAdapter;
-    protected boolean stationSelected;
 
     public AutoCompleteStationSearch(ISLApi slApi, ISLApiKeyFetcher slApiKeyFetcher) {
         this.slApi = slApi;
@@ -90,7 +89,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
                                         result.getResponse().getResponseData() != null) {
                                     Toast.makeText(autoCompleteTextView.getContext(), "SL Api responded: " + result.getResponse().getMessage(), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Log.d("slwear", "number of stations: " + result.getResponse().getResponseData().size());
+                                    SLWearLog.d("number of stations: " + result.getResponse().getResponseData().size());
                                     for (Site site : result.getResponse().getResponseData()) {
                                         dataAdapter.add(site);
                                     }
