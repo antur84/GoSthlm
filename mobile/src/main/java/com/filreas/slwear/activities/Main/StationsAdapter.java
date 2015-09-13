@@ -55,32 +55,6 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
     }
 
     @Override
-    public Filter getFilter() {
-        Filter myFilter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
-                if (constraint != null) {
-                    // Now assign the values and count to the FilterResults object
-                    filterResults.values = siteDataSource;
-                    filterResults.count = siteDataSource.size();
-                }
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results != null && results.count > 0) {
-                    notifyDataSetChanged();
-                } else {
-                    notifyDataSetInvalidated();
-                }
-            }
-        };
-        return myFilter;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         StationGuiItem holder;
