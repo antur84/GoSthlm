@@ -3,6 +3,7 @@ package com.filreas.slwear.activities.Main;
 import android.view.View;
 import android.widget.Button;
 
+import com.filreas.shared.utils.SLWearLog;
 import com.filreas.slwear.async.ISLApiCall;
 import com.filreas.slwear.async.ISLApiTaskResponseHandler;
 import com.filreas.slwear.async.SLApiRequestTask;
@@ -14,7 +15,6 @@ import com.filreas.slwear.slapi.operations.ResponseCacheStrategy;
 import com.filreas.slwear.slapi.operations.ResponseFormat;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
 import com.filreas.slwear.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
-import com.filreas.slwear.utils.SLWearLog;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,4 +8,6 @@
     <string name="selectedStationLabel">Välj station</string>
     <string name="about">Om</string>
     <string name="help">Hjälp</string>
+    <string name="searching">Söker...</string>
+    <string name="selectStation">Välj station</string>
 </resources>

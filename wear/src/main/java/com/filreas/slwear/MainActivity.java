@@ -6,7 +6,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 
-import com.filreas.slwear.utils.SLWearLog;
+import com.filreas.shared.utils.SLWearLog;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
