@@ -4,26 +4,30 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.wearable.activity.WearableActivity;
 
 import com.filreas.shared.utils.SLWearLog;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 public class MainActivity extends WearableActivity {
-
-    private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
-            new SimpleDateFormat("HH:mm", Locale.US);
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeEventListener mShakeDetector;
+    private ViewPager viewPager;
+    private PagerAdapter adapter;
+
+    String[] rank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /* Use this layout for the swipable view. Remember to uncomment the chunk of stuff below */
+        //setContentView(R.layout.viewpager_main);
+
         setAmbientEnabled();
 
         // ShakeActivity initialization
@@ -40,6 +44,15 @@ public class MainActivity extends WearableActivity {
             }
         });
 
+        /* Needs to be comment out if the activity_main layout is used
+        // Generate sample data
+        rank = new String[] { "1", "2"};
+        // Locate the ViewPager in viewpager_main.xml
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        // Pass results to ViewPagerAdapter Class
+        adapter = new ViewPagerAdapter(MainActivity.this, rank);
+        // Binds the Adapter to the ViewPager
+        viewPager.setAdapter(adapter); */
     }
 
     private void handleShakeEvent(int count) {
