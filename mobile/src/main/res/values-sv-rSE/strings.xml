@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">gosthlm</string>
-    <string name="hello_world">Hej världen!</string>
-    <string name="action_settings">Inställningar</string>
-    <string name="action_help">Hjälp</string>
-    <string name="action_about">Info</string>
-    <string name="selectedStationLabel">Välj station</string>
-    <string name="about">Om</string>
-    <string name="help">Hjälp</string>
-    <string name="searching">Söker...</string>
-    <string name="selectStation">Välj station</string>
+    <string name="appName">GoSTHLM</string>
+    <string name="actionSettingsLabel">Inställningar</string>
+    <string name="actionHelpLabel">Hjälp</string>
+    <string name="actionAboutLabel">Info</string>
+    <string name="selectStationLabel">Välj station</string>
+    <string name="searchingLabel">Söker..</string>
+    <string name="transportationTypeLabel">Välj transportmedel</string>
+    <string name="metroLabel">Tunnelbana</string>
+    <string name="busLabel">Buss</string>
+    <string name="trainLabel">Pendeltåg</string>
+    <string name="tramLabel">Lokalbana</string>
 </resources>
