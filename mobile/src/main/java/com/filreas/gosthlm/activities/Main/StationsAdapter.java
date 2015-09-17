@@ -85,7 +85,7 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
                 }
             });
         } else {
-            holder.txtTitle.setText(context.getResources().getText(R.string.searching));
+            holder.txtTitle.setText(context.getResources().getText(R.string.searchingLabel));
             row.findViewById(R.id.stationIcon).setVisibility(View.GONE);
             row.findViewById(R.id.stationProgressbar).setVisibility(View.VISIBLE);
         }
