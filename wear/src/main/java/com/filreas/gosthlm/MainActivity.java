@@ -6,7 +6,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.wearable.activity.WearableActivity;
 
 import com.filreas.shared.utils.GoSthlmLog;
 

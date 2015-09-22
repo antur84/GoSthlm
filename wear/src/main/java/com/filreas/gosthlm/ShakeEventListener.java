@@ -1,6 +1,5 @@
 package com.filreas.gosthlm;
 
-import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;

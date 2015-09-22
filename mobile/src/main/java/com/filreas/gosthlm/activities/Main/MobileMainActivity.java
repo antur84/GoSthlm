@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
@@ -34,7 +32,6 @@ public class MobileMainActivity extends BaseMobileActivity {
 
     private void initDeparturesSearch() {
         departureSearch = new DepartureSearch(getSlApi(), getSlApiKeyFetcher());
-        Button btn = (Button) findViewById(R.id.btnDepartures);
         departureSearch.onDepartureSearchListener(new OnDepartureSearchListener() {
             @Override
             public void onSearchCompleted(RealTimeResponse response) {
@@ -46,7 +43,6 @@ public class MobileMainActivity extends BaseMobileActivity {
                 }
             }
         });
-        departureSearch.init(btn);
     }
 
     private void initStationsSearch() {
