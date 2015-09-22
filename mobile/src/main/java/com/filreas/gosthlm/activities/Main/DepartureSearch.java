@@ -1,8 +1,5 @@
 package com.filreas.gosthlm.activities.Main;
 
-import android.view.View;
-import android.widget.Button;
-
 import com.filreas.gosthlm.async.ISLApiCall;
 import com.filreas.gosthlm.async.ISLApiTaskResponseHandler;
 import com.filreas.gosthlm.async.SLApiRequestTask;
@@ -35,15 +32,6 @@ public class DepartureSearch {
                 getSiteId(),
                 30,
                 new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
-    }
-
-    public void init(Button btn) {
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search();
-            }
-        });
     }
 
     public int getSiteId() {
