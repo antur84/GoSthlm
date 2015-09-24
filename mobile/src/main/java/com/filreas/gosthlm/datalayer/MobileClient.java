@@ -8,10 +8,15 @@ import android.content.IntentSender;
 import android.os.Bundle;
 
 import com.filreas.gosthlm.activities.BaseMobileActivity;
+import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.shared.utils.GoSthlmLog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 public class MobileClient {
@@ -96,6 +101,10 @@ public class MobileClient {
                 }
             }
         }
+    }
+
+    public void sendDepartureLiveInformation(RealTimeResponse response) {
+        // serialize some shit and send it
     }
 
     public static class ErrorDialogFragment extends DialogFragment {
