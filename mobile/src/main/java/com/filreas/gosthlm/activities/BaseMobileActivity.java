@@ -67,4 +67,8 @@ public class BaseMobileActivity extends AppCompatActivity {
     public ISLApiKeyFetcher getSlApiKeyFetcher() {
         return slApiKeyFetcher;
     }
+
+    public MobileClient getMobileClient() {
+        return mobileClient;
+    }
 }

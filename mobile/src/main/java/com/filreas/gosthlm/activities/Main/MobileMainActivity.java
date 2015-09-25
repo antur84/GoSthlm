@@ -41,6 +41,8 @@ public class MobileMainActivity extends BaseMobileActivity {
                 for (Metro metro : response.getResponseData().getMetros()) {
                     textView.append(metro.getDestination() + ": " + metro.getDisplayTime() + "\n");
                 }
+
+                getMobileClient().sendDepartureLiveInformation(response);
             }
         });
     }
