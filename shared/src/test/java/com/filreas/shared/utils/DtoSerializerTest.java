@@ -1,5 +1,6 @@
 package com.filreas.shared.utils;
 
+import com.filreas.shared.dto.GroupOfLine;
 import com.filreas.shared.dto.MetroDto;
 
 import org.junit.Before;
@@ -29,15 +30,23 @@ public class DtoSerializerTest {
             longName += "0123456789";
         }
 
-        testObject.setName(longName);
+        testObject.setStopAreaName(longName);
         DtoSerializer.convertToBytes(testObject);
     }
 
     @Test()
     public void convertToBytes_should_serialize_all_props_and_convertFromBytes_deserialize_all_props() throws IOException, ClassNotFoundException {
-        testObject.setName("Andreas walla walla bing bong");
+        testObject.setStopAreaName("Huvudsta");
+        testObject.setDestination("Centralen");
+        testObject.setDisplayTime("5 min");
+        testObject.setGroupOfLine(2);
+        testObject.setLineNumber("11");
         byte[] serialized = DtoSerializer.convertToBytes(testObject);
         MetroDto deserialized = (MetroDto) DtoSerializer.convertFromBytes(serialized);
-        assertThat(deserialized.getName(), is(testObject.getName()));
+        assertThat(deserialized.getStopAreaName(), is(testObject.getStopAreaName()));
+        assertThat(deserialized.getDestination(), is(testObject.getDestination()));
+        assertThat(deserialized.getDisplayTime(), is(testObject.getDisplayTime()));
+        assertThat(deserialized.getGroupOfLine(), is(testObject.getGroupOfLine()));
+        assertThat(deserialized.getLineNumber(), is(testObject.getLineNumber()));
     }
 }

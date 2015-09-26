@@ -2,9 +2,8 @@ package com.filreas.shared.utils;
 
 import android.util.Log;
 
-/**
- * Created by Andreas on 9/13/2015.
- */
+import java.io.IOException;
+
 public class GoSthlmLog {
 
     private static String gosthlmTag = "gosthlm";
@@ -16,5 +15,9 @@ public class GoSthlmLog {
     public static void d(String tag, String msg) {
         Log.d(tag, msg);
         Log.d(gosthlmTag, msg);
+    }
+
+    public static void e(Exception e) {
+        Log.e(gosthlmTag, Log.getStackTraceString(e));
     }
 }
