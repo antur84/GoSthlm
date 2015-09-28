@@ -11,10 +11,7 @@ import com.filreas.gosthlm.slapi.SLApi;
 import com.filreas.gosthlm.slapi.SLApiKeyFetcher;
 import com.filreas.gosthlm.slapi.SLRestApiClient;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
-public class BaseMobileActivity extends AppCompatActivity {
+public class MobileBaseActivity extends AppCompatActivity {
     protected ISLApi slApi;
     protected ISLApiKeyFetcher slApiKeyFetcher;
     private MobileClient mobileClient;
@@ -60,11 +57,11 @@ public class BaseMobileActivity extends AppCompatActivity {
         mobileClient.setIsResolvingError(false);
     }
 
-    public ISLApi getSlApi() {
+    public ISLApi getSLApi() {
         return slApi;
     }
 
-    public ISLApiKeyFetcher getSlApiKeyFetcher() {
+    public ISLApiKeyFetcher getSLApiKeyFetcher() {
         return slApiKeyFetcher;
     }
 

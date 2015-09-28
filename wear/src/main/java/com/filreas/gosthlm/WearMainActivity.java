@@ -6,11 +6,11 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.wearable.activity.WearableActivity;
+import android.widget.TextView;
 
 import com.filreas.shared.utils.GoSthlmLog;
 
-public class MainActivity extends WearableActivity {
+public class WearMainActivity extends WearBaseActivity {
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -50,9 +50,20 @@ public class MainActivity extends WearableActivity {
         // Locate the ViewPager in viewpager_main.xml
         viewPager = (ViewPager) findViewById(R.id.pager);
         // Pass results to ViewPagerAdapter Class
-        adapter = new ViewPagerAdapter(MainActivity.this, rank);
+        adapter = new ViewPagerAdapter(WearMainActivity.this, rank);
         // Binds the Adapter to the ViewPager
         viewPager.setAdapter(adapter); */
+    }
+
+    @Override
+    protected void setName(final String stopAreaName) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView fromText = (TextView) findViewById(R.id.fromText);
+                fromText.setText(stopAreaName);
+            }
+        });
     }
 
     private void handleShakeEvent(int count) {
