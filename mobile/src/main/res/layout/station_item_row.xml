@@ -4,12 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/stationIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical" />
-
     <ProgressBar
         android:id="@+id/stationProgressbar"
         style="?android:attr/progressBarStyleSmall"

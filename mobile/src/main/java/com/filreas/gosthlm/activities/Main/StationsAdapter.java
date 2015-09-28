@@ -62,7 +62,6 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
             row = inflater.inflate(resource, parent, false);
 
             holder = new StationGuiItem();
-            holder.imgIcon = (ImageView) row.findViewById(R.id.stationIcon);
             holder.txtTitle = (TextView) row.findViewById(R.id.stationText);
 
             row.setTag(holder);
@@ -73,7 +72,6 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
         if (!isLoading) {
             Site station = this.getItem(position);
             holder.txtTitle.setText(station.getName());
-            holder.imgIcon.setImageResource(R.drawable.ic_launcher);
 
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,7 +84,6 @@ public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
             });
         } else {
             holder.txtTitle.setText(context.getResources().getText(R.string.searchingLabel));
-            row.findViewById(R.id.stationIcon).setVisibility(View.GONE);
             row.findViewById(R.id.stationProgressbar).setVisibility(View.VISIBLE);
         }
 
