@@ -17,13 +17,8 @@
             android:required="false" />
 
         <activity
-<<<<<<< HEAD
-            android:name=".MainActivity"
-            android:label="@string/appName"
-=======
             android:name=".WearMainActivity"
-            android:label="@string/app_name"
->>>>>>> antur84/master
+            android:label="@string/appName"
             android:theme="@android:style/Theme.DeviceDefault.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
