@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">gosthlm</string>
     <string name="from">SOLNA STRAND</string>
     <string name="destination">Kungsträdgården</string>
     <string name="displayTime">5 min</string>
