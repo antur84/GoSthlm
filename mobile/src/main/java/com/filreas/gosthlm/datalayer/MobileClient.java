@@ -8,7 +8,7 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.filreas.gosthlm.activities.BaseMobileActivity;
+import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 import com.filreas.shared.dto.DeparturesDto;
@@ -157,7 +157,7 @@ public class MobileClient {
 
         @Override
         public void onDismiss(DialogInterface dialog) {
-            ((BaseMobileActivity) getActivity()).onDialogDismissed();
+            ((MobileBaseActivity) getActivity()).onDialogDismissed();
         }
     }
 

@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.About;
-import com.filreas.gosthlm.activities.BaseMobileActivity;
+import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.activities.Help;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 import com.filreas.gosthlm.utils.OnItemClickListener;
 
-public class MobileMainActivity extends BaseMobileActivity {
+public class MobileMainActivity extends MobileBaseActivity {
 
     private DepartureSearch departureSearch;
 
@@ -31,7 +31,7 @@ public class MobileMainActivity extends BaseMobileActivity {
     }
 
     private void initDeparturesSearch() {
-        departureSearch = new DepartureSearch(getSlApi(), getSlApiKeyFetcher());
+        departureSearch = new DepartureSearch(getSLApi(), getSLApiKeyFetcher());
         departureSearch.onDepartureSearchListener(new OnDepartureSearchListener() {
             @Override
             public void onSearchCompleted(RealTimeResponse response) {
