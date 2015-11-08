@@ -6,12 +6,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.About;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.activities.Help;
+import com.filreas.gosthlm.database.WearDbHelper;
+import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
@@ -20,14 +24,58 @@ import com.filreas.gosthlm.utils.OnItemClickListener;
 public class MobileMainActivity extends MobileBaseActivity {
 
     private DepartureSearch departureSearch;
+    private TransportationOfChoice transportationOfChoice;
+    private CheckBox metro;
+    private CheckBox bus;
+    private CheckBox train;
+    private CheckBox tram;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initTransportationOfChoice();
         initStationsSearch();
         initDeparturesSearch();
+    }
+
+    private void initTransportationOfChoice() {
+        transportationOfChoice = this.dbHelper.getTransportationOfChoice();
+        if(transportationOfChoice == null){
+            transportationOfChoice = new TransportationOfChoice();
+            dbHelper.insertTransportationOfChoice(transportationOfChoice);
+        }
+
+        OnnTransportationOfChoiceCheckedChanged checkedChangeListener = new OnnTransportationOfChoiceCheckedChanged();
+
+        metro = (CheckBox) findViewById(R.id.checkBoxMetro);
+        metro.setChecked(transportationOfChoice.isMetro());
+        metro.setOnCheckedChangeListener(checkedChangeListener);
+
+        bus = (CheckBox) findViewById(R.id.checkBoxBus);
+        bus.setChecked(transportationOfChoice.isBus());
+        bus.setOnCheckedChangeListener(checkedChangeListener);
+
+        train = (CheckBox) findViewById(R.id.checkBoxTrain);
+        train.setChecked(transportationOfChoice.isTrain());
+        train.setOnCheckedChangeListener(checkedChangeListener);
+
+        tram = (CheckBox) findViewById(R.id.checkBoxTram);
+        tram.setChecked(transportationOfChoice.isTram());
+        tram.setOnCheckedChangeListener(checkedChangeListener);
+    }
+
+    private class OnnTransportationOfChoiceCheckedChanged implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            transportationOfChoice.setMetro(metro.isChecked());
+            transportationOfChoice.setBus(bus.isChecked());
+            transportationOfChoice.setTrain(train.isChecked());
+            transportationOfChoice.setTram(tram.isChecked());
+            dbHelper.updateTransportationOfChoice(transportationOfChoice);
+        }
     }
 
     private void initDeparturesSearch() {
