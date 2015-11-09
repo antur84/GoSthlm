@@ -12,13 +12,16 @@ import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.About;
-import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.activities.Help;
+import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
+import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.TransportType;
 import com.filreas.gosthlm.utils.OnItemClickListener;
+
+import java.util.List;
 
 public class MobileMainActivity extends MobileBaseActivity {
 
@@ -80,13 +83,35 @@ public class MobileMainActivity extends MobileBaseActivity {
 
                 TextView textView = (TextView) findViewById(R.id.departuresResults);
                 textView.setText("");
-                for (Metro metro : response.getResponseData().getMetros()) {
-                    textView.append(metro.getDestination() + ": " + metro.getDisplayTime() + "\n");
+
+                if (transportationOfChoice.isMetro()) {
+                    for (Metro transportType : response.getResponseData().getMetros()) {
+                        textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
+                    }
+                }
+
+                if (transportationOfChoice.isBus()) {
+                    printTransportatationResults(response.getResponseData().getBuses());
+                }
+
+                if (transportationOfChoice.isTrain()) {
+                    printTransportatationResults(response.getResponseData().getTrains());
+                }
+
+                if (transportationOfChoice.isTram()) {
+                    printTransportatationResults(response.getResponseData().getTrams());
                 }
 
                 getMobileClient().sendDepartureLiveInformation(response);
             }
         });
+    }
+
+    private void printTransportatationResults(List<? extends TransportType> transportTypes) {
+        TextView textView = (TextView) findViewById(R.id.departuresResults);
+        for (TransportType transportType : transportTypes) {
+            textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
+        }
     }
 
     private void initStationsSearch() {

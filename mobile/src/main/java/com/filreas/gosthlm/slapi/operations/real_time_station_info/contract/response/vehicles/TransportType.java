@@ -46,4 +46,12 @@ public class TransportType {
 
     @SerializedName("JourneyDirection")
     private int journeyDirection;
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getDisplayTime() {
+        return displayTime;
+    }
 }
