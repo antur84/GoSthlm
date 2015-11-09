@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.filreas.gosthlm.database.WearDbHelper;
+import com.filreas.gosthlm.database.GoSthlmRepository;
+import com.filreas.gosthlm.database.IGoSthlmRepository;
 import com.filreas.gosthlm.datalayer.MobileClient;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
@@ -17,13 +18,13 @@ public class MobileBaseActivity extends AppCompatActivity {
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     protected ISLApi slApi;
     protected ISLApiKeyFetcher slApiKeyFetcher;
-    protected WearDbHelper dbHelper;
+    protected IGoSthlmRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dbHelper = new WearDbHelper(this.getApplicationContext());
+        repository = new GoSthlmRepository(this.getApplicationContext());
         slApiKeyFetcher = new SLApiKeyFetcher(getResources(), this);
         slApi = new SLApi(new SLRestApiClient());
 

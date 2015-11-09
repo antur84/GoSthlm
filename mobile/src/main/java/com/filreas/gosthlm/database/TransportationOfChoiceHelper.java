@@ -10,10 +10,8 @@ import android.support.annotation.NonNull;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.shared.utils.GoSthlmLog;
 
-public class WearDbHelper extends SQLiteOpenHelper {
+public class TransportationOfChoiceHelper extends SQLiteOpenHelper implements ITransportationOfChoice {
 
-    private static final String DATABASE_NAME = "com.filreas.gosthlm.database.WearDb";
-    private static final int DATABASE_VERSION = 1;
     private static final String TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE
             = "defaultTransportationOfChoice";
     private static final String KEY_ID = "id";
@@ -22,8 +20,8 @@ public class WearDbHelper extends SQLiteOpenHelper {
     private static final String KEY_TRAIN = "train";
     private static final String KEY_TRAM = "tram";
 
-    public WearDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public TransportationOfChoiceHelper(Context context, String databaseName, int databaseVersion) {
+        super(context, databaseName, null, databaseVersion);
     }
 
     @Override
@@ -45,6 +43,7 @@ public class WearDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
     public void insertTransportationOfChoice(TransportationOfChoice transportationOfChoice) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -56,6 +55,7 @@ public class WearDbHelper extends SQLiteOpenHelper {
         GoSthlmLog.d("insertTransportationOfChoice", values.toString());
     }
 
+    @Override
     public void updateTransportationOfChoice(TransportationOfChoice transportationOfChoice) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -68,6 +68,7 @@ public class WearDbHelper extends SQLiteOpenHelper {
         GoSthlmLog.d("updateTransportationOfChoice", values.toString());
     }
 
+    @Override
     public TransportationOfChoice getTransportationOfChoice() {
         TransportationOfChoice transportationOfChoice = null;
         String query = "SELECT * FROM " + TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE;

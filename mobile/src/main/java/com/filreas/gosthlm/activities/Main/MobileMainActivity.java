@@ -14,7 +14,6 @@ import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.About;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.activities.Help;
-import com.filreas.gosthlm.database.WearDbHelper;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
@@ -41,12 +40,7 @@ public class MobileMainActivity extends MobileBaseActivity {
     }
 
     private void initTransportationOfChoice() {
-        transportationOfChoice = this.dbHelper.getTransportationOfChoice();
-        if(transportationOfChoice == null){
-            transportationOfChoice = new TransportationOfChoice();
-            dbHelper.insertTransportationOfChoice(transportationOfChoice);
-        }
-
+        transportationOfChoice = this.repository.getTransportationOfChoice();
         OnnTransportationOfChoiceCheckedChanged checkedChangeListener = new OnnTransportationOfChoiceCheckedChanged();
 
         metro = (CheckBox) findViewById(R.id.checkBoxMetro);
@@ -74,7 +68,7 @@ public class MobileMainActivity extends MobileBaseActivity {
             transportationOfChoice.setBus(bus.isChecked());
             transportationOfChoice.setTrain(train.isChecked());
             transportationOfChoice.setTram(tram.isChecked());
-            dbHelper.updateTransportationOfChoice(transportationOfChoice);
+            repository.updateTransportationOfChoice(transportationOfChoice);
         }
     }
 
