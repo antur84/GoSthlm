@@ -6,28 +6,73 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.About;
-import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.activities.Help;
+import com.filreas.gosthlm.activities.MobileBaseActivity;
+import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
+import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.TransportType;
 import com.filreas.gosthlm.utils.OnItemClickListener;
+
+import java.util.List;
 
 public class MobileMainActivity extends MobileBaseActivity {
 
     private DepartureSearch departureSearch;
+    private TransportationOfChoice transportationOfChoice;
+    private CheckBox metro;
+    private CheckBox bus;
+    private CheckBox train;
+    private CheckBox tram;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initTransportationOfChoice();
         initStationsSearch();
         initDeparturesSearch();
+    }
+
+    private void initTransportationOfChoice() {
+        transportationOfChoice = this.repository.getTransportationOfChoice();
+        OnnTransportationOfChoiceCheckedChanged checkedChangeListener = new OnnTransportationOfChoiceCheckedChanged();
+
+        metro = (CheckBox) findViewById(R.id.checkBoxMetro);
+        metro.setChecked(transportationOfChoice.isMetro());
+        metro.setOnCheckedChangeListener(checkedChangeListener);
+
+        bus = (CheckBox) findViewById(R.id.checkBoxBus);
+        bus.setChecked(transportationOfChoice.isBus());
+        bus.setOnCheckedChangeListener(checkedChangeListener);
+
+        train = (CheckBox) findViewById(R.id.checkBoxTrain);
+        train.setChecked(transportationOfChoice.isTrain());
+        train.setOnCheckedChangeListener(checkedChangeListener);
+
+        tram = (CheckBox) findViewById(R.id.checkBoxTram);
+        tram.setChecked(transportationOfChoice.isTram());
+        tram.setOnCheckedChangeListener(checkedChangeListener);
+    }
+
+    private class OnnTransportationOfChoiceCheckedChanged implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            transportationOfChoice.setMetro(metro.isChecked());
+            transportationOfChoice.setBus(bus.isChecked());
+            transportationOfChoice.setTrain(train.isChecked());
+            transportationOfChoice.setTram(tram.isChecked());
+            repository.updateTransportationOfChoice(transportationOfChoice);
+        }
     }
 
     private void initDeparturesSearch() {
@@ -38,13 +83,35 @@ public class MobileMainActivity extends MobileBaseActivity {
 
                 TextView textView = (TextView) findViewById(R.id.departuresResults);
                 textView.setText("");
-                for (Metro metro : response.getResponseData().getMetros()) {
-                    textView.append(metro.getDestination() + ": " + metro.getDisplayTime() + "\n");
+
+                if (transportationOfChoice.isMetro()) {
+                    for (Metro transportType : response.getResponseData().getMetros()) {
+                        textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
+                    }
+                }
+
+                if (transportationOfChoice.isBus()) {
+                    printTransportatationResults(response.getResponseData().getBuses());
+                }
+
+                if (transportationOfChoice.isTrain()) {
+                    printTransportatationResults(response.getResponseData().getTrains());
+                }
+
+                if (transportationOfChoice.isTram()) {
+                    printTransportatationResults(response.getResponseData().getTrams());
                 }
 
                 getMobileClient().sendDepartureLiveInformation(response);
             }
         });
+    }
+
+    private void printTransportatationResults(List<? extends TransportType> transportTypes) {
+        TextView textView = (TextView) findViewById(R.id.departuresResults);
+        for (TransportType transportType : transportTypes) {
+            textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
+        }
     }
 
     private void initStationsSearch() {
