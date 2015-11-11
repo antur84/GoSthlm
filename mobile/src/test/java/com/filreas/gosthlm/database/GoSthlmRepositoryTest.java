@@ -1,5 +1,6 @@
 package com.filreas.gosthlm.database;
 
+import com.filreas.gosthlm.database.helpers.ICrud;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 
 import org.junit.Before;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class GoSthlmRepositoryTest {
 
     @Mock
-    private ITransportationOfChoice transportationOfChoice;
+    private ICrud<TransportationOfChoice> transportationOfChoice;
     private IGoSthlmRepository sut;
 
     @Before
@@ -30,7 +31,7 @@ public class GoSthlmRepositoryTest {
     @Test
     public void getTransportationOfChoice_should_return_from_db_when_exists(){
         TransportationOfChoice expected = new TransportationOfChoice();
-        when(transportationOfChoice.getTransportationOfChoice()).thenReturn(expected);
+        when(transportationOfChoice.read()).thenReturn(expected);
         TransportationOfChoice actual = sut.getTransportationOfChoice();
 
         assertThat(actual, is(expected));
@@ -38,7 +39,7 @@ public class GoSthlmRepositoryTest {
 
     @Test
     public void getTransportationOfChoice_should_return_new_object_when_not_in_db(){
-        when(transportationOfChoice.getTransportationOfChoice()).thenReturn(null);
+        when(transportationOfChoice.read()).thenReturn(null);
         TransportationOfChoice actual = sut.getTransportationOfChoice();
 
         assertThat(actual, not(nullValue()));
@@ -46,9 +47,9 @@ public class GoSthlmRepositoryTest {
 
     @Test
     public void getTransportationOfChoice_should_save_new_object_when_not_in_db(){
-        when(transportationOfChoice.getTransportationOfChoice()).thenReturn(null);
+        when(transportationOfChoice.read()).thenReturn(null);
         TransportationOfChoice actual = sut.getTransportationOfChoice();
 
-        verify(transportationOfChoice).insertTransportationOfChoice(actual);
+        verify(transportationOfChoice).create(actual);
     }
 }

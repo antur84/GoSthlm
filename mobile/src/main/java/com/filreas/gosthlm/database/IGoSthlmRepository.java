@@ -1,4 +1,11 @@
 package com.filreas.gosthlm.database;
 
-public interface IGoSthlmRepository extends ITransportationOfChoice {
+import com.filreas.gosthlm.database.model.TransportationOfChoice;
+
+public interface IGoSthlmRepository {
+    void insertTransportationOfChoice(TransportationOfChoice transportationOfChoice);
+
+    void updateTransportationOfChoice(TransportationOfChoice transportationOfChoice);
+
+    TransportationOfChoice getTransportationOfChoice();
 }
