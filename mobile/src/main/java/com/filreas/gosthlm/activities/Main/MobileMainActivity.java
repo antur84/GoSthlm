@@ -1,10 +1,15 @@
 package com.filreas.gosthlm.activities.Main;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,6 +25,7 @@ import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.resp
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.TransportType;
 import com.filreas.gosthlm.utils.OnItemClickListener;
+import com.filreas.shared.utils.SwipeDismissTouchListener;
 
 import java.util.List;
 
@@ -40,6 +46,24 @@ public class MobileMainActivity extends MobileBaseActivity {
         initTransportationOfChoice();
         initStationsSearch();
         initDeparturesSearch();
+        initGetStartedGuide();
+    }
+
+    private void initGetStartedGuide() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CardView view = (CardView) findViewById(R.id.top_info_card);
+            view.setOnTouchListener(new SwipeDismissTouchListener(view, null, new SwipeDismissTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(Object token) {
+                    return true;
+                }
+
+                @Override
+                public void onDismiss(View view, Object token) {
+                    ((ViewGroup)view.getParent()).removeView(view);
+                }
+            }));
+        }
     }
 
     private void initTransportationOfChoice() {
