@@ -13,6 +13,8 @@ public class MetroDto implements Serializable {
 
     private int groupOfLineId;
 
+    private String platformMessage;
+
     public String getStopAreaName() {
         return stopAreaName;
     }
@@ -60,5 +62,13 @@ public class MetroDto implements Serializable {
 
     public void setGroupOfLine(int groupOfLineId) {
         this.groupOfLineId = groupOfLineId;
+    }
+
+    public String getPlatformMessage() {
+        return platformMessage;
+    }
+
+    public void setPlatformMessage(String platformMessage) {
+        this.platformMessage = platformMessage;
     }
 }
