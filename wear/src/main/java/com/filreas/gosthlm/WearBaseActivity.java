@@ -72,7 +72,8 @@ public abstract class WearBaseActivity extends WearableActivity implements DataA
 
                 try {
                     DeparturesDto departure = (DeparturesDto) DtoSerializer.convertFromBytes(event.getDataItem().getData());
-                    this.setName(departure.getMetros().get(0).getStopAreaName());
+                    this.updateScreenInfo(departure);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -82,7 +83,7 @@ public abstract class WearBaseActivity extends WearableActivity implements DataA
         }
     }
 
-    protected abstract void setName(String stopAreaName);
+    protected abstract void updateScreenInfo(DeparturesDto departuresDto);
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
