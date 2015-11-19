@@ -122,6 +122,7 @@ public class MobileClient {
             metroDto.setDisplayTime(metro.getDisplayTime());
             metroDto.setDestination(metro.getDestination());
             metroDto.setStopAreaName(metro.getStopAreaName());
+            metroDto.setPlatformMessage(metro.getPlatformMessage());
             departures.getMetros().add(metroDto);
         }
 

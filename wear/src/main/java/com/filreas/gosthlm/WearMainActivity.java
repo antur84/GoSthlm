@@ -8,6 +8,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.filreas.shared.dto.DeparturesDto;
+import com.filreas.shared.dto.MetroDto;
 import com.filreas.shared.utils.GoSthlmLog;
 
 public class WearMainActivity extends WearBaseActivity {
@@ -56,14 +58,27 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     @Override
-    protected void setName(final String stopAreaName) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView fromText = (TextView) findViewById(R.id.fromText);
-                fromText.setText(stopAreaName);
-            }
-        });
+    protected void updateScreenInfo(final DeparturesDto departuresDto) {
+        if (departuresDto.getMetros().size() > 0) {
+            final MetroDto metro = departuresDto.getMetros().get(0);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView fromText = (TextView) findViewById(R.id.fromText);
+                    fromText.setText(metro.getStopAreaName());
+
+                    TextView toText = (TextView) findViewById(R.id.destinationText);
+                    toText.setText(metro.getDestination());
+
+                    TextView timeToDeparture = (TextView) findViewById(R.id.timeToDepartureText);
+                    timeToDeparture.setText(metro.getDisplayTime());
+
+                    TextView platformMessage = (TextView) findViewById(R.id.platformMessage);
+                    platformMessage.setText(metro.getPlatformMessage());
+                }
+            });
+        }
     }
 
     private void handleShakeEvent(int count) {
