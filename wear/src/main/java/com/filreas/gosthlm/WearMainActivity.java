@@ -76,6 +76,9 @@ public class WearMainActivity extends WearBaseActivity {
 
                     TextView platformMessage = (TextView) findViewById(R.id.platformMessage);
                     platformMessage.setText(metro.getPlatformMessage());
+
+                    TextView lineNumber = (TextView) findViewById(R.id.lineNumber);
+                    lineNumber.setText(metro.getLineNumber());
                 }
             });
         }
