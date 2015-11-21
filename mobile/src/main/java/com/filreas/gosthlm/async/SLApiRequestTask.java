@@ -2,6 +2,7 @@ package com.filreas.gosthlm.async;
 
 import android.os.AsyncTask;
 
+import com.filreas.gosthlm.slapi.operations.ISLRequestHandler;
 import com.filreas.gosthlm.slapi.operations.SLApiRequest;
 import com.github.kevinsawicki.http.HttpRequest;
 
@@ -11,7 +12,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 public class SLApiRequestTask<TRequest extends SLApiRequest, TResponse> extends AsyncTask<TRequest, Void, TResponse> {
 
     private ISLApiCall<TRequest, TResponse> slApiCall;
-    private ISLApiTaskResponseHandler responseHandler;
+    private ISLApiTaskResponseHandler<TResponse> responseHandler;
     private HttpRequest.HttpRequestException exception;
 
     public SLApiRequestTask(ISLApiCall<TRequest, TResponse> slApiCall, ISLApiTaskResponseHandler responseHandler) {
@@ -36,7 +37,7 @@ public class SLApiRequestTask<TRequest extends SLApiRequest, TResponse> extends 
     @Override
     protected void onPostExecute(TResponse response) {
         if (response == null) {
-            responseHandler.onTaskComplete(new SLApiTaskResult<>(exception));
+            responseHandler.onTaskComplete(new SLApiTaskResult<TResponse>(exception));
         } else {
             responseHandler.onTaskComplete(new SLApiTaskResult<>(response));
         }

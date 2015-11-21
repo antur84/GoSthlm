@@ -1,9 +1,0 @@
-<resources>
-    <string-array name="stations_array">
-        <item>T-Centralen</item>
-        <item>Huvudsta</item>
-        <item>Solna Strand</item>
-        <item>Fridhemsplan</item>
-        <item>Hötorget</item>
-    </string-array>
-</resources>
