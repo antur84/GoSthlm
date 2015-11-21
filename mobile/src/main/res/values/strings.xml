@@ -1,4 +1,5 @@
 <resources>
+    <string name="appName">GoSTHLM</string>
     <string name="actionSettingsLabel">Settings</string>
     <string name="actionHelpLabel">Help</string>
     <string name="actionAboutLabel">About</string>
