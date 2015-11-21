@@ -1,6 +1,7 @@
 package com.filreas.gosthlm.database;
 
 import com.filreas.gosthlm.database.helpers.ICrud;
+import com.filreas.gosthlm.database.helpers.IFavouriteSite;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 
 import org.junit.Before;
@@ -21,11 +22,15 @@ public class GoSthlmRepositoryTest {
 
     @Mock
     private ICrud<TransportationOfChoice> transportationOfChoice;
+
+    @Mock
+    private IFavouriteSite favouriteSite;
+
     private IGoSthlmRepository sut;
 
     @Before
     public void setup() {
-        sut = new GoSthlmRepository(transportationOfChoice);
+        sut = new GoSthlmRepository(transportationOfChoice, favouriteSite);
     }
 
     @Test

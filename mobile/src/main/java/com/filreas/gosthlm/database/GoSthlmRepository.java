@@ -1,24 +1,26 @@
 package com.filreas.gosthlm.database;
 
-import android.content.Context;
-
 import com.filreas.gosthlm.database.helpers.ICrud;
+import com.filreas.gosthlm.database.helpers.IDbHelper;
+import com.filreas.gosthlm.database.helpers.IFavouriteSite;
+import com.filreas.gosthlm.database.helpers.SiteHelper;
 import com.filreas.gosthlm.database.helpers.TransportationOfChoiceHelper;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 
 public class GoSthlmRepository implements IGoSthlmRepository {
 
-    private static final String DATABASE_NAME = "com.filreas.gosthlm.database.WearDb";
-    private static final int DATABASE_VERSION = 1;
+    private IFavouriteSite siteHelper;
     private ICrud<TransportationOfChoice> transportationOfChoiceHelper;
 
-    public GoSthlmRepository(ICrud<TransportationOfChoice> transportationOfChoiceHelper) {
+    public GoSthlmRepository(
+            ICrud<TransportationOfChoice> transportationOfChoiceHelper,
+            IFavouriteSite siteHelper) {
         this.transportationOfChoiceHelper = transportationOfChoiceHelper;
+        this.siteHelper = siteHelper;
     }
 
-    public GoSthlmRepository(Context context) {
-        transportationOfChoiceHelper =
-                new TransportationOfChoiceHelper(context, DATABASE_NAME, DATABASE_VERSION);
+    public GoSthlmRepository(IDbHelper dbHelper) {
+        this(new TransportationOfChoiceHelper(dbHelper), new SiteHelper(dbHelper));
     }
 
     @Override

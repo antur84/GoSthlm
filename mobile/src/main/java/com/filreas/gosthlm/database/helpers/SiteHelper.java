@@ -1,7 +1,6 @@
 package com.filreas.gosthlm.database.helpers;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -12,7 +11,7 @@ import com.filreas.shared.utils.GoSthlmLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SiteHelper extends BasicCrud<FavouriteSite> {
+public class SiteHelper implements IFavouriteSite {
 
     private static final String TABLE_FAVOURITE_SITE = "favouriteSite";
     private static final String KEY_ID = "id";
@@ -21,12 +20,12 @@ public class SiteHelper extends BasicCrud<FavouriteSite> {
     private static final String KEY_X = "x";
     private static final String KEY_Y = "y";
     private static final String KEY_NAME = "name";
+    private final IDbHelper dbHelper;
 
-    protected SiteHelper(Context context, String databaseName, int databaseVersion) {
-        super(context, databaseName, databaseVersion);
+    public SiteHelper(IDbHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 
-    @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_DEFAULT_TRANSPORTATION_TABLE = "CREATE TABLE " + TABLE_FAVOURITE_SITE
                 + " ( " + KEY_ID + " INTEGER PRIMARY KEY,"
@@ -40,15 +39,13 @@ public class SiteHelper extends BasicCrud<FavouriteSite> {
         db.execSQL(CREATE_DEFAULT_TRANSPORTATION_TABLE);
     }
 
-    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVOURITE_SITE);
         onCreate(db);
     }
 
-    @Override
     public void create(FavouriteSite favouriteSite) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
         ContentValues values = createFavouriteSiteContentValues(favouriteSite);
 
@@ -58,9 +55,8 @@ public class SiteHelper extends BasicCrud<FavouriteSite> {
         GoSthlmLog.d("create", values.toString());
     }
 
-    @Override
     public void update(FavouriteSite favouriteSite) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
         ContentValues values = createFavouriteSiteContentValues(favouriteSite);
 
@@ -71,15 +67,26 @@ public class SiteHelper extends BasicCrud<FavouriteSite> {
         GoSthlmLog.d("update", values.toString());
     }
 
+    @Override
+    public FavouriteSite read() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(FavouriteSite item) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<FavouriteSite> readAll() {
         String query = "SELECT * FROM " + TABLE_FAVOURITE_SITE;
 
         ArrayList<FavouriteSite> result = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getDb().getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast()) {
                 int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
                 int siteId = cursor.getInt(cursor.getColumnIndex(KEY_SITEID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));

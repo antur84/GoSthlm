@@ -1,7 +1,6 @@
 package com.filreas.gosthlm.database.helpers;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -9,7 +8,7 @@ import android.support.annotation.NonNull;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.shared.utils.GoSthlmLog;
 
-public class TransportationOfChoiceHelper extends BasicCrud<TransportationOfChoice> {
+public class TransportationOfChoiceHelper implements ICrud<TransportationOfChoice> {
 
     private static final String TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE
             = "defaultTransportationOfChoice";
@@ -18,12 +17,12 @@ public class TransportationOfChoiceHelper extends BasicCrud<TransportationOfChoi
     private static final String KEY_BUS = "bus";
     private static final String KEY_TRAIN = "train";
     private static final String KEY_TRAM = "tram";
+    private IDbHelper dbHelper;
 
-    public TransportationOfChoiceHelper(Context context, String databaseName, int databaseVersion) {
-        super(context, databaseName, databaseVersion);
+    public TransportationOfChoiceHelper(IDbHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 
-    @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_DEFAULT_TRANSPORTATION_TABLE = "CREATE TABLE " + TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE
                 + " ( " + KEY_ID + " INTEGER PRIMARY KEY, "
@@ -36,15 +35,13 @@ public class TransportationOfChoiceHelper extends BasicCrud<TransportationOfChoi
         db.execSQL(CREATE_DEFAULT_TRANSPORTATION_TABLE);
     }
 
-    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE);
         onCreate(db);
     }
 
-    @Override
     public void create(TransportationOfChoice transportationOfChoice) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
         ContentValues values = createTransportationOfChoiceContentValues(transportationOfChoice);
 
@@ -54,9 +51,8 @@ public class TransportationOfChoiceHelper extends BasicCrud<TransportationOfChoi
         GoSthlmLog.d("create", values.toString());
     }
 
-    @Override
     public void update(TransportationOfChoice transportationOfChoice) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
         ContentValues values = createTransportationOfChoiceContentValues(transportationOfChoice);
 
@@ -67,12 +63,11 @@ public class TransportationOfChoiceHelper extends BasicCrud<TransportationOfChoi
         GoSthlmLog.d("update", values.toString());
     }
 
-    @Override
     public TransportationOfChoice read() {
         TransportationOfChoice transportationOfChoice = null;
         String query = "SELECT * FROM " + TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getDb().getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -86,6 +81,11 @@ public class TransportationOfChoiceHelper extends BasicCrud<TransportationOfChoi
         cursor.close();
 
         return transportationOfChoice;
+    }
+
+    @Override
+    public void delete(TransportationOfChoice item) {
+        throw new UnsupportedOperationException();
     }
 
     @NonNull

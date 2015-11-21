@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.filreas.gosthlm.database.GoSthlmRepository;
 import com.filreas.gosthlm.database.IGoSthlmRepository;
+import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
 import com.filreas.gosthlm.datalayer.MobileClient;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
@@ -24,7 +25,7 @@ public class MobileBaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        repository = new GoSthlmRepository(this.getApplicationContext());
+        repository = new GoSthlmRepository(new DbHelperWrapper(this.getApplicationContext()));
         slApiKeyFetcher = new SLApiKeyFetcher(getResources(), this);
         slApi = new SLApi(new SLRestApiClient());
 
