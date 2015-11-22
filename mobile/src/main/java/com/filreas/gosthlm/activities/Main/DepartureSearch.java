@@ -29,21 +29,13 @@ public class DepartureSearch {
         request = new RealTimeRequest(
                 ResponseFormat.JSON,
                 slApiKeyFetcher.getKey("slrealtidsinformation3"),
-                getSiteId(),
+                -1,
                 30,
                 new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
     }
 
-    public int getSiteId() {
-        return siteId;
-    }
-
-    public void setSiteId(int siteId) {
-        this.siteId = siteId;
-    }
-
-    public void search() {
-        request.setSiteId(getSiteId());
+    public void search(int siteId) {
+        request.setSiteId(siteId);
         SLApiRequestTask<RealTimeRequest, RealTimeResponse> getDeparturesTask = new SLApiRequestTask<>(new ISLApiCall<RealTimeRequest, RealTimeResponse>() {
             @Override
             public RealTimeResponse perform(RealTimeRequest request) {

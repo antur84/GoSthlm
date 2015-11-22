@@ -10,13 +10,13 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "GoSthlm";
     private static DbHelper instance;
 
-    private SiteHelper siteHelper;
+    private FavouriteSiteHelper favouriteSiteHelper;
     private TransportationOfChoiceHelper transportationOfChoiceHelper;
 
     private DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
 
-        this.siteHelper = new SiteHelper(new DbHelperWrapper(context));
+        this.favouriteSiteHelper = new FavouriteSiteHelper(new DbHelperWrapper(context));
         this.transportationOfChoiceHelper = new TransportationOfChoiceHelper(new DbHelperWrapper(context));
     }
 
@@ -29,7 +29,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        this.siteHelper.onCreate(db);
+        this.favouriteSiteHelper.onCreate(db);
         this.transportationOfChoiceHelper.onCreate(db);
     }
 
@@ -43,7 +43,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 switch (upgradeTo)
                 {
                     case 2:
-                        siteHelper.onUpgrade(db, oldVersion, newVersion);
+                        favouriteSiteHelper.onUpgrade(db, oldVersion, newVersion);
                         transportationOfChoiceHelper.onUpgrade(db, oldVersion, newVersion);
                         break;
                     case 3:

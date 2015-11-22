@@ -11,7 +11,7 @@ import com.filreas.shared.utils.GoSthlmLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SiteHelper implements IFavouriteSite {
+public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
 
     private static final String TABLE_FAVOURITE_SITE = "favouriteSite";
     private static final String KEY_ID = "id";
@@ -22,7 +22,7 @@ public class SiteHelper implements IFavouriteSite {
     private static final String KEY_NAME = "name";
     private final IDbHelper dbHelper;
 
-    public SiteHelper(IDbHelper dbHelper) {
+    public FavouriteSiteHelper(IDbHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 
@@ -44,6 +44,7 @@ public class SiteHelper implements IFavouriteSite {
         onCreate(db);
     }
 
+    @Override
     public void create(FavouriteSite favouriteSite) {
         SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
@@ -55,26 +56,17 @@ public class SiteHelper implements IFavouriteSite {
         GoSthlmLog.d("create", values.toString());
     }
 
+    @Override
     public void update(FavouriteSite favouriteSite) {
         SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
         ContentValues values = createFavouriteSiteContentValues(favouriteSite);
 
-        String[] args = new String[]{"" + favouriteSite.getId()};
+        String[] args = new String[]{Integer.toString(favouriteSite.getId())};
         db.update(TABLE_FAVOURITE_SITE, values, "id=?", args);
         db.close();
 
         GoSthlmLog.d("update", values.toString());
-    }
-
-    @Override
-    public FavouriteSite read() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void delete(FavouriteSite item) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -87,16 +79,26 @@ public class SiteHelper implements IFavouriteSite {
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
-                int siteId = cursor.getInt(cursor.getColumnIndex(KEY_SITEID));
-                String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
-                String type = cursor.getString(cursor.getColumnIndex(KEY_TYPE));
-                String x = cursor.getString(cursor.getColumnIndex(KEY_X));
-                String y = cursor.getString(cursor.getColumnIndex(KEY_Y));
-
-                result.add(new FavouriteSite(id, name, siteId, type, x, y));
+                result.add(createFavouriteSiteFromCursor(cursor));
                 cursor.moveToNext();
             }
+        }
+        cursor.close();
+
+        return result;
+    }
+
+    @Override
+    public FavouriteSite getBySiteId(int id) {
+        FavouriteSite result = null;
+
+        SQLiteDatabase db = dbHelper.getDb().getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_FAVOURITE_SITE + " WHERE " + KEY_SITEID + " = ?";
+        String[] args = new String[]{Integer.toString(id)};
+        Cursor cursor = db.rawQuery(query, args);
+
+        if (cursor.moveToFirst()) {
+            result = createFavouriteSiteFromCursor(cursor);
         }
         cursor.close();
 
@@ -107,12 +109,21 @@ public class SiteHelper implements IFavouriteSite {
     private ContentValues createFavouriteSiteContentValues(FavouriteSite favouriteSite) {
         ContentValues values = new ContentValues();
 
-        values.put(KEY_ID, favouriteSite.getId());
         values.put(KEY_SITEID, favouriteSite.getSiteId());
         values.put(KEY_NAME, favouriteSite.getName());
         values.put(KEY_TYPE, favouriteSite.getType());
         values.put(KEY_X, favouriteSite.getX());
         values.put(KEY_Y, favouriteSite.getY());
         return values;
+    }
+
+    private FavouriteSite createFavouriteSiteFromCursor(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndex(KEY_ID));
+        int siteId = cursor.getInt(cursor.getColumnIndex(KEY_SITEID));
+        String name = cursor.getString(cursor.getColumnIndex(KEY_NAME));
+        String type = cursor.getString(cursor.getColumnIndex(KEY_TYPE));
+        String x = cursor.getString(cursor.getColumnIndex(KEY_X));
+        String y = cursor.getString(cursor.getColumnIndex(KEY_Y));
+        return new FavouriteSite(id, name, siteId, type, x, y);
     }
 }

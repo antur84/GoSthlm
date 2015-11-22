@@ -1,13 +1,13 @@
-package com.filreas.gosthlm.database.async;
+package com.filreas.gosthlm.database.queries;
 
-import com.filreas.gosthlm.database.helpers.ICrud;
+import com.filreas.gosthlm.database.helpers.ITransportationOfChoiceDbHelper;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 
-public class GetTransportationOfChoiceCommand implements IGetCommand<TransportationOfChoice> {
+public class TransportationOfChoiceQuery implements IQuery<TransportationOfChoice> {
 
-    private ICrud<TransportationOfChoice> helper;
+    private ITransportationOfChoiceDbHelper helper;
 
-    public GetTransportationOfChoiceCommand(ICrud<TransportationOfChoice> helper) {
+    public TransportationOfChoiceQuery(ITransportationOfChoiceDbHelper helper) {
         this.helper = helper;
     }
 

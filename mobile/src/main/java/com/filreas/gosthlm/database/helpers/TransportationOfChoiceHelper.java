@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.shared.utils.GoSthlmLog;
 
-public class TransportationOfChoiceHelper implements ICrud<TransportationOfChoice> {
+public class TransportationOfChoiceHelper implements ITransportationOfChoiceDbHelper {
 
     private static final String TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE
             = "defaultTransportationOfChoice";
@@ -40,6 +40,7 @@ public class TransportationOfChoiceHelper implements ICrud<TransportationOfChoic
         onCreate(db);
     }
 
+    @Override
     public void create(TransportationOfChoice transportationOfChoice) {
         SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
@@ -51,6 +52,7 @@ public class TransportationOfChoiceHelper implements ICrud<TransportationOfChoic
         GoSthlmLog.d("create", values.toString());
     }
 
+    @Override
     public void update(TransportationOfChoice transportationOfChoice) {
         SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
 
@@ -63,6 +65,7 @@ public class TransportationOfChoiceHelper implements ICrud<TransportationOfChoic
         GoSthlmLog.d("update", values.toString());
     }
 
+    @Override
     public TransportationOfChoice read() {
         TransportationOfChoice transportationOfChoice = null;
         String query = "SELECT * FROM " + TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE;
@@ -76,16 +79,11 @@ public class TransportationOfChoiceHelper implements ICrud<TransportationOfChoic
             transportationOfChoice.setBus(cursor.getInt(2) == 1);
             transportationOfChoice.setTrain(cursor.getInt(3) == 1);
             transportationOfChoice.setTram(cursor.getInt(4) == 1);
-            GoSthlmLog.d("read", transportationOfChoice.toString());
+            GoSthlmLog.d("getBySiteId", transportationOfChoice.toString());
         }
         cursor.close();
 
         return transportationOfChoice;
-    }
-
-    @Override
-    public void delete(TransportationOfChoice item) {
-        throw new UnsupportedOperationException();
     }
 
     @NonNull
