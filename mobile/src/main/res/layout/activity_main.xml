@@ -8,81 +8,94 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout">
+        android:layout_height="fill_parent">
 
-        <AutoCompleteTextView
-            android:id="@+id/stationsSearch"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:completionThreshold="3"
-            android:hint="@string/selectStationLabel"
-            android:selectAllOnFocus="true"
-            android:singleLine="true">
+            android:orientation="vertical">
 
-        </AutoCompleteTextView>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberOfFavouriteStations"/>
 
-        <TextView
-            android:id="@+id/selectedStationText"
-            android:layout_width="164dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            <AutoCompleteTextView
+                android:id="@+id/stationsSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="3"
+                android:hint="@string/selectStationLabel"
+                android:selectAllOnFocus="true"
+                android:singleLine="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000"
-            android:text="@string/transportationTypeLabel"
-            android:id="@+id/textView2"
-            android:paddingBottom="5dp" />
+            </AutoCompleteTextView>
 
-        <TextView
-            android:id="@+id/departuresResults"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            <TextView
+                android:id="@+id/selectedStationText"
+                android:layout_width="164dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000000" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text="@string/transportationTypeLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000000" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/metroLabel"
-        android:id="@+id/checkBoxMetro"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:checked="false" />
+            <TextView
+                android:id="@+id/departuresResults"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/busLabel"
-        android:id="@+id/checkBoxBus"
-        android:checked="false"
-        android:layout_below="@+id/checkBoxMetro"
-        android:layout_alignParentStart="true" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/trainLabel"
-        android:id="@+id/checkBoxTrain"
-        android:checked="false"
-        android:layout_below="@+id/checkBoxBus"
-        android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tramLabel"
-        android:id="@+id/checkBoxTram"
-        android:checked="false"
-        android:layout_below="@+id/checkBoxTrain"
-        android:layout_alignStart="@+id/checkBoxTrain" />
+                <CheckBox
+                    android:id="@+id/checkBoxMetro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/metroLabel"
+                    android:layout_weight="1"/>
 
+                <CheckBox
+                    android:id="@+id/checkBoxBus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/busLabel"
+                    android:layout_weight="1"/>
+
+                <CheckBox
+                    android:id="@+id/checkBoxTrain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/trainLabel"
+                    android:layout_weight="1"/>
+
+                <CheckBox
+                    android:id="@+id/checkBoxTram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/tramLabel"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 </RelativeLayout>
