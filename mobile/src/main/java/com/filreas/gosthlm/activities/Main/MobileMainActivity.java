@@ -26,7 +26,10 @@ import com.filreas.gosthlm.database.async.GetTransportationOfChoiceCommand;
 import com.filreas.gosthlm.database.async.QueryLoader;
 import com.filreas.gosthlm.database.async.UpdateTransportationOfChoiceCommand;
 import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
+import com.filreas.gosthlm.database.helpers.GetFavouriteSitesCommand;
+import com.filreas.gosthlm.database.helpers.SiteHelper;
 import com.filreas.gosthlm.database.helpers.TransportationOfChoiceHelper;
+import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
@@ -40,12 +43,15 @@ import java.util.List;
 
 public class MobileMainActivity extends MobileBaseActivity implements LoaderManager.LoaderCallbacks<TransportationOfChoice> {
 
+    private final int transportationOfChoiceLoaderId = 0;
+    private final int favouriteSitesId = 1;
     private DepartureSearch departureSearch;
     private TransportationOfChoice transportationOfChoice;
     private CheckBox metro;
     private CheckBox bus;
     private CheckBox train;
     private CheckBox tram;
+    private List<FavouriteSite> favouriteSites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,32 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         initTransportationOfChoice();
         initStationsSearch();
         initDeparturesSearch();
-        initGetStartedGuide();
+        initFavouriteSites();
+    }
+
+    private void initFavouriteSites() {
+        this.getLoaderManager().initLoader(favouriteSitesId, null, new LoaderManager.LoaderCallbacks<List<FavouriteSite>>() {
+            @Override
+            public Loader<List<FavouriteSite>> onCreateLoader(int id, Bundle args) {
+                Context context = getApplicationContext();
+                return new QueryLoader<>(
+                        context,
+                        new GetFavouriteSitesCommand(
+                                new SiteHelper(
+                                        new DbHelperWrapper(context))));
+            }
+
+            @Override
+            public void onLoadFinished(Loader<List<FavouriteSite>> loader, List<FavouriteSite> data) {
+                GoSthlmLog.d("initFavouriteSites onLoadFinished");
+                setFavouriteSites(data);
+            }
+
+            @Override
+            public void onLoaderReset(Loader<List<FavouriteSite>> loader) {
+                GoSthlmLog.d("initFavouriteSites onLoaderReset");
+            }
+        });
     }
 
     private void initGetStartedGuide() {
@@ -76,7 +107,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     }
 
     private void initTransportationOfChoice() {
-        this.getLoaderManager().initLoader(0, null, this);
+        this.getLoaderManager().initLoader(transportationOfChoiceLoaderId, null, this);
 
         OnTransportationOfChoiceCheckboxClicked clickListener = new OnTransportationOfChoiceCheckboxClicked();
         metro = (CheckBox) findViewById(R.id.checkBoxMetro);
@@ -87,6 +118,17 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         train.setOnClickListener(clickListener);
         tram = (CheckBox) findViewById(R.id.checkBoxTram);
         tram.setOnClickListener(clickListener);
+    }
+
+    public void setFavouriteSites(List<FavouriteSite> favouriteSites) {
+        this.favouriteSites = favouriteSites;
+        if(favouriteSites.size() == 0){
+            initGetStartedGuide();
+            return;
+        }
+
+        TextView favs = (TextView)findViewById(R.id.numberOfFavouriteStations);
+        favs.setText("antal sparade favouriter: "+ favouriteSites.size());
     }
 
     private class OnTransportationOfChoiceCheckboxClicked implements CompoundButton.OnClickListener {
