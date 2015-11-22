@@ -10,4 +10,6 @@
     <string name="busLabel">Buss</string>
     <string name="trainLabel">Pendeltåg</string>
     <string name="tramLabel">Lokalbana</string>
+    <string name="helpLabel">Visste du att?</string>
+    <string name="helpText">Du kan lägga till stationer i dina favoriter!</string>
 </resources>
