@@ -7,7 +7,7 @@ import com.filreas.gosthlm.database.queries.IDataSourceChanged;
 public class AddOrUpdateFavouriteStationCommand implements ICommand {
 
     private IFavouriteSiteDbHelper favouriteSiteHelper;
-    private IDataSourceChanged dataSourceChangedListeners;
+    private IDataSourceChanged dataSourceChangedListener;
     private FavouriteSite item;
 
     public AddOrUpdateFavouriteStationCommand(
@@ -16,7 +16,7 @@ public class AddOrUpdateFavouriteStationCommand implements ICommand {
             FavouriteSite item) {
 
         this.favouriteSiteHelper = favouriteSiteHelper;
-        this.dataSourceChangedListeners = dataSourceChanged;
+        this.dataSourceChangedListener = dataSourceChanged;
         this.item = item;
     }
 
@@ -25,7 +25,9 @@ public class AddOrUpdateFavouriteStationCommand implements ICommand {
         FavouriteSite current = favouriteSiteHelper.getBySiteId(item.getSiteId());
         if (current == null) {
             favouriteSiteHelper.create(item);
-            dataSourceChangedListeners.dataSourceChanged();
+            if(dataSourceChangedListener != null) {
+                dataSourceChangedListener.dataSourceChanged();
+            }
         } else {
             if (current.compareTo(item) != 0) {
                 favouriteSiteHelper.update(item);
