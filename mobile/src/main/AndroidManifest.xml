@@ -8,15 +8,16 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/appName"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name=".activities.Main.MobileMainActivity"
-            android:label="@string/appName" >
+        <activity android:name=".activities.Main.Splash"
+            android:label="@string/appName"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activities.Main.MobileMainActivity" />
         <activity android:name=".activities.About" />
         <activity android:name=".activities.Help" />
     </application>

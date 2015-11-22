@@ -10,4 +10,6 @@
     <string name="busLabel">Bus</string>
     <string name="trainLabel">Train</string>
     <string name="tramLabel">Tram</string>
+    <string name="helpLabel">Tip!</string>
+    <string name="helpText">Do not forget to add stations to your favorites!</string>
 </resources>
