@@ -21,16 +21,19 @@ import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.About;
 import com.filreas.gosthlm.activities.Help;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
-import com.filreas.gosthlm.database.async.CommandExecuter;
-import com.filreas.gosthlm.database.async.GetTransportationOfChoiceCommand;
-import com.filreas.gosthlm.database.async.QueryLoader;
-import com.filreas.gosthlm.database.async.UpdateTransportationOfChoiceCommand;
+import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
+import com.filreas.gosthlm.database.commands.CommandExecuter;
+import com.filreas.gosthlm.database.commands.UpdateTransportationOfChoiceCommand;
 import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
-import com.filreas.gosthlm.database.helpers.GetFavouriteSitesCommand;
-import com.filreas.gosthlm.database.helpers.SiteHelper;
+import com.filreas.gosthlm.database.helpers.FavouriteSiteHelper;
 import com.filreas.gosthlm.database.helpers.TransportationOfChoiceHelper;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
+import com.filreas.gosthlm.database.queries.FavouriteSitesQuery;
+import com.filreas.gosthlm.database.queries.IDataSourceCallbackListener;
+import com.filreas.gosthlm.database.queries.IDataSourceChanged;
+import com.filreas.gosthlm.database.queries.QueryLoader;
+import com.filreas.gosthlm.database.queries.TransportationOfChoiceQuery;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
@@ -52,16 +55,17 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     private CheckBox train;
     private CheckBox tram;
     private List<FavouriteSite> favouriteSites;
+    public IDataSourceChanged favouriteSitesChangedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initFavouriteSites();
         initTransportationOfChoice();
         initStationsSearch();
         initDeparturesSearch();
-        initFavouriteSites();
     }
 
     private void initFavouriteSites() {
@@ -71,9 +75,16 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
                 Context context = getApplicationContext();
                 return new QueryLoader<>(
                         context,
-                        new GetFavouriteSitesCommand(
-                                new SiteHelper(
-                                        new DbHelperWrapper(context))));
+                        new FavouriteSitesQuery(
+                                new FavouriteSiteHelper(
+                                        new DbHelperWrapper(context))),
+                        new IDataSourceCallbackListener() {
+
+                            @Override
+                            public void setOnDataChangedListener(IDataSourceChanged dataChangedListener) {
+                                favouriteSitesChangedListener = dataChangedListener;
+                            }
+                        });
             }
 
             @Override
@@ -92,6 +103,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     private void initGetStartedGuide() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CardView view = (CardView) findViewById(R.id.top_info_card);
+            view.setVisibility(View.VISIBLE);
             view.setOnTouchListener(new SwipeDismissTouchListener(view, null, new SwipeDismissTouchListener.DismissCallbacks() {
                 @Override
                 public boolean canDismiss(Object token) {
@@ -122,20 +134,20 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
 
     public void setFavouriteSites(List<FavouriteSite> favouriteSites) {
         this.favouriteSites = favouriteSites;
-        if(favouriteSites.size() == 0){
+        if (favouriteSites.size() == 0) {
             initGetStartedGuide();
             return;
         }
 
-        TextView favs = (TextView)findViewById(R.id.numberOfFavouriteStations);
-        favs.setText("antal sparade favouriter: "+ favouriteSites.size());
+        TextView favs = (TextView) findViewById(R.id.numberOfFavouriteStations);
+        favs.setText("antal sparade favouriter: " + favouriteSites.size());
     }
 
     private class OnTransportationOfChoiceCheckboxClicked implements CompoundButton.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            if(transportationOfChoice == null){
+            if (transportationOfChoice == null) {
                 transportationOfChoice = new TransportationOfChoice();
             }
 
@@ -169,15 +181,15 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
                 }
 
                 if (transportationOfChoice.isBus()) {
-                    printTransportatationResults(response.getResponseData().getBuses());
+                    printTransportationResults(response.getResponseData().getBuses());
                 }
 
                 if (transportationOfChoice.isTrain()) {
-                    printTransportatationResults(response.getResponseData().getTrains());
+                    printTransportationResults(response.getResponseData().getTrains());
                 }
 
                 if (transportationOfChoice.isTram()) {
-                    printTransportatationResults(response.getResponseData().getTrams());
+                    printTransportationResults(response.getResponseData().getTrams());
                 }
 
                 getMobileClient().sendDepartureLiveInformation(response);
@@ -185,7 +197,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         });
     }
 
-    private void printTransportatationResults(List<? extends TransportType> transportTypes) {
+    private void printTransportationResults(List<? extends TransportType> transportTypes) {
         TextView textView = (TextView) findViewById(R.id.departuresResults);
         for (TransportType transportType : transportTypes) {
             textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
@@ -199,8 +211,21 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
             @Override
             public void onClick(Site station) {
                 ((TextView) findViewById(R.id.selectedStationText)).setText(station.getName());
-                departureSearch.setSiteId(station.getSiteId());
-                departureSearch.search();
+                FavouriteSite favouriteSite = new FavouriteSite(
+                        -1,
+                        station.getName(),
+                        station.getSiteId(),
+                        station.getType(),
+                        station.getX(),
+                        station.getY());
+                new CommandExecuter().execute(
+                        new AddOrUpdateFavouriteStationCommand(
+                                new FavouriteSiteHelper(
+                                        new DbHelperWrapper(
+                                                getApplicationContext())),
+                                favouriteSitesChangedListener,
+                                favouriteSite));
+                departureSearch.search(station.getSiteId());
             }
         });
         autoCompleteStationSearch.init(textView);
@@ -234,7 +259,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         Context context = getApplicationContext();
         return new QueryLoader<>(
                 context,
-                new GetTransportationOfChoiceCommand(
+                new TransportationOfChoiceQuery(
                         new TransportationOfChoiceHelper(
                                 new DbHelperWrapper(context))));
     }

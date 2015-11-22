@@ -1,7 +1,8 @@
-package com.filreas.gosthlm.database.async;
+package com.filreas.gosthlm.database.queries;
 
-import com.filreas.gosthlm.database.helpers.ICrud;
+import com.filreas.gosthlm.database.helpers.ITransportationOfChoiceDbHelper;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
+import com.filreas.gosthlm.database.queries.TransportationOfChoiceQuery;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,15 +18,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GetTransportationOfChoiceCommandTest {
+public class TransportationOfChoiceQueryTest {
 
     @Mock
-    private ICrud<TransportationOfChoice> helper;
+    private ITransportationOfChoiceDbHelper helper;
 
-    private GetTransportationOfChoiceCommand sut;
+    private TransportationOfChoiceQuery sut;
     @Before
     public void setup() {
-        sut = new GetTransportationOfChoiceCommand(helper);
+        sut = new TransportationOfChoiceQuery(helper);
     }
     @Test
     public void get_should_return_from_db_when_exists(){

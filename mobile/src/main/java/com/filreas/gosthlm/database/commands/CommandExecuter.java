@@ -1,4 +1,4 @@
-package com.filreas.gosthlm.database.async;
+package com.filreas.gosthlm.database.commands;
 
 import android.os.AsyncTask;
 
