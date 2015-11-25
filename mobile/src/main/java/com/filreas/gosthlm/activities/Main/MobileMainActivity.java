@@ -140,7 +140,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         }
 
         TextView favs = (TextView) findViewById(R.id.numberOfFavouriteStations);
-        favs.setText("antal sparade favouriter: " + favouriteSites.size());
+        favs.setText(getResources().getString(R.string.numberOfFavorites) +" " +favouriteSites.size());
     }
 
     private class OnTransportationOfChoiceCheckboxClicked implements CompoundButton.OnClickListener {
