@@ -1,12 +1,17 @@
 package com.filreas.gosthlm.activities.Main;
 
+import android.app.ActionBar;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -15,6 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
+import com.filreas.gosthlm.activities.About;
+import com.filreas.gosthlm.activities.Help;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.CommandExecuter;
@@ -66,8 +73,10 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     private void initToolBar() {
         Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(topToolBar);
-        topToolBar.setLogo(R.drawable.ic_media_play);
-        topToolBar.setLogoDescription(getResources().getString(R.string.appName));
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        if(bar != null){
+            bar.setDisplayShowTitleEnabled(false);
+        }
     }
 
     private void initFavouriteSites() {
@@ -230,6 +239,28 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
             }
         });
         autoCompleteStationSearch.init(textView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_help:
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.action_about:
+                startActivity(new Intent(this, About.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
