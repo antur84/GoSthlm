@@ -2,14 +2,11 @@ package com.filreas.gosthlm.activities.Main;
 
 import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -18,8 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
-import com.filreas.gosthlm.activities.About;
-import com.filreas.gosthlm.activities.Help;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.CommandExecuter;
@@ -54,7 +49,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     private CheckBox bus;
     private CheckBox train;
     private CheckBox tram;
-    private List<FavouriteSite> favouriteSites;
     public IDataSourceChanged favouriteSitesChangedListener;
 
     @Override
@@ -62,10 +56,18 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initToolBar();
         initFavouriteSites();
         initTransportationOfChoice();
         initStationsSearch();
         initDeparturesSearch();
+    }
+
+    private void initToolBar() {
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        topToolBar.setLogo(R.drawable.ic_media_play);
+        topToolBar.setLogoDescription(getResources().getString(R.string.appName));
     }
 
     private void initFavouriteSites() {
@@ -133,7 +135,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     }
 
     public void setFavouriteSites(List<FavouriteSite> favouriteSites) {
-        this.favouriteSites = favouriteSites;
         if (favouriteSites.size() == 0) {
             initGetStartedGuide();
             return;
@@ -229,28 +230,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
             }
         });
         autoCompleteStationSearch.init(textView);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_help:
-                startActivity(new Intent(this, Help.class));
-                return true;
-            case R.id.action_about:
-                startActivity(new Intent(this, About.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
