@@ -12,4 +12,5 @@
     <string name="tramLabel">Tram</string>
     <string name="helpLabel">Tip!</string>
     <string name="helpText">Do not forget to add stations to your favorites!</string>
+    <string name="numberOfFavorites">Number of favorites:</string>
 </resources>

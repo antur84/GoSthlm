@@ -19,9 +19,9 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/numberOfFavouriteStations"/>
+                android:id="@+id/numberOfFavouriteStations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <AutoCompleteTextView
                 android:id="@+id/stationsSearch"
