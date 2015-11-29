@@ -13,10 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@color/primary"
-            android:logo="@drawable/ic_cast_light"
-            android:logoDescription="@string/appName"
-            android:minHeight="4dp" />
+            android:background="@color/primary" />
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -94,8 +91,7 @@
                     android:layout_width="164dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#000000" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -103,8 +99,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
                     android:text="@string/transportationTypeLabel"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#000000" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/departuresResults"
@@ -121,7 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:checked="false"
+                        android:checked="true"
                         android:text="@string/metroLabel" />
 
                     <CheckBox

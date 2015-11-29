@@ -2,6 +2,7 @@ package com.filreas.gosthlm.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.filreas.gosthlm.datalayer.MobileClient;
@@ -11,7 +12,7 @@ import com.filreas.gosthlm.slapi.SLApi;
 import com.filreas.gosthlm.slapi.SLApiKeyFetcher;
 import com.filreas.gosthlm.slapi.SLRestApiClient;
 
-public class MobileBaseActivity extends AppCompatActivity {
+public class MobileBaseActivity extends ActionBarActivity {
     private MobileClient mobileClient;
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     protected ISLApi slApi;

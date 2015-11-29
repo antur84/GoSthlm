@@ -3,6 +3,7 @@
     <string name="actionSettingsLabel">Inställningar</string>
     <string name="actionHelpLabel">Hjälp</string>
     <string name="actionAboutLabel">Info</string>
+    <string name="actionFavouritesLabel">Favoriter</string>
     <string name="selectStationLabel">Välj station</string>
     <string name="searchingLabel">Söker..</string>
     <string name="transportationTypeLabel">Välj transportmedel</string>

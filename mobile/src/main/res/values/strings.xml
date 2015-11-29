@@ -3,6 +3,7 @@
     <string name="actionSettingsLabel">Settings</string>
     <string name="actionHelpLabel">Help</string>
     <string name="actionAboutLabel">About</string>
+    <string name="actionFavouritesLabel">Favourites</string>
     <string name="selectStationLabel">Select station</string>
     <string name="searchingLabel">Searching..</string>
     <string name="transportationTypeLabel">Select transportation</string>
