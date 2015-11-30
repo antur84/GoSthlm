@@ -20,6 +20,7 @@
 
         <activity android:name=".activities.Main.MobileMainActivity" />
         <activity android:name=".activities.About" android:parentActivityName=".activities.Main.MobileMainActivity" />
+        <activity android:name=".activities.Favourites" android:parentActivityName=".activities.Main.MobileMainActivity" />
         <activity android:name=".activities.Help" android:parentActivityName=".activities.Main.MobileMainActivity" />
     </application>
 
