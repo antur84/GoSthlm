@@ -2,9 +2,6 @@ package com.filreas.gosthlm.slapi.operations;
 
 import java.util.Date;
 
-/**
- * Created by Andreas on 9/11/2015.
- */
 public class CachedHttpRequest {
     private String value;
     private Date timeCreated;

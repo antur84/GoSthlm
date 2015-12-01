@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
 public class LocationFinderResponse {
 
     @SerializedName("StatusCode")

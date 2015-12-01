@@ -74,9 +74,7 @@ public abstract class WearBaseActivity extends WearableActivity implements DataA
                     DeparturesDto departure = (DeparturesDto) DtoSerializer.convertFromBytes(event.getDataItem().getData());
                     this.updateScreenInfo(departure);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
