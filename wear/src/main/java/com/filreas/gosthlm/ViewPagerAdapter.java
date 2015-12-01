@@ -9,25 +9,21 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-/**
- * @author Filip G
- */
-
 public class ViewPagerAdapter extends PagerAdapter {
     // Declare Variables
     Context context;
-    String[] rank;
+    String[] stationName;
 
     LayoutInflater inflater;
 
-    public ViewPagerAdapter(Context context, String[] rank) {
+    public ViewPagerAdapter(Context context, String[] stationName) {
         this.context = context;
-        this.rank = rank;
+        this.stationName = stationName;
     }
 
     @Override
     public int getCount() {
-        return rank.length;
+        return stationName.length;
     }
 
     @Override
@@ -47,10 +43,10 @@ public class ViewPagerAdapter extends PagerAdapter {
                 false);
 
         // Locate the TextViews in viewpager_item.xml
-        txtrank = (TextView) itemView.findViewById(R.id.selectedStationLabel);
+        txtrank = (TextView) itemView.findViewById(R.id.fromText);
 
         // Capture position and set to the TextViews
-        txtrank.setText(rank[position]);
+        txtrank.setText(stationName[position]);
 
         // Add viewpager_item.xml to ViewPager
         ((ViewPager) container).addView(itemView);

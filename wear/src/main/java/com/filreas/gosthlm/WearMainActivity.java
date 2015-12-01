@@ -20,15 +20,12 @@ public class WearMainActivity extends WearBaseActivity {
     private ViewPager viewPager;
     private PagerAdapter adapter;
 
-    String[] rank;
+    String[] stationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        /* Use this layout for the swipable view. Remember to uncomment the chunk of stuff below */
-        //setContentView(R.layout.viewpager_main);
+        setContentView(R.layout.viewpager_main);
 
         setAmbientEnabled();
 
@@ -46,15 +43,14 @@ public class WearMainActivity extends WearBaseActivity {
             }
         });
 
-        /* Needs to be comment out if the activity_main layout is used
-        // Generate sample data
-        rank = new String[] { "1", "2"};
+        // Generate test data */
+        stationName = new String[] {"Solna Strand", "Kungsträdgården"};
         // Locate the ViewPager in viewpager_main.xml
         viewPager = (ViewPager) findViewById(R.id.pager);
         // Pass results to ViewPagerAdapter Class
-        adapter = new ViewPagerAdapter(WearMainActivity.this, rank);
+        adapter = new ViewPagerAdapter(WearMainActivity.this, stationName);
         // Binds the Adapter to the ViewPager
-        viewPager.setAdapter(adapter); */
+        viewPager.setAdapter(adapter);
     }
 
     @Override
