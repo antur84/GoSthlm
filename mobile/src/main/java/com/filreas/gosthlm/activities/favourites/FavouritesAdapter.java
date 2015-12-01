@@ -9,8 +9,10 @@ import android.widget.TextView;
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 
+import java.util.List;
+
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
-    private FavouriteSite[] favouriteSites;
+    private List<FavouriteSite> favouriteSites;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -26,12 +28,12 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(favouriteSites[position].getName());
+        holder.mTextView.setText(favouriteSites.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return favouriteSites.length;
+        return favouriteSites.size();
     }
 
     // Provide a reference to the views for each data item
@@ -46,7 +48,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         }
     }
 
-    public FavouritesAdapter(FavouriteSite[] favouriteSites) {
+    public FavouritesAdapter(List<FavouriteSite> favouriteSites) {
         this.favouriteSites = favouriteSites;
     }
 }
