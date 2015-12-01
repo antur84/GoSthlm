@@ -1,14 +1,11 @@
-package com.filreas.gosthlm.activities;
+package com.filreas.gosthlm.activities.favourites;
 
 import android.os.Bundle;
 
 import com.filreas.gosthlm.R;
+import com.filreas.gosthlm.activities.MobileBaseActivity;
 
-/**
- * @author Filip G
- */
-
-public class Help extends MobileBaseActivity {
+public class Favourites extends MobileBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +15,7 @@ public class Help extends MobileBaseActivity {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.activity_help;
+        return R.layout.activity_favourites;
     }
+
 }

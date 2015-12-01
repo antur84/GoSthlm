@@ -2,8 +2,6 @@ package com.filreas.shared.utils;
 
 import android.util.Log;
 
-import java.io.IOException;
-
 public class GoSthlmLog {
 
     private static String gosthlmTag = "gosthlm";

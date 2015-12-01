@@ -6,9 +6,6 @@ import com.filreas.gosthlm.slapi.operations.SLApiRequest;
 
 import java.util.Locale;
 
-/**
- * Created by Andreas on 9/6/2015.
- */
 public class RealTimeRequest extends SLApiRequest {
     private final String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
     private int siteId;

@@ -8,9 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
 public class LocationFinderRequest extends SLApiRequest {
 
     private final String url = "typeahead.%s?key=%s&searchstring=%s&stationsonly=%s&maxresults=%s";
@@ -56,10 +53,12 @@ public class LocationFinderRequest extends SLApiRequest {
     }
 
     public String getSearchStringSafe() {
-        if (searchString != null) {
+        if (searchString == null) {
+            searchString = "";
+        } else {
             searchString = searchString.trim();
         }
-        String encodedSearchString = null;
+        String encodedSearchString;
         try {
             encodedSearchString = URLEncoder.encode(searchString, "UTF-8");
         } catch (UnsupportedEncodingException e) {

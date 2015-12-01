@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.filreas.gosthlm" >
+    package="com.filreas.gosthlm">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -8,20 +9,35 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/appName"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".activities.Main.Splash"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.Main.Splash"
             android:label="@string/appName"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activities.Main.MobileMainActivity" />
-        <activity android:name=".activities.About" android:parentActivityName=".activities.Main.MobileMainActivity" />
-        <activity android:name=".activities.Favourites" android:parentActivityName=".activities.Main.MobileMainActivity" />
-        <activity android:name=".activities.Help" android:parentActivityName=".activities.Main.MobileMainActivity" />
+        <activity
+            android:name=".activities.About"
+            android:parentActivityName=".activities.Main.MobileMainActivity" />
+        <activity
+            android:name=".activities.Favourites"
+            android:parentActivityName=".activities.Main.MobileMainActivity" />
+        <activity
+            android:name=".activities.Help"
+            android:parentActivityName=".activities.Main.MobileMainActivity" />
+        <activity
+            android:name=".activities.favourites.Favourites"
+            android:label="@string/title_activity_favourites"
+            android:parentActivityName=".activities.Main.MobileMainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.filreas.gosthlm.activities.Main.MobileMainActivity" />
+        </activity>
     </application>
 
 </manifest>

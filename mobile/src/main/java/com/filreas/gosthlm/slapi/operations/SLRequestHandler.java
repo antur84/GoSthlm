@@ -10,9 +10,6 @@ import com.google.gson.stream.JsonReader;
 import java.io.StringReader;
 import java.util.Date;
 
-/**
- * Created by Andreas on 9/10/2015.
- */
 public class SLRequestHandler<TRequest extends SLApiRequest, TResponse> implements ISLRequestHandler<TRequest, TResponse> {
     final long ONE_MINUTE_IN_MILLIS = 60000;
     private final ISLRestApiClient apiClient;

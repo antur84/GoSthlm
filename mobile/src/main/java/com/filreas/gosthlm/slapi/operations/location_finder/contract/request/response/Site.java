@@ -2,9 +2,6 @@ package com.filreas.gosthlm.slapi.operations.location_finder.contract.request.re
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
 public class Site {
     @SerializedName("Name")
     private String name;

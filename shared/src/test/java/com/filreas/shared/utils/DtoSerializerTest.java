@@ -1,6 +1,5 @@
 package com.filreas.shared.utils;
 
-import com.filreas.shared.dto.GroupOfLine;
 import com.filreas.shared.dto.MetroDto;
 
 import org.junit.Before;
@@ -19,14 +18,14 @@ public class DtoSerializerTest {
     private MetroDto testObject;
 
     @Before
-    public void before(){
+    public void before() {
         testObject = new MetroDto();
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void convertToBytes_should_throw_if_size_exceeds_100k() throws IOException {
         String longName = "";
-        for (int i = 0; i < (10 * 1000 + 1); i++){
+        for (int i = 0; i < (10 * 1000 + 1); i++) {
             longName += "0123456789";
         }
 

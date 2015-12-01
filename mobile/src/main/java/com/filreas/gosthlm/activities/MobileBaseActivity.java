@@ -2,9 +2,15 @@ package com.filreas.gosthlm.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.filreas.gosthlm.R;
+import com.filreas.gosthlm.activities.favourites.Favourites;
 import com.filreas.gosthlm.datalayer.MobileClient;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
@@ -12,7 +18,7 @@ import com.filreas.gosthlm.slapi.SLApi;
 import com.filreas.gosthlm.slapi.SLApiKeyFetcher;
 import com.filreas.gosthlm.slapi.SLRestApiClient;
 
-public class MobileBaseActivity extends ActionBarActivity {
+public abstract class MobileBaseActivity extends AppCompatActivity {
     private MobileClient mobileClient;
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     protected ISLApi slApi;
@@ -21,6 +27,8 @@ public class MobileBaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutResource());
+        initToolBar();
 
         slApiKeyFetcher = new SLApiKeyFetcher(getResources(), this);
         slApi = new SLApi(new SLRestApiClient());
@@ -29,6 +37,45 @@ public class MobileBaseActivity extends ActionBarActivity {
                 && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
         mobileClient = new MobileClient(this, isResolvingError);
         mobileClient.connect();
+    }
+
+    protected abstract int getLayoutResource();
+
+    private void initToolBar() {
+        Toolbar topToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(topToolBar);
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_favourites:
+                startActivity(new Intent(this, Favourites.class));
+                return true;
+            case R.id.action_help:
+                startActivity(new Intent(this, Help.class));
+                return true;
+            case R.id.action_about:
+                startActivity(new Intent(this, About.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -68,5 +115,12 @@ public class MobileBaseActivity extends ActionBarActivity {
 
     public MobileClient getMobileClient() {
         return mobileClient;
+    }
+
+    protected void enableHomeAsUpNavigation() {
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
