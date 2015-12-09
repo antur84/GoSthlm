@@ -11,24 +11,19 @@ import com.filreas.gosthlm.database.model.FavouriteSite;
 
 import java.util.List;
 
-public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
+public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.FavouriteItemViewHolder> {
     private List<FavouriteSite> favouriteSites;
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
+    public FavouriteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.favourites_adapter_item, parent, false);
-        // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder((TextView) v);
-        return vh;
+        return new FavouriteItemViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.mTextView.setText(favouriteSites.get(position).getName());
+    public void onBindViewHolder(FavouriteItemViewHolder holder, int position) {
+        holder.name.setText(favouriteSites.get(position).getName());
     }
 
     @Override
@@ -36,15 +31,12 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         return favouriteSites.size();
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView mTextView;
-        public ViewHolder(TextView v) {
+    public static class FavouriteItemViewHolder extends RecyclerView.ViewHolder {
+        public TextView name;
+
+        public FavouriteItemViewHolder(View v) {
             super(v);
-            mTextView = v;
+            name = (TextView) v.findViewById(R.id.favourite_name);
         }
     }
 

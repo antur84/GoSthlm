@@ -6,6 +6,7 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
@@ -19,13 +20,14 @@ import com.filreas.gosthlm.database.queries.QueryLoader;
 import com.filreas.shared.utils.GoSthlmLog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Favourites extends MobileBaseActivity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
     private IDataSourceChanged favouriteSitesChangedListener;
     private List<FavouriteSite> favouriteSites = new ArrayList<>();
 
@@ -60,7 +62,7 @@ public class Favourites extends MobileBaseActivity {
             public void onLoadFinished(Loader<List<FavouriteSite>> loader, List<FavouriteSite> data) {
                 GoSthlmLog.d("initFavouriteSites onLoadFinished");
                 favouriteSites.addAll(data);
-                mAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -71,14 +73,40 @@ public class Favourites extends MobileBaseActivity {
     }
 
     private void initFavouritesView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new FavouritesAdapter(favouriteSites);
-        mRecyclerView.setAdapter(mAdapter);
+        adapter = new FavouritesAdapter(favouriteSites);
+        recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback =
+                new SimpleFavouritesCallback(new ISimpleFavouritesCallbackActions() {
+                    @Override
+                    public boolean onItemMoved(int from, int to) {
+                        if (from < to) {
+                            for (int i = from; i < to; i++) {
+                                Collections.swap(favouriteSites, i, i + 1);
+                            }
+                        } else {
+                            for (int i = from; i > to; i--) {
+                                Collections.swap(favouriteSites, i, i - 1);
+                            }
+                        }
+                        adapter.notifyItemMoved(from, to);
+                        return true;
+                    }
+
+                    @Override
+                    public void onItemDismissed(int position) {
+                        favouriteSites.remove(position);
+                        adapter.notifyItemRemoved(position);
+                    }
+                });
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
