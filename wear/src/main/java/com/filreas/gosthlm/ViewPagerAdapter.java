@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((RelativeLayout) object);
+        return view == object;
     }
 
     @Override
@@ -48,16 +49,12 @@ public class ViewPagerAdapter extends PagerAdapter {
         // Capture position and set to the TextViews
         txtrank.setText(stationName[position]);
 
-        // Add viewpager_item.xml to ViewPager
-        ((ViewPager) container).addView(itemView);
-
+        container.addView(itemView);
         return itemView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        // Remove viewpager_item.xml from ViewPager
-        ((ViewPager) container).removeView((RelativeLayout) object);
-
+        container.removeView((LinearLayout) object);
     }
 }
