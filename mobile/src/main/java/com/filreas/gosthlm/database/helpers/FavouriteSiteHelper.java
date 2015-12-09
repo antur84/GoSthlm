@@ -70,6 +70,19 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
     }
 
     @Override
+    public void remove(FavouriteSite favouriteSite) {
+        SQLiteDatabase db = dbHelper.getDb().getWritableDatabase();
+
+        ContentValues values = createFavouriteSiteContentValues(favouriteSite);
+
+        String[] args = new String[]{Integer.toString(favouriteSite.getId())};
+        db.delete(TABLE_FAVOURITE_SITE, "id=?", args);
+        db.close();
+
+        GoSthlmLog.d("remove", values.toString());
+    }
+
+    @Override
     public List<FavouriteSite> readAll() {
         String query = "SELECT * FROM " + TABLE_FAVOURITE_SITE;
 

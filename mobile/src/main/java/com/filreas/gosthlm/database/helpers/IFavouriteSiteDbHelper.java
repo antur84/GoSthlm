@@ -9,6 +9,8 @@ public interface IFavouriteSiteDbHelper {
 
     void update(FavouriteSite favouriteSite);
 
+    void remove(FavouriteSite favouriteSite);
+
     List<FavouriteSite> readAll();
 
     FavouriteSite getBySiteId(int id);
