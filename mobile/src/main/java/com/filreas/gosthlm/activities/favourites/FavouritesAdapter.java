@@ -1,5 +1,7 @@
 package com.filreas.gosthlm.activities.favourites;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,16 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
         public FavouriteItemViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.favourite_name);
+        }
+
+        public void onItemSelected() {
+            itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.primary_light));
+            itemView.setTranslationZ(10);
+        }
+
+        public void onItemClear() {
+            itemView.setTranslationZ(0);
+            itemView.setBackgroundColor(0);
         }
     }
 

@@ -10,6 +10,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
+import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
+import com.filreas.gosthlm.database.commands.CommandExecuter;
+import com.filreas.gosthlm.database.commands.DeleteFavouriteStationCommand;
 import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
 import com.filreas.gosthlm.database.helpers.FavouriteSiteHelper;
 import com.filreas.gosthlm.database.model.FavouriteSite;
@@ -61,6 +64,7 @@ public class Favourites extends MobileBaseActivity {
             @Override
             public void onLoadFinished(Loader<List<FavouriteSite>> loader, List<FavouriteSite> data) {
                 GoSthlmLog.d("initFavouriteSites onLoadFinished");
+                favouriteSites.clear();
                 favouriteSites.addAll(data);
                 adapter.notifyDataSetChanged();
             }
@@ -74,8 +78,6 @@ public class Favourites extends MobileBaseActivity {
 
     private void initFavouritesView() {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -85,7 +87,7 @@ public class Favourites extends MobileBaseActivity {
         ItemTouchHelper.Callback callback =
                 new SimpleFavouritesCallback(new ISimpleFavouritesCallbackActions() {
                     @Override
-                    public boolean onItemMoved(int from, int to) {
+                    public boolean onItemMove(int from, int to) {
                         if (from < to) {
                             for (int i = from; i < to; i++) {
                                 Collections.swap(favouriteSites, i, i + 1);
@@ -101,8 +103,15 @@ public class Favourites extends MobileBaseActivity {
 
                     @Override
                     public void onItemDismissed(int position) {
-                        favouriteSites.remove(position);
+                        FavouriteSite removed = favouriteSites.remove(position);
                         adapter.notifyItemRemoved(position);
+                        new CommandExecuter().execute(
+                                new DeleteFavouriteStationCommand(
+                                        new FavouriteSiteHelper(
+                                                new DbHelperWrapper(
+                                                        getApplicationContext())),
+                                        favouriteSitesChangedListener,
+                                        removed));
                     }
                 });
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
