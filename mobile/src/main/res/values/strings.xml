@@ -14,5 +14,4 @@
     <string name="helpLabel">Tip!</string>
     <string name="helpText">Do not forget to add stations to your favorites!</string>
     <string name="numberOfFavorites">Number of favorites:</string>
-    <string name="title_activity_favourites">Favourites</string>
 </resources>

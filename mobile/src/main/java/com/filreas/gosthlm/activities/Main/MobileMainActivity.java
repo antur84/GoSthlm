@@ -188,7 +188,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
                     printTransportationResults(response.getResponseData().getTrams());
                 }
 
-                getMobileClient().sendDepartureLiveInformation(response);
+                wearActions.sendDepartureLiveInformation(response);
             }
         });
     }
