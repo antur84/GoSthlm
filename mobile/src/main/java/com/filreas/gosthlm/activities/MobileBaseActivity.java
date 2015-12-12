@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.favourites.Favourites;
 import com.filreas.gosthlm.datalayer.MobileClient;
+import com.filreas.gosthlm.datalayer.WearActions;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
 import com.filreas.gosthlm.slapi.SLApi;
@@ -23,6 +24,7 @@ public abstract class MobileBaseActivity extends AppCompatActivity {
     private static final String STATE_RESOLVING_ERROR = "resolving_error";
     protected ISLApi slApi;
     protected ISLApiKeyFetcher slApiKeyFetcher;
+    protected WearActions wearActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public abstract class MobileBaseActivity extends AppCompatActivity {
                 && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
         mobileClient = new MobileClient(this, isResolvingError);
         mobileClient.connect();
+        wearActions = new WearActions(mobileClient.getClient(), getApplicationContext());
     }
 
     protected abstract int getLayoutResource();

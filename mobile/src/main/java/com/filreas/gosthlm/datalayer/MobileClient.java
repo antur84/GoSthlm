@@ -13,6 +13,7 @@ import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.resp
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 import com.filreas.shared.dto.DeparturesDto;
 import com.filreas.shared.dto.MetroDto;
+import com.filreas.shared.utils.DataLayerUri;
 import com.filreas.shared.utils.DtoSerializer;
 import com.filreas.shared.utils.GoSthlmLog;
 import com.google.android.gms.common.ConnectionResult;
@@ -31,7 +32,6 @@ public class MobileClient {
 
     private static final String DIALOG_ERROR = "dialog_error";
     private static final int REQUEST_RESOLVE_ERROR = 1001;
-    private static final String DEPARTURE_LIVE_INFO_URL = "/gosthlm/liveupdate/departure";
     private final GoogleApiClient googleApiClient;
     private Activity activity;
     private boolean isResolvingError = false;
@@ -112,39 +112,8 @@ public class MobileClient {
         }
     }
 
-    public void sendDepartureLiveInformation(RealTimeResponse response) {
-        PutDataRequest request = PutDataRequest.create(DEPARTURE_LIVE_INFO_URL);
-        DeparturesDto departures = new DeparturesDto();
-        for (Metro metro : response.getResponseData().getMetros()) {
-            MetroDto metroDto = new MetroDto();
-            metroDto.setLineNumber(metro.getLineNumber());
-            metroDto.setGroupOfLine(metro.getGroupOfLineId());
-            metroDto.setDisplayTime(metro.getDisplayTime());
-            metroDto.setDestination(metro.getDestination());
-            metroDto.setStopAreaName(metro.getStopAreaName());
-            metroDto.setPlatformMessage(metro.getPlatformMessage());
-            departures.getMetros().add(metroDto);
-        }
-
-        try {
-            request.setData(DtoSerializer.convertToBytes(departures));
-            PendingResult<DataApi.DataItemResult> result = Wearable.DataApi.putDataItem(googleApiClient, request);
-            result.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
-                @Override
-                public void onResult(DataApi.DataItemResult dataItemResult) {
-                    if (dataItemResult.getStatus().isSuccess()) {
-                        GoSthlmLog.d("Update pushed successfully");
-                    } else {
-                        GoSthlmLog.d("Update failed to push, statusCode: "
-                                + dataItemResult.getStatus().getStatusCode() +
-                                ", msg: " + WearableStatusCodes.getStatusCodeString(dataItemResult.getStatus().getStatusCode()));
-                    }
-                }
-            });
-        } catch (IOException e) {
-            GoSthlmLog.e(e);
-            Toast.makeText(activity.getApplicationContext(), "Error serializing data", Toast.LENGTH_SHORT).show();
-        }
+    public GoogleApiClient getClient() {
+        return googleApiClient;
     }
 
     public static class ErrorDialogFragment extends DialogFragment {
