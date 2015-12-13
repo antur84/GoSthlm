@@ -14,9 +14,6 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Created by Andreas on 9/6/2015.
- */
 public class RealTimeRequestTest {
 
     private final int siteId = 123644323;
@@ -61,7 +58,7 @@ public class RealTimeRequestTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void ctor_should_throw_on_invalid_timeWindow() {
-        RealTimeRequest sut = new RealTimeRequest(ResponseFormat.JSON, key, siteId, 61, cacheStrategy);
+        new RealTimeRequest(ResponseFormat.JSON, key, siteId, 61, cacheStrategy);
     }
 
     @Test

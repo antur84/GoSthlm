@@ -13,14 +13,11 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class LocationFinderRequestTest {
 
-    private String key = "355";
-    private String searchString = "Solna";
+    private final String key = "355";
+    private final String searchString = "Solna";
     private com.filreas.gosthlm.slapi.operations.ResponseCacheStrategy cacheStrategy;
     private LocationFinderRequest sut;
 

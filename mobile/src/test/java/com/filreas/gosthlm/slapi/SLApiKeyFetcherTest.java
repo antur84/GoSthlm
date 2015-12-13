@@ -12,9 +12,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Andreas on 9/6/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SLApiKeyFetcherTest {
 
@@ -23,12 +20,11 @@ public class SLApiKeyFetcherTest {
 
     @Mock
     private Context contextMock;
-    private String fakePackageName;
 
     @Before
     public void setup(){
 
-        fakePackageName = "thePackageName";
+        String fakePackageName = "thePackageName";
         when(contextMock.getPackageName()).thenReturn(fakePackageName);
 
         resourceMock = new SLApiKeyResourceMock();

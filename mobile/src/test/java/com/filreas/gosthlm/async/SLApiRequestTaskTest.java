@@ -24,9 +24,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Andreas on 9/10/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SLApiRequestTaskTest {
 
@@ -41,7 +38,7 @@ public class SLApiRequestTaskTest {
     private ISLApiCall<RealTimeRequest, RealTimeResponse> slApiCall;
 
     @Mock
-    private ISLApiTaskResponseHandler responseHandler;
+    private ISLApiTaskResponseHandler<RealTimeResponse> responseHandler;
 
     @Before
     public void setup() {

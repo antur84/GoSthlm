@@ -1,9 +1,7 @@
 package com.filreas.gosthlm.utils.mappers;
 
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Bus;
-import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 import com.filreas.shared.dto.BusDto;
-import com.filreas.shared.dto.MetroDto;
 
 public class BusToBusDtoMapper {
     public static BusDto map(Bus bus){

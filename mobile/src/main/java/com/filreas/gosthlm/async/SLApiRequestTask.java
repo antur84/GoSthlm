@@ -7,8 +7,8 @@ import com.github.kevinsawicki.http.HttpRequest;
 
 public class SLApiRequestTask<TRequest extends SLApiRequest, TResponse> extends AsyncTask<TRequest, Void, TResponse> {
 
-    private ISLApiCall<TRequest, TResponse> slApiCall;
-    private ISLApiTaskResponseHandler<TResponse> responseHandler;
+    private final ISLApiCall<TRequest, TResponse> slApiCall;
+    private final ISLApiTaskResponseHandler<TResponse> responseHandler;
     private HttpRequest.HttpRequestException exception;
 
     public SLApiRequestTask(ISLApiCall<TRequest, TResponse> slApiCall, ISLApiTaskResponseHandler<TResponse> responseHandler) {

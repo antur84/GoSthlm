@@ -18,10 +18,10 @@ import java.util.ArrayList;
 
 public class StationsAdapter extends ArrayAdapter<Site> implements Filterable {
 
-    private ArrayList<Site> siteDataSource;
-    private Context context;
-    private int resource;
-    private ArrayList<OnItemClickListener<Site>> onClickListeners;
+    private final ArrayList<Site> siteDataSource;
+    private final Context context;
+    private final int resource;
+    private final ArrayList<OnItemClickListener<Site>> onClickListeners;
     private boolean isLoading;
 
     public StationsAdapter(Context context, @LayoutRes int resource) {

@@ -40,8 +40,6 @@ import java.util.List;
 
 public class MobileMainActivity extends MobileBaseActivity implements LoaderManager.LoaderCallbacks<TransportationOfChoice> {
 
-    private final int transportationOfChoiceLoaderId = 0;
-    private final int favouriteSitesId = 1;
     private DepartureSearch departureSearch;
     private TransportationOfChoice transportationOfChoice;
     private CheckBox metro;
@@ -66,7 +64,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     }
 
     private void initFavouriteSites() {
-        this.getLoaderManager().initLoader(favouriteSitesId, null, new LoaderManager.LoaderCallbacks<List<FavouriteSite>>() {
+        this.getLoaderManager().initLoader(1, null, new LoaderManager.LoaderCallbacks<List<FavouriteSite>>() {
             @Override
             public Loader<List<FavouriteSite>> onCreateLoader(int id, Bundle args) {
                 Context context = getApplicationContext();
@@ -116,8 +114,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     }
 
     private void initTransportationOfChoice() {
-        this.getLoaderManager().initLoader(transportationOfChoiceLoaderId, null, this);
-
+        this.getLoaderManager().initLoader(0, null, this);
         OnTransportationOfChoiceCheckboxClicked clickListener = new OnTransportationOfChoiceCheckboxClicked();
         metro = (CheckBox) findViewById(R.id.checkBoxMetro);
         metro.setOnClickListener(clickListener);

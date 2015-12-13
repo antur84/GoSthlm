@@ -11,7 +11,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.List;
 
 public class PhoneActions {
-    private GoogleApiClient mobileClient;
+    private final GoogleApiClient mobileClient;
 
     public PhoneActions(GoogleApiClient mobileClient) {
         this.mobileClient = mobileClient;

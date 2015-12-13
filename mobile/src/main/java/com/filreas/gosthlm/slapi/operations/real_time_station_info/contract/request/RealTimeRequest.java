@@ -7,9 +7,8 @@ import com.filreas.gosthlm.slapi.operations.SLApiRequest;
 import java.util.Locale;
 
 public class RealTimeRequest extends SLApiRequest {
-    private final String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
     private int siteId;
-    private int timeWindow;
+    private final int timeWindow;
 
     public RealTimeRequest(ResponseFormat responseFormat, String key, int siteId, int timeWindow, ResponseCacheStrategy cacheStrategy) {
         super(responseFormat, key, cacheStrategy);
@@ -23,6 +22,7 @@ public class RealTimeRequest extends SLApiRequest {
 
     @Override
     public String toString() {
+        String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
         return String.format(Locale.US, url, getResponseFormat(), getKey(), siteId, timeWindow);
     }
 

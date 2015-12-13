@@ -9,10 +9,10 @@ public class FavouriteSiteLiveUpdateDto implements Serializable {
     private String name;
     private int siteId;
 
-    private List<MetroDto> metros = new ArrayList<>();
-    private List<BusDto> buses = new ArrayList<>();
-    private List<TrainDto> trains = new ArrayList<>();
-    private List<TramDto> trams = new ArrayList<>();
+    private final List<MetroDto> metros = new ArrayList<>();
+    private final List<BusDto> buses = new ArrayList<>();
+    private final List<TrainDto> trains = new ArrayList<>();
+    private final List<TramDto> trams = new ArrayList<>();
 
     public String getName() {
         return name;

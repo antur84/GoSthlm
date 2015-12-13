@@ -10,7 +10,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
-import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.CommandExecuter;
 import com.filreas.gosthlm.database.commands.DeleteFavouriteStationCommand;
 import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
@@ -28,11 +27,9 @@ import java.util.List;
 
 public class Favourites extends MobileBaseActivity {
 
-    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private IDataSourceChanged favouriteSitesChangedListener;
-    private List<FavouriteSite> favouriteSites = new ArrayList<>();
+    private final List<FavouriteSite> favouriteSites = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +74,8 @@ public class Favourites extends MobileBaseActivity {
     }
 
     private void initFavouritesView() {
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new FavouritesAdapter(favouriteSites);

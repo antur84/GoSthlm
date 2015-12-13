@@ -19,8 +19,8 @@ import java.util.List;
 
 public class DepartureSearch {
     private final RealTimeRequest request;
-    private ISLApi slApi;
-    private List<OnDepartureSearchListener> listeners;
+    private final ISLApi slApi;
+    private final List<OnDepartureSearchListener> listeners;
 
     public DepartureSearch(ISLApi slApi, ISLApiKeyFetcher slApiKeyFetcher) {
         this.slApi = slApi;
@@ -48,7 +48,6 @@ public class DepartureSearch {
                         if (result.getResponse().getStatusCode() != 0) {
                             GoSthlmLog.d("SL Api responded: " + result.getResponse().getMessage());
                         } else {
-                            GoSthlmLog.d("number of metro departures: " + result.getResponse().getResponseData().getMetros().size());
                             notifySearchCompleted(site, result.getResponse());
                         }
                     }

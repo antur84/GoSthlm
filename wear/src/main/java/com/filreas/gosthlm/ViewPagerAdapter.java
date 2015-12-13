@@ -2,18 +2,16 @@ package com.filreas.gosthlm;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ViewPagerAdapter extends PagerAdapter {
     // Declare Variables
-    Context context;
-    String[] stationName;
+    final Context context;
+    final String[] stationName;
 
     LayoutInflater inflater;
 

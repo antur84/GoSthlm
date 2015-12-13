@@ -17,7 +17,7 @@ public class TransportationOfChoiceHelper implements ITransportationOfChoiceDbHe
     private static final String KEY_BUS = "bus";
     private static final String KEY_TRAIN = "train";
     private static final String KEY_TRAM = "tram";
-    private IDbHelper dbHelper;
+    private final IDbHelper dbHelper;
 
     public TransportationOfChoiceHelper(IDbHelper dbHelper) {
         this.dbHelper = dbHelper;

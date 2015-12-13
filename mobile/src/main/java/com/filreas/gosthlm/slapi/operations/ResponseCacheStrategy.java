@@ -1,11 +1,8 @@
 package com.filreas.gosthlm.slapi.operations;
 
-/**
- * Created by Andreas on 9/10/2015.
- */
 public class ResponseCacheStrategy {
-    private CacheType type;
-    private int minutes;
+    private final CacheType type;
+    private final int minutes;
 
     /***
      * Create a caching strategy.

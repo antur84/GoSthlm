@@ -4,9 +4,6 @@ package com.filreas.gosthlm.slapi;
 import com.filreas.shared.utils.GoSthlmLog;
 import com.github.kevinsawicki.http.HttpRequest;
 
-/**
- * Created by Andreas on 9/8/2015.
- */
 public class SLRestApiClient implements ISLRestApiClient {
     private static final String BASE_URL = "https://api.sl.se/api2/";
 

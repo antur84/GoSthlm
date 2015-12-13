@@ -9,6 +9,7 @@ import com.filreas.gosthlm.database.helpers.TransportationOfChoiceHelper;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.database.queries.FavouriteSitesQuery;
+import com.filreas.gosthlm.database.queries.IQuery;
 import com.filreas.gosthlm.database.queries.IQueryCallback;
 import com.filreas.gosthlm.database.queries.QueryExecuter;
 import com.filreas.gosthlm.database.queries.TransportationOfChoiceQuery;
@@ -35,7 +36,7 @@ public class DataLayerListenerService extends WearableListenerService {
     private IFavouriteSitesLiveUpdater favouriteSitesLiveUpdater;
 
     public DataLayerListenerService(IFavouriteSitesLiveUpdater favouriteSitesLiveUpdater) {
-        super();
+        this();
         this.favouriteSitesLiveUpdater = favouriteSitesLiveUpdater;
     }
 

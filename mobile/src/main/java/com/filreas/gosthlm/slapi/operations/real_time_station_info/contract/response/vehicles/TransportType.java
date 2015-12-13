@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Andreas on 9/7/2015.
- */
 public class TransportType {
 
     @SerializedName("SiteId")

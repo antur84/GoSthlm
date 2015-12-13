@@ -6,9 +6,9 @@ import com.filreas.gosthlm.database.queries.IDataSourceChanged;
 
 public class AddOrUpdateFavouriteStationCommand implements ICommand {
 
-    private IFavouriteSiteDbHelper favouriteSiteHelper;
-    private IDataSourceChanged dataSourceChangedListener;
-    private FavouriteSite item;
+    private final IFavouriteSiteDbHelper favouriteSiteHelper;
+    private final IDataSourceChanged dataSourceChangedListener;
+    private final FavouriteSite item;
 
     public AddOrUpdateFavouriteStationCommand(
             IFavouriteSiteDbHelper favouriteSiteHelper,

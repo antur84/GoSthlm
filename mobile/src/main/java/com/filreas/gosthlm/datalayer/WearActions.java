@@ -8,7 +8,6 @@ import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.resp
 import com.filreas.gosthlm.utils.mappers.MetroToMetroDtoMapper;
 import com.filreas.shared.dto.DeparturesDto;
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
-import com.filreas.shared.dto.MetroDto;
 import com.filreas.shared.utils.DataLayerUri;
 import com.filreas.shared.utils.DtoSerializer;
 import com.filreas.shared.utils.GoSthlmLog;
@@ -24,8 +23,8 @@ import java.io.IOException;
 
 public class WearActions {
 
-    private GoogleApiClient client;
-    private Context context;
+    private final GoogleApiClient client;
+    private final Context context;
 
     public WearActions(GoogleApiClient client, Context context) {
         this.client = client;
@@ -43,7 +42,7 @@ public class WearActions {
     }
 
     public void sendFavouriteSiteUpdate(FavouriteSiteLiveUpdateDto site) {
-        GoSthlmLog.d("sendFavouriteSiteUpdate" + site.getName());
+        GoSthlmLog.d("sendFavouriteSiteUpdate " + site.getName());
         PutDataRequest request = PutDataRequest.create(DataLayerUri.FAVOURITE_SITE_UPDATE);
         sendToPhone(request, site);
     }

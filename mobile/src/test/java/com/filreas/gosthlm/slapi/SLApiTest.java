@@ -19,9 +19,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Andreas on 9/6/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SLApiTest {
 

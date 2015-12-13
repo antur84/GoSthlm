@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FavouriteSitesQuery implements IQuery<List<FavouriteSite>> {
 
-    private IFavouriteSiteDbHelper helper;
+    private final IFavouriteSiteDbHelper helper;
 
     public FavouriteSitesQuery(IFavouriteSiteDbHelper helper) {
         this.helper = helper;

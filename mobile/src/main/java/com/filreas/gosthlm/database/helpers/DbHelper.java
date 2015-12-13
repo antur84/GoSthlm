@@ -10,8 +10,8 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "GoSthlm";
     private static DbHelper instance;
 
-    private FavouriteSiteHelper favouriteSiteHelper;
-    private TransportationOfChoiceHelper transportationOfChoiceHelper;
+    private final FavouriteSiteHelper favouriteSiteHelper;
+    private final TransportationOfChoiceHelper transportationOfChoiceHelper;
 
     private DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

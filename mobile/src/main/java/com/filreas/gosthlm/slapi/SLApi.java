@@ -9,14 +9,10 @@ import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.res
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 
-/**
- * Created by Andreas on 9/6/2015.
- */
 public class SLApi implements ISLApi {
 
-    private final LruCache<String, CachedHttpRequest> cache = new LruCache<>(20);
-    private SLRequestHandler<RealTimeRequest, RealTimeResponse> realTimeStationRequestHandler;
-    private SLRequestHandler<LocationFinderRequest, LocationFinderResponse> locationFinderRequestHandler;
+    private final SLRequestHandler<RealTimeRequest, RealTimeResponse> realTimeStationRequestHandler;
+    private final SLRequestHandler<LocationFinderRequest, LocationFinderResponse> locationFinderRequestHandler;
 
     public SLApi(
             SLRequestHandler<RealTimeRequest, RealTimeResponse> realTimeStationRequestHandler,
@@ -26,6 +22,7 @@ public class SLApi implements ISLApi {
     }
 
     public SLApi(ISLRestApiClient slRestApiClient) {
+        LruCache<String, CachedHttpRequest> cache = new LruCache<>(20);
         this.realTimeStationRequestHandler = new SLRequestHandler<>(slRestApiClient, RealTimeResponse.class, cache);
         this.locationFinderRequestHandler = new SLRequestHandler<>(slRestApiClient, LocationFinderResponse.class, cache);
     }

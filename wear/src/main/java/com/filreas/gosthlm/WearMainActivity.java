@@ -4,13 +4,10 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TextView;
 
-import com.filreas.gosthlm.datalayer.PhoneActions;
 import com.filreas.shared.dto.DeparturesDto;
 import com.filreas.shared.dto.MetroDto;
 import com.filreas.shared.utils.GoSthlmLog;

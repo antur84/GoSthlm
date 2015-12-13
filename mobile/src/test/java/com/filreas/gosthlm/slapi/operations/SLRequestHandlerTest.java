@@ -24,9 +24,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Andreas on 9/10/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SLRequestHandlerTest {
 

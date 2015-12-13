@@ -26,9 +26,9 @@ import java.util.List;
 
 public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
-    private ArrayList<OnItemClickListener<Site>> onClickListeners;
-    private ISLApi slApi;
-    private ISLApiKeyFetcher slApiKeyFetcher;
+    private final ArrayList<OnItemClickListener<Site>> onClickListeners;
+    private final ISLApi slApi;
+    private final ISLApiKeyFetcher slApiKeyFetcher;
     private LocationFinderRequest request;
     private StationsAdapter dataAdapter;
     private boolean stationSelected;

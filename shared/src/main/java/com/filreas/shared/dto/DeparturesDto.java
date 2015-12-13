@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeparturesDto implements Serializable {
-    private List<MetroDto> metros = new ArrayList<>();
+    private final List<MetroDto> metros = new ArrayList<>();
 
     public List<MetroDto> getMetros() {
         return metros;

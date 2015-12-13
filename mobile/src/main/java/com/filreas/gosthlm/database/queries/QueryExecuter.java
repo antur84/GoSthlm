@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 public class QueryExecuter<T> extends AsyncTask<IQuery<T>, Void, T> {
 
-    private IQueryCallback<T> callback;
+    private final IQueryCallback<T> callback;
 
     public QueryExecuter(IQueryCallback<T> callback) {
         this.callback = callback;

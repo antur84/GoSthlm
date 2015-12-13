@@ -10,7 +10,6 @@ import java.util.Locale;
 
 public class LocationFinderRequest extends SLApiRequest {
 
-    private final String url = "typeahead.%s?key=%s&searchstring=%s&stationsonly=%s&maxresults=%s";
     private String searchString;
     private boolean stationsOnly;
     private int maxResults;
@@ -44,6 +43,7 @@ public class LocationFinderRequest extends SLApiRequest {
 
     @Override
     public String toString() {
+        String url = "typeahead.%s?key=%s&searchstring=%s&stationsonly=%s&maxresults=%s";
         return String.format(Locale.US, url, getResponseFormat(), getKey(), getSearchStringSafe(), stationsOnly, maxResults);
     }
 
