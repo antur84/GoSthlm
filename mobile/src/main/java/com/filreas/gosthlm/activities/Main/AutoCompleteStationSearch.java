@@ -5,7 +5,6 @@ import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
-import com.filreas.shared.utils.*;
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.async.ISLApiCall;
 import com.filreas.gosthlm.async.ISLApiTaskResponseHandler;
@@ -20,15 +19,14 @@ import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.Loc
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.LocationFinderResponse;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
 import com.filreas.gosthlm.utils.OnItemClickListener;
+import com.filreas.shared.utils.GoSthlmLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by Andreas on 9/12/2015.
- */
 public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
-    private ArrayList<OnItemClickListener> onClickListeners;
+    private ArrayList<OnItemClickListener<Site>> onClickListeners;
     private ISLApi slApi;
     private ISLApiKeyFetcher slApiKeyFetcher;
     private LocationFinderRequest request;
@@ -92,14 +90,20 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
                 },
                         new ISLApiTaskResponseHandler<LocationFinderResponse>() {
                             @Override
-                            public void onTaskComplete(SLApiTaskResult<LocationFinderResponse> result) {
+                            public void onTaskComplete(
+                                    SLApiTaskResult<LocationFinderResponse> result) {
                                 dataAdapter.setIsLoading(false);
-                                if (result.getResponse().getStatusCode() != 0 &&
-                                        result.getResponse().getResponseData() != null) {
-                                    Toast.makeText(autoCompleteTextView.getContext(), "SL Api responded: " + result.getResponse().getMessage(), Toast.LENGTH_SHORT).show();
+                                List<Site> responseData = result.getResponse().getResponseData();
+
+                                if (responseData == null ||
+                                        result.getResponse().getStatusCode() != 0) {
+                                    Toast.makeText(
+                                            autoCompleteTextView.getContext(),
+                                            "SL Api responded: " + result.getResponse().getMessage(),
+                                            Toast.LENGTH_SHORT).show();
                                 } else {
-                                    GoSthlmLog.d("number of stations: " + result.getResponse().getResponseData().size());
-                                    for (Site site : result.getResponse().getResponseData()) {
+                                    GoSthlmLog.d("number of stations: " + responseData.size());
+                                    for (Site site : responseData) {
                                         dataAdapter.add(site);
                                     }
 
@@ -120,12 +124,12 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
         });
     }
 
-    public void setOnClickListener(OnItemClickListener listener) {
+    public void setOnClickListener(OnItemClickListener<Site> listener) {
         this.onClickListeners.add(listener);
     }
 
     private void notifyOnClickListeners(Site site) {
-        for (OnItemClickListener listener :
+        for (OnItemClickListener<Site> listener :
                 onClickListeners) {
             listener.onClick(site);
         }

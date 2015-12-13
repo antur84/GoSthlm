@@ -54,4 +54,20 @@ public class TransportType {
     public String getDisplayTime() {
         return displayTime;
     }
+
+    public String getLineNumber() {
+        return lineNumber;
+    }
+
+    public String getStopAreaName() {
+        return stopAreaName;
+    }
+
+    public Date getExpectedDateTime() {
+        return expectedDateTime;
+    }
+
+    public List<Deviation> getDeviations() {
+        return deviations;
+    }
 }

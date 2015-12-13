@@ -12,4 +12,12 @@ public class Tram extends TransportType {
 
     @SerializedName("StopPointDesignation")
     private String stopPointDesignation;
+
+    public String getGroupOfLine() {
+        return groupOfLine;
+    }
+
+    public String getStopPointDesignation() {
+        return stopPointDesignation;
+    }
 }

@@ -15,4 +15,16 @@ public class Deviation {
 
     @SerializedName("Text")
     private String text;
+
+    public String getConsequence() {
+        return consequence;
+    }
+
+    public int getImportanceLevel() {
+        return importanceLevel;
+    }
+
+    public String getText() {
+        return text;
+    }
 }

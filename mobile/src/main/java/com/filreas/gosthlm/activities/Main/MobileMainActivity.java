@@ -163,9 +163,9 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
 
     private void initDeparturesSearch() {
         departureSearch = new DepartureSearch(getSLApi(), getSLApiKeyFetcher());
-        departureSearch.onDepartureSearchListener(new OnDepartureSearchListener() {
+        departureSearch.addDepartureSearchListener(new OnDepartureSearchListener() {
             @Override
-            public void onSearchCompleted(RealTimeResponse response) {
+            public void onSearchCompleted(FavouriteSite site, RealTimeResponse response) {
 
                 TextView textView = (TextView) findViewById(R.id.departuresResults);
                 textView.setText("");
@@ -205,15 +205,15 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
         autoCompleteStationSearch.setOnClickListener(new OnItemClickListener<Site>() {
             @Override
-            public void onClick(Site station) {
-                ((TextView) findViewById(R.id.selectedStationText)).setText(station.getName());
+            public void onClick(Site site) {
+                ((TextView) findViewById(R.id.selectedStationText)).setText(site.getName());
                 FavouriteSite favouriteSite = new FavouriteSite(
                         -1,
-                        station.getName(),
-                        station.getSiteId(),
-                        station.getType(),
-                        station.getX(),
-                        station.getY());
+                        site.getName(),
+                        site.getSiteId(),
+                        site.getType(),
+                        site.getX(),
+                        site.getY());
                 new CommandExecuter().execute(
                         new AddOrUpdateFavouriteStationCommand(
                                 new FavouriteSiteHelper(
@@ -221,7 +221,7 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
                                                 getApplicationContext())),
                                 favouriteSitesChangedListener,
                                 favouriteSite));
-                departureSearch.search(station.getSiteId());
+                departureSearch.search(favouriteSite);
             }
         });
         autoCompleteStationSearch.init(textView);
