@@ -74,7 +74,6 @@ public class DataLayerListenerService extends WearableListenerService {
                             final WearActions actions = new WearActions(googleApiClient, context);
 
                             verifyFavouriteSitesUpdater();
-
                             favouriteSitesLiveUpdater.updateAllOneAtATime(
                                     favouriteSites,
                                     transportationOfChoice,
@@ -82,6 +81,11 @@ public class DataLayerListenerService extends WearableListenerService {
                                         @Override
                                         public void onFavouriteSiteUpdated(FavouriteSiteLiveUpdateDto site) {
                                             actions.sendFavouriteSiteUpdate(site);
+                                        }
+
+                                        @Override
+                                        public void allFavouriteSitesInBatchUpdated() {
+                                            actions.notifyAllFavouriteSitesUpdated();
                                         }
                                     });
                         }

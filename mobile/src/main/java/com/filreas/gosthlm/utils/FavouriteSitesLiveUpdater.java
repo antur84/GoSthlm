@@ -22,6 +22,7 @@ public class FavouriteSitesLiveUpdater implements IFavouriteSitesLiveUpdater, On
     private final DepartureSearch departureSearch;
     private TransportationOfChoice transportationOfChoice;
     private IFavouriteSiteLiveUpdateCallback callback;
+    private int itemsLeftToProcessInBatch = 0;
 
     public FavouriteSitesLiveUpdater(DepartureSearch departureSearch){
         this.departureSearch = departureSearch;
@@ -32,9 +33,10 @@ public class FavouriteSitesLiveUpdater implements IFavouriteSitesLiveUpdater, On
     public void updateAllOneAtATime(List<FavouriteSite> favouriteSites,
                                     TransportationOfChoice transportationOfChoice,
                                     IFavouriteSiteLiveUpdateCallback callback) {
+
         this.transportationOfChoice = transportationOfChoice;
         this.callback = callback;
-
+        this.itemsLeftToProcessInBatch += favouriteSites.size();
         for (FavouriteSite site :
                 favouriteSites) {
             departureSearch.search(site);
@@ -68,6 +70,11 @@ public class FavouriteSitesLiveUpdater implements IFavouriteSitesLiveUpdater, On
                 }
             }
             callback.onFavouriteSiteUpdated(updatedSite);
+
+            itemsLeftToProcessInBatch--;
+            if(itemsLeftToProcessInBatch == 0){
+                callback.allFavouriteSitesInBatchUpdated();
+            }
         }
     }
 }

@@ -5,24 +5,26 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
+
+import java.util.List;
+
 public class ViewPagerAdapter extends PagerAdapter {
-    // Declare Variables
     final Context context;
-    final String[] stationName;
+    final List<FavouriteSiteLiveUpdateDto> sites;
 
     LayoutInflater inflater;
 
-    public ViewPagerAdapter(Context context, String[] stationName) {
+    public ViewPagerAdapter(Context context, List<FavouriteSiteLiveUpdateDto> sites) {
         this.context = context;
-        this.stationName = stationName;
+        this.sites = sites;
     }
 
     @Override
     public int getCount() {
-        return stationName.length;
+        return sites.size();
     }
 
     @Override
@@ -32,20 +34,15 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-
-        // Declare Variables
-        TextView txtrank;
-
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.viewpager_item, container,
                 false);
 
-        // Locate the TextViews in viewpager_item.xml
-        txtrank = (TextView) itemView.findViewById(R.id.fromText);
+        TextView siteName = (TextView) itemView.findViewById(R.id.fromText);
 
-        // Capture position and set to the TextViews
-        txtrank.setText(stationName[position]);
+        FavouriteSiteLiveUpdateDto current = sites.get(position);
+        siteName.setText(current.getName());
 
         container.addView(itemView);
         return itemView;
@@ -53,6 +50,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((View) object);
     }
 }

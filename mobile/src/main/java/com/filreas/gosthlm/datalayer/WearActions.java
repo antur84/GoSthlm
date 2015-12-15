@@ -15,11 +15,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableStatusCodes;
 
 import java.io.IOException;
+import java.util.List;
 
 public class WearActions {
 
@@ -82,6 +85,19 @@ public class WearActions {
                             + dataItemResult.getStatus().getStatusCode() +
                             ", msg: " + WearableStatusCodes.getStatusCodeString(
                             dataItemResult.getStatus().getStatusCode()));
+                }
+            }
+        });
+    }
+
+    public void notifyAllFavouriteSitesUpdated() {
+        Wearable.NodeApi.getConnectedNodes(client).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+            @Override
+            public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
+                List<Node> nodes = getConnectedNodesResult.getNodes();
+                GoSthlmLog.d("notifyAllFavouriteSitesUpdated: " + nodes.size());
+                for (Node node : nodes) {
+                    Wearable.MessageApi.sendMessage(client, node.getId(), DataLayerUri.REFRESH_ALL_DATA_ON_WATCH_COMPLETED, null);
                 }
             }
         });

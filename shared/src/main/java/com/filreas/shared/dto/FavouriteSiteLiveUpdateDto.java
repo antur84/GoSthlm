@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class FavouriteSiteLiveUpdateDto implements Serializable {
     private String name;
@@ -44,5 +45,19 @@ public class FavouriteSiteLiveUpdateDto implements Serializable {
 
     public Collection<TramDto> getTrams() {
         return trams;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FavouriteSiteLiveUpdateDto that = (FavouriteSiteLiveUpdateDto) o;
+        return Objects.equals(siteId, that.siteId) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, siteId);
     }
 }
