@@ -6,14 +6,11 @@ import com.google.gson.stream.JsonReader;
 
 import java.lang.reflect.Type;
 
-/**
- * Created by Andreas on 9/9/2015.
- */
 public class SLGson {
-    private final GsonBuilder gsonBuilder = new GsonBuilder();
     private final Gson gson;
 
     protected SLGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         gson = gsonBuilder.create();
     }

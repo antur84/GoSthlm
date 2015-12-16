@@ -6,8 +6,8 @@ import com.filreas.gosthlm.database.model.TransportationOfChoice;
 public class UpdateTransportationOfChoiceCommand implements ICommand {
 
 
-    private ITransportationOfChoiceDbHelper transportationOfChoiceHelper;
-    private TransportationOfChoice item;
+    private final ITransportationOfChoiceDbHelper transportationOfChoiceHelper;
+    private final TransportationOfChoice item;
 
     public UpdateTransportationOfChoiceCommand(
             ITransportationOfChoiceDbHelper transportationOfChoiceHelper,

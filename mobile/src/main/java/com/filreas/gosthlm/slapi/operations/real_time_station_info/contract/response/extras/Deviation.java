@@ -2,9 +2,6 @@ package com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.res
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Andreas on 9/7/2015.
- */
 public class Deviation {
 
     @SerializedName("Consequence")
@@ -15,4 +12,16 @@ public class Deviation {
 
     @SerializedName("Text")
     private String text;
+
+    public String getConsequence() {
+        return consequence;
+    }
+
+    public int getImportanceLevel() {
+        return importanceLevel;
+    }
+
+    public String getText() {
+        return text;
+    }
 }

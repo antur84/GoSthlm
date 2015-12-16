@@ -5,7 +5,7 @@ import com.filreas.gosthlm.database.model.TransportationOfChoice;
 
 public class TransportationOfChoiceQuery implements IQuery<TransportationOfChoice> {
 
-    private ITransportationOfChoiceDbHelper helper;
+    private final ITransportationOfChoiceDbHelper helper;
 
     public TransportationOfChoiceQuery(ITransportationOfChoiceDbHelper helper) {
         this.helper = helper;

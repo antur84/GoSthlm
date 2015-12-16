@@ -5,14 +5,11 @@ import android.content.res.Resources;
 
 import java.util.HashMap;
 
-/**
- * Created by Andreas on 9/6/2015.
- */
 public class SLApiKeyFetcher implements ISLApiKeyFetcher {
 
-    private Resources resources;
-    private Context context;
-    private HashMap<String, String> cachedKeys = new HashMap<>();
+    private final Resources resources;
+    private final Context context;
+    private final HashMap<String, String> cachedKeys = new HashMap<>();
 
     public SLApiKeyFetcher(Resources resources, Context context) {
 

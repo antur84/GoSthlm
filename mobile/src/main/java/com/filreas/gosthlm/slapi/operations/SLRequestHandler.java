@@ -13,8 +13,8 @@ import java.util.Date;
 public class SLRequestHandler<TRequest extends SLApiRequest, TResponse> implements ISLRequestHandler<TRequest, TResponse> {
     final long ONE_MINUTE_IN_MILLIS = 60000;
     private final ISLRestApiClient apiClient;
-    private Class<TResponse> responseClass;
-    private LruCache<String, CachedHttpRequest> cache;
+    private final Class<TResponse> responseClass;
+    private final LruCache<String, CachedHttpRequest> cache;
 
     public SLRequestHandler(ISLRestApiClient apiClient, Class<TResponse> responseClass, LruCache<String, CachedHttpRequest> cache) {
         this.apiClient = apiClient;

@@ -3,8 +3,8 @@ package com.filreas.gosthlm.slapi.operations;
 import java.util.Date;
 
 public class CachedHttpRequest {
-    private String value;
-    private Date timeCreated;
+    private final String value;
+    private final Date timeCreated;
 
     public CachedHttpRequest(String value) {
         this.value = value;

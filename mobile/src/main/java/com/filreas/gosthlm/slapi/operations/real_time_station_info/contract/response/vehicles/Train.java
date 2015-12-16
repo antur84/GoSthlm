@@ -2,9 +2,6 @@ package com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.res
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Andreas on 9/7/2015.
- */
 public class Train extends TransportType {
 
     @SerializedName("SecondaryDestinationName")
@@ -12,4 +9,12 @@ public class Train extends TransportType {
 
     @SerializedName("StopPointDesignation")
     private String stopPointDesignation;
+
+    public String getStopPointDesignation() {
+        return stopPointDesignation;
+    }
+
+    public String getSecondaryDestinationName() {
+        return secondaryDestinationName;
+    }
 }

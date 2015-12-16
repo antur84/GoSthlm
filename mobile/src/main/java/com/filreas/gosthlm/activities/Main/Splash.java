@@ -8,8 +8,7 @@ import com.filreas.gosthlm.R;
 
 public class Splash extends Activity {
 
-    protected boolean _active = true;
-    protected int _splashTime = 3000; // time to display the splash screen in ms
+    protected final int _splashTime = 3000; // time to display the splash screen in ms
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -21,13 +20,11 @@ public class Splash extends Activity {
             public void run() {
                 try {
                     int waited = 0;
-                    while (_active && (waited < _splashTime)) {
+                    while ((waited < _splashTime)) {
                         sleep(100);
-                        if (_active) {
-                            waited += 100;
-                        }
+                        waited += 100;
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 } finally {
 
@@ -35,7 +32,7 @@ public class Splash extends Activity {
                             MobileMainActivity.class));
                     finish();
                 }
-            };
+            }
         };
         splashTread.start();
     }

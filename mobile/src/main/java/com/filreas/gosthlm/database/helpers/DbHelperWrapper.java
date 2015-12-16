@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class DbHelperWrapper implements IDbHelper {
 
-    private Context context;
+    private final Context context;
 
     public DbHelperWrapper(Context context) {
         this.context = context;

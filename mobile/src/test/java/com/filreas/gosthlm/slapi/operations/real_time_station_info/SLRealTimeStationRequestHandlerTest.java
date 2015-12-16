@@ -29,9 +29,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Andreas on 9/8/2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SLRealTimeStationRequestHandlerTest {
 

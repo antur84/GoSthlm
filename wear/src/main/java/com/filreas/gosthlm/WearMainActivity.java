@@ -4,16 +4,14 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.TextView;
 
-import com.filreas.gosthlm.datalayer.PhoneActions;
-import com.filreas.shared.dto.DeparturesDto;
-import com.filreas.shared.dto.MetroDto;
+import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.GoSthlmLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WearMainActivity extends WearBaseActivity {
 
@@ -23,7 +21,7 @@ public class WearMainActivity extends WearBaseActivity {
     private ViewPager viewPager;
     private PagerAdapter adapter;
 
-    String[] stationName;
+    List<FavouriteSiteLiveUpdateDto> favouriteSites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +43,11 @@ public class WearMainActivity extends WearBaseActivity {
         });
 
         // Generate test data */
-        stationName = new String[] {"Solna Strand", "Kungsträdgården"};
+        favouriteSites = new ArrayList<>();
         // Locate the ViewPager in viewpager_main.xml
         viewPager = (ViewPager) findViewById(R.id.pager);
         // Pass results to ViewPagerAdapter Class
-        adapter = new ViewPagerAdapter(WearMainActivity.this, stationName);
+        adapter = new ViewPagerAdapter(WearMainActivity.this, favouriteSites);
         // Binds the Adapter to the ViewPager
         viewPager.setAdapter(adapter);
     }
@@ -60,30 +58,19 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     @Override
-    protected void updateScreenInfo(final DeparturesDto departuresDto) {
-        if (departuresDto.getMetros().size() > 0) {
-            final MetroDto metro = departuresDto.getMetros().get(0);
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView fromText = (TextView) findViewById(R.id.fromText);
-                    fromText.setText(metro.getStopAreaName());
-
-                    TextView toText = (TextView) findViewById(R.id.destinationText);
-                    toText.setText(metro.getDestination());
-
-                    TextView timeToDeparture = (TextView) findViewById(R.id.timeToDepartureText);
-                    timeToDeparture.setText(metro.getDisplayTime());
-
-                    TextView platformMessage = (TextView) findViewById(R.id.platformMessage);
-                    platformMessage.setText(metro.getPlatformMessage());
-
-                    TextView lineNumber = (TextView) findViewById(R.id.lineNumber);
-                    lineNumber.setText(metro.getLineNumber());
+    protected void updateScreenInfo(final FavouriteSiteLiveUpdateDto updatedSite) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int currentIndex = favouriteSites.indexOf(updatedSite);
+                if (currentIndex < 0) {
+                    favouriteSites.add(updatedSite);
+                } else {
+                    favouriteSites.set(currentIndex, updatedSite);
                 }
-            });
-        }
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void handleShakeEvent(int count) {

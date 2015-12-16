@@ -1,17 +1,19 @@
 package com.filreas.gosthlm.database.model;
 
+import android.support.annotation.NonNull;
+
 public class FavouriteSite implements Comparable<FavouriteSite> {
-    private int id;
+    private final int id;
 
-    private String name;
+    private final String name;
 
-    private int siteId;
+    private final int siteId;
 
-    private String type;
+    private final String type;
 
-    private String x;
+    private final String x;
 
-    private String y;
+    private final String y;
 
     public FavouriteSite(int id, String name, int siteId, String type, String x, String y) {
         this.id = id;
@@ -47,7 +49,7 @@ public class FavouriteSite implements Comparable<FavouriteSite> {
     }
 
     @Override
-    public int compareTo(FavouriteSite another) {
+    public int compareTo(@NonNull FavouriteSite another) {
         if (another.getId() < getId()) return -1;
         if (another.getId() > getId()) return 1;
         if (another.getSiteId() < getSiteId()) return -1;

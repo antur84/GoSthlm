@@ -4,6 +4,7 @@ import com.filreas.gosthlm.async.ISLApiCall;
 import com.filreas.gosthlm.async.ISLApiTaskResponseHandler;
 import com.filreas.gosthlm.async.SLApiRequestTask;
 import com.filreas.gosthlm.async.SLApiTaskResult;
+import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
 import com.filreas.gosthlm.slapi.operations.CacheType;
@@ -18,9 +19,8 @@ import java.util.List;
 
 public class DepartureSearch {
     private final RealTimeRequest request;
-    private ISLApi slApi;
-    private int siteId;
-    private List<OnDepartureSearchListener> listeners;
+    private final ISLApi slApi;
+    private final List<OnDepartureSearchListener> listeners;
 
     public DepartureSearch(ISLApi slApi, ISLApiKeyFetcher slApiKeyFetcher) {
         this.slApi = slApi;
@@ -34,8 +34,8 @@ public class DepartureSearch {
                 new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
     }
 
-    public void search(int siteId) {
-        request.setSiteId(siteId);
+    public void search(final FavouriteSite site) {
+        request.setSiteId(site.getSiteId());
         SLApiRequestTask<RealTimeRequest, RealTimeResponse> getDeparturesTask = new SLApiRequestTask<>(new ISLApiCall<RealTimeRequest, RealTimeResponse>() {
             @Override
             public RealTimeResponse perform(RealTimeRequest request) {
@@ -45,12 +45,10 @@ public class DepartureSearch {
                 new ISLApiTaskResponseHandler<RealTimeResponse>() {
                     @Override
                     public void onTaskComplete(SLApiTaskResult<RealTimeResponse> result) {
-                        if (result.getResponse().getStatusCode() != 0 &&
-                                result.getResponse().getResponseData() != null) {
+                        if (result.getResponse().getStatusCode() != 0) {
                             GoSthlmLog.d("SL Api responded: " + result.getResponse().getMessage());
                         } else {
-                            GoSthlmLog.d("number of metro departures: " + result.getResponse().getResponseData().getMetros().size());
-                            notifySearchCompleted(result.getResponse());
+                            notifySearchCompleted(site, result.getResponse());
                         }
                     }
                 });
@@ -58,13 +56,13 @@ public class DepartureSearch {
         getDeparturesTask.execute(request);
     }
 
-    private void notifySearchCompleted(RealTimeResponse response) {
+    private void notifySearchCompleted(FavouriteSite site, RealTimeResponse response) {
         for (OnDepartureSearchListener listener : listeners) {
-            listener.onSearchCompleted(response);
+            listener.onSearchCompleted(site, response);
         }
     }
 
-    public void onDepartureSearchListener(OnDepartureSearchListener listener) {
+    public void addDepartureSearchListener(OnDepartureSearchListener listener) {
         listeners.add(listener);
     }
 }

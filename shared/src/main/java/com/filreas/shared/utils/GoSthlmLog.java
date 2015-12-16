@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class GoSthlmLog {
 
-    private static String gosthlmTag = "gosthlm";
+    private static final String gosthlmTag = "gosthlm";
 
     public static void d(String msg) {
         Log.d(gosthlmTag, msg);

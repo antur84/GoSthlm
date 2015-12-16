@@ -5,7 +5,7 @@ import java.util.Locale;
 public abstract class SLApiRequest {
     private final String key;
     private final String responseFormat;
-    private ResponseCacheStrategy cacheStrategy;
+    private final ResponseCacheStrategy cacheStrategy;
 
     public SLApiRequest(ResponseFormat responseFormat, String key, ResponseCacheStrategy cacheStrategy) {
         this.cacheStrategy = cacheStrategy;

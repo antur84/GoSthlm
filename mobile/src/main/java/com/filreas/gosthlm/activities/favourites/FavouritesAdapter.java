@@ -1,6 +1,5 @@
 package com.filreas.gosthlm.activities.favourites;
 
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import com.filreas.gosthlm.database.model.FavouriteSite;
 import java.util.List;
 
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.FavouriteItemViewHolder> {
-    private List<FavouriteSite> favouriteSites;
+    private final List<FavouriteSite> favouriteSites;
 
     @Override
     public FavouriteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,7 +33,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
     }
 
     public static class FavouriteItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public final TextView name;
 
         public FavouriteItemViewHolder(View v) {
             super(v);

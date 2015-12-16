@@ -5,7 +5,7 @@ import android.content.Context;
 
 public class QueryLoader<T> extends AsyncTaskLoader<T> {
 
-    private IQuery<T> query;
+    private final IQuery<T> query;
 
     public QueryLoader(
             Context context,
