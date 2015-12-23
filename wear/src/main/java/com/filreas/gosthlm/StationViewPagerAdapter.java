@@ -13,19 +13,25 @@ import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.dto.MetroDto;
 import com.filreas.shared.dto.TrainDto;
 import com.filreas.shared.dto.TramDto;
+import com.filreas.shared.utils.GoSthlmLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class StationViewPagerAdapter extends PagerAdapter {
     final Context context;
     final List<FavouriteSiteLiveUpdateDto> sites;
+    private ISwipeToRefreshEnabler swipeToRefreshEnabler;
 
     LayoutInflater inflater;
 
-    public ViewPagerAdapter(Context context, List<FavouriteSiteLiveUpdateDto> sites) {
+    public StationViewPagerAdapter(
+            Context context,
+            List<FavouriteSiteLiveUpdateDto> sites,
+            ISwipeToRefreshEnabler swipeToRefreshEnabler) {
         this.context = context;
         this.sites = sites;
+        this.swipeToRefreshEnabler = swipeToRefreshEnabler;
     }
 
     @Override
@@ -67,9 +73,15 @@ public class ViewPagerAdapter extends PagerAdapter {
         }
 
         WearableListView departureListView =
-                (WearableListView)itemView.findViewById(R.id.departures_list);
+                (WearableListView) itemView.findViewById(R.id.departures_list);
         departureListView.setAdapter(new DepartureListItemAdapter(context, departures));
-
+        departureListView.addOnCentralPositionChangedListener(new WearableListView.OnCentralPositionChangedListener() {
+            @Override
+            public void onCentralPositionChanged(int i) {
+                swipeToRefreshEnabler.onSwipeToRefreshEnabled(i == 0);
+                GoSthlmLog.d("wear departure onScroll " + i);
+            }
+        });
         container.addView(itemView);
         return itemView;
     }

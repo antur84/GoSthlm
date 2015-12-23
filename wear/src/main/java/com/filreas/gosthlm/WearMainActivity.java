@@ -6,7 +6,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.wearable.view.WearableListView;
 
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.GoSthlmLog;
@@ -24,8 +23,6 @@ public class WearMainActivity extends WearBaseActivity {
 
     List<FavouriteSiteLiveUpdateDto> favouriteSites;
 
-    
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +34,15 @@ public class WearMainActivity extends WearBaseActivity {
     private void initStationsViewPageAdapter() {
         favouriteSites = new ArrayList<>();
         viewPager = (ViewPager) findViewById(R.id.pager);
-        adapter = new ViewPagerAdapter(WearMainActivity.this, favouriteSites);
+        adapter = new StationViewPagerAdapter(
+                WearMainActivity.this,
+                favouriteSites,
+                new ISwipeToRefreshEnabler() {
+                    @Override
+                    public void onSwipeToRefreshEnabled(boolean enable) {
+                        getSwipeLayout().setEnabled(enable);
+                    }
+                });
         viewPager.setAdapter(adapter);
     }
 

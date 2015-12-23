@@ -108,6 +108,10 @@ public abstract class WearBaseActivity extends WearableActivity
     }
 
 
+    protected SwipeRefreshLayout getSwipeLayout() {
+        return swipeLayout;
+    }
+
     protected abstract int getLayoutResource();
 
     protected abstract void updateScreenInfo(FavouriteSiteLiveUpdateDto updatedSite);
