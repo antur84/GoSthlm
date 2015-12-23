@@ -79,7 +79,6 @@ public class StationViewPagerAdapter extends PagerAdapter {
             @Override
             public void onCentralPositionChanged(int i) {
                 swipeToRefreshEnabler.onSwipeToRefreshEnabled(i == 0);
-                GoSthlmLog.d("wear departure onScroll " + i);
             }
         });
         container.addView(itemView);

@@ -49,4 +49,8 @@ public class BusDto implements Serializable {
     public String getDestination() {
         return destination;
     }
+
+    public String getDisplayTime() {
+        return displayTime;
+    }
 }

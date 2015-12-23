@@ -12,6 +12,7 @@ public class WearableListItemLayout extends LinearLayout
 
     private ImageView icon;
     private TextView destinationText;
+    private TextView timeText;
 
     private final float fadedTextAlpha;
     private final int fadedIconAlpha;
@@ -28,7 +29,7 @@ public class WearableListItemLayout extends LinearLayout
         super(context, attrs, defStyle);
 
         fadedTextAlpha = 40 / 100f;
-        fadedIconAlpha = (int) (255 * 0.6);
+        fadedIconAlpha = 122; // todo does this work?
     }
 
     @Override
@@ -36,11 +37,13 @@ public class WearableListItemLayout extends LinearLayout
         super.onFinishInflate();
         icon = (ImageView) findViewById(R.id.departure_icon);
         destinationText = (TextView) findViewById(R.id.departure_destination);
+        timeText = (TextView) findViewById(R.id.departure_time);
     }
 
     @Override
     public void onCenterPosition(boolean animate) {
         destinationText.setAlpha(1f);
+        timeText.setAlpha(1f);
         icon.getDrawable().setAlpha(0);
     }
 
@@ -48,5 +51,6 @@ public class WearableListItemLayout extends LinearLayout
     public void onNonCenterPosition(boolean animate) {
         icon.getDrawable().setAlpha(fadedIconAlpha);
         destinationText.setAlpha(fadedTextAlpha);
+        timeText.setAlpha(fadedTextAlpha);
     }
 }

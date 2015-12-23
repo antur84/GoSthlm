@@ -54,4 +54,8 @@ public class TrainDto implements Serializable {
     public String getDestination() {
         return destination;
     }
+
+    public String getDisplayTime() {
+        return displayTime;
+    }
 }

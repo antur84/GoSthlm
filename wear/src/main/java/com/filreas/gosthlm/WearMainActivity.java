@@ -72,8 +72,10 @@ public class WearMainActivity extends WearBaseActivity {
             public void run() {
                 int currentIndex = favouriteSites.indexOf(updatedSite);
                 if (currentIndex < 0) {
+                    GoSthlmLog.d("updateScreenInfo adding ", updatedSite.getName() + " nrOfMetros " + updatedSite.getMetros().size());
                     favouriteSites.add(updatedSite);
                 } else {
+                    GoSthlmLog.d("updateScreenInfo updating ", updatedSite.getName() + " nrOfMetros " + updatedSite.getMetros().size());
                     favouriteSites.set(currentIndex, updatedSite);
                 }
                 adapter.notifyDataSetChanged();
