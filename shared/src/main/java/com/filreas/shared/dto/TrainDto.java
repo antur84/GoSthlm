@@ -50,4 +50,8 @@ public class TrainDto implements Serializable {
     public void setSecondaryDestinationName(String secondaryDestinationName) {
         this.secondaryDestinationName = secondaryDestinationName;
     }
+
+    public String getDestination() {
+        return destination;
+    }
 }

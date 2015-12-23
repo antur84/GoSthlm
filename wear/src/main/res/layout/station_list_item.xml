@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.filreas.gosthlm.WearableListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+    <ImageView
+        android:id="@+id/departure_icon"
+        android:layout_height="20dp"
+        android:layout_margin="16dp"
+        android:layout_width="20dp"
+        tools:src="@drawable/common_ic_googleplayservices"/>
+    <TextView
+        android:id="@+id/departure_destination"
+        android:gravity="center_vertical|start"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_height="match_parent"
+        android:fontFamily="sans-serif-condensed-light"
+        android:lineSpacingExtra="-4sp"
+        android:textColor="@color/primary_text"
+        tools:text="Kungsträdgården 5min"
+        android:textSize="16sp"/>
+</com.filreas.gosthlm.WearableListItemLayout>
