@@ -6,6 +6,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.wearable.view.WearableListView;
+import android.view.View;
 
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.GoSthlmLog;
@@ -72,13 +74,17 @@ public class WearMainActivity extends WearBaseActivity {
             public void run() {
                 int currentIndex = favouriteSites.indexOf(updatedSite);
                 if (currentIndex < 0) {
-                    GoSthlmLog.d("updateScreenInfo adding ", updatedSite.getName() + " nrOfMetros " + updatedSite.getMetros().size());
                     favouriteSites.add(updatedSite);
+                    adapter.notifyDataSetChanged();
                 } else {
-                    GoSthlmLog.d("updateScreenInfo updating ", updatedSite.getName() + " nrOfMetros " + updatedSite.getMetros().size());
                     favouriteSites.set(currentIndex, updatedSite);
+                    View view = viewPager.findViewWithTag(updatedSite.getSiteId());
+                    WearableListView listView =
+                            (WearableListView) view.findViewById(R.id.departures_list);
+                    DepartureListItemAdapter adapter =
+                            (DepartureListItemAdapter) listView.getAdapter();
+                    adapter.updateDepartures(DepartureListItemMapper.CreateDepartures(updatedSite));
                 }
-                adapter.notifyDataSetChanged();
             }
         });
     }

@@ -46,6 +46,8 @@ public class StationViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        GoSthlmLog.d("created an item @ " + position);
+
         inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.viewpager_item, container,
                 false);
@@ -55,22 +57,7 @@ public class StationViewPagerAdapter extends PagerAdapter {
         FavouriteSiteLiveUpdateDto current = sites.get(position);
         siteName.setText(current.getName());
 
-        ArrayList<DepartureListItem> departures = new ArrayList<>();
-        for (MetroDto metro : current.getMetros()) {
-            departures.add(new DepartureListItem(metro));
-        }
-
-        for (TrainDto train : current.getTrains()) {
-            departures.add(new DepartureListItem(train));
-        }
-
-        for (TramDto tram : current.getTrams()) {
-            departures.add(new DepartureListItem(tram));
-        }
-
-        for (BusDto bus : current.getBuses()) {
-            departures.add(new DepartureListItem(bus));
-        }
+        ArrayList<DepartureListItem> departures = DepartureListItemMapper.CreateDepartures(current);
 
         WearableListView departureListView =
                 (WearableListView) itemView.findViewById(R.id.departures_list);
@@ -81,7 +68,11 @@ public class StationViewPagerAdapter extends PagerAdapter {
                 swipeToRefreshEnabler.onSwipeToRefreshEnabled(i == 0);
             }
         });
+
         container.addView(itemView);
+
+        itemView.setTag(current.getSiteId());
+
         return itemView;
     }
 

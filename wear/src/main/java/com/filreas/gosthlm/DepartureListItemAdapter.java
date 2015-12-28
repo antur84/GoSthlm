@@ -11,12 +11,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class DepartureListItemAdapter extends WearableListView.Adapter {
-    private ArrayList<DepartureListItem> stations;
+    private ArrayList<DepartureListItem> departures;
     private final LayoutInflater mInflater;
 
-    public DepartureListItemAdapter(Context context, ArrayList<DepartureListItem> stations) {
+    public DepartureListItemAdapter(Context context, ArrayList<DepartureListItem> departures) {
         mInflater = LayoutInflater.from(context);
-        this.stations = stations;
+        this.departures = departures;
     }
 
     public static class ItemViewHolder extends WearableListView.ViewHolder {
@@ -44,16 +44,21 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
         icon.setImageResource(R.drawable.common_ic_googleplayservices); // todo construct icon dynamic
 
         TextView destinationText = itemHolder.destinationText;
-        destinationText.setText(stations.get(position).getDestination());
+        destinationText.setText(departures.get(position).getDestination());
 
         TextView timeText = itemHolder.timeText;
-        timeText.setText(stations.get(position).getDepartureTimeText());
+        timeText.setText(departures.get(position).getDepartureTimeText());
 
         holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return stations.size();
+        return departures.size();
+    }
+
+    public void updateDepartures(ArrayList<DepartureListItem> departures) {
+        this.departures = departures;
+        this.notifyDataSetChanged();
     }
 }
