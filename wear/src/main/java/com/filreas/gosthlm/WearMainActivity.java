@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.wearable.view.WearableListView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.GoSthlmLog;
@@ -46,6 +47,20 @@ public class WearMainActivity extends WearBaseActivity {
                     }
                 });
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePageIndicator();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private void initRefreshOnShake() {
@@ -76,6 +91,7 @@ public class WearMainActivity extends WearBaseActivity {
                 if (currentIndex < 0) {
                     favouriteSites.add(updatedSite);
                     adapter.notifyDataSetChanged();
+                    updatePageIndicator();
                 } else {
                     favouriteSites.set(currentIndex, updatedSite);
                     View view = viewPager.findViewWithTag(updatedSite.getSiteId());
@@ -87,6 +103,15 @@ public class WearMainActivity extends WearBaseActivity {
                 }
             }
         });
+    }
+
+    private void updatePageIndicator() {
+        TextView indicator = (TextView) findViewById(R.id.pagerIndicator);
+        String currentPageText = String.format(
+                getString(R.string.item_of_total),
+                viewPager.getCurrentItem() + 1,
+                favouriteSites.size());
+        indicator.setText(currentPageText);
     }
 
     private void handleShakeEvent(int count) {

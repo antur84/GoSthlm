@@ -2,4 +2,5 @@
     <string name="from">SOLNA STRAND</string>
     <string name="destination">Kungsträdgården</string>
     <string name="displayTime">5 min</string>
+    <string name="item_of_total">%1$d/%2$d</string>
 </resources>
