@@ -18,24 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartureSearch {
-    private final RealTimeRequest request;
     private final ISLApi slApi;
+    private ISLApiKeyFetcher slApiKeyFetcher;
     private final List<OnDepartureSearchListener> listeners;
 
     public DepartureSearch(ISLApi slApi, ISLApiKeyFetcher slApiKeyFetcher) {
         this.slApi = slApi;
+        this.slApiKeyFetcher = slApiKeyFetcher;
         listeners = new ArrayList<>();
-
-        request = new RealTimeRequest(
-                ResponseFormat.JSON,
-                slApiKeyFetcher.getKey("slrealtidsinformation3"),
-                -1,
-                30,
-                new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
     }
 
     public void search(final FavouriteSite site) {
-        request.setSiteId(site.getSiteId());
+        RealTimeRequest request = CreateNewRequest(site.getSiteId());
         SLApiRequestTask<RealTimeRequest, RealTimeResponse> getDeparturesTask = new SLApiRequestTask<>(new ISLApiCall<RealTimeRequest, RealTimeResponse>() {
             @Override
             public RealTimeResponse perform(RealTimeRequest request) {
@@ -48,12 +42,24 @@ public class DepartureSearch {
                         if (result.getResponse().getStatusCode() != 0) {
                             GoSthlmLog.d("SL Api responded: " + result.getResponse().getMessage());
                         } else {
+                            GoSthlmLog.d("DepartureSearch search completed for : " + site.getName());
                             notifySearchCompleted(site, result.getResponse());
                         }
                     }
                 });
 
         getDeparturesTask.execute(request);
+    }
+
+    private RealTimeRequest CreateNewRequest(int siteId) {
+        RealTimeRequest request = new RealTimeRequest(
+                ResponseFormat.JSON,
+                slApiKeyFetcher.getKey("slrealtidsinformation3"),
+                -1,
+                30,
+                new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
+        request.setSiteId(siteId);
+        return request;
     }
 
     private void notifySearchCompleted(FavouriteSite site, RealTimeResponse response) {

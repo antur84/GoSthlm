@@ -6,6 +6,9 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.wearable.view.WearableListView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.GoSthlmLog;
@@ -27,8 +30,40 @@ public class WearMainActivity extends WearBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAmbientEnabled();
+        initRefreshOnShake();
+        initStationsViewPageAdapter();
+    }
 
-        // ShakeActivity initialization
+    private void initStationsViewPageAdapter() {
+        favouriteSites = new ArrayList<>();
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        adapter = new StationViewPagerAdapter(
+                WearMainActivity.this,
+                favouriteSites,
+                new ISwipeToRefreshEnabler() {
+                    @Override
+                    public void onSwipeToRefreshEnabled(boolean enable) {
+                        getSwipeLayout().setEnabled(enable);
+                    }
+                });
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updatePageIndicator();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+    }
+
+    private void initRefreshOnShake() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -37,19 +72,9 @@ public class WearMainActivity extends WearBaseActivity {
 
             @Override
             public void onShake(int count) {
-
                 handleShakeEvent(count);
             }
         });
-
-        // Generate test data */
-        favouriteSites = new ArrayList<>();
-        // Locate the ViewPager in viewpager_main.xml
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        // Pass results to ViewPagerAdapter Class
-        adapter = new ViewPagerAdapter(WearMainActivity.this, favouriteSites);
-        // Binds the Adapter to the ViewPager
-        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -65,12 +90,28 @@ public class WearMainActivity extends WearBaseActivity {
                 int currentIndex = favouriteSites.indexOf(updatedSite);
                 if (currentIndex < 0) {
                     favouriteSites.add(updatedSite);
+                    adapter.notifyDataSetChanged();
+                    updatePageIndicator();
                 } else {
                     favouriteSites.set(currentIndex, updatedSite);
+                    View view = viewPager.findViewWithTag(updatedSite.getSiteId());
+                    WearableListView listView =
+                            (WearableListView) view.findViewById(R.id.departures_list);
+                    DepartureListItemAdapter adapter =
+                            (DepartureListItemAdapter) listView.getAdapter();
+                    adapter.updateDepartures(DepartureListItemMapper.CreateDepartures(updatedSite));
                 }
-                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void updatePageIndicator() {
+        TextView indicator = (TextView) findViewById(R.id.pagerIndicator);
+        String currentPageText = String.format(
+                getString(R.string.item_of_total),
+                viewPager.getCurrentItem() + 1,
+                favouriteSites.size());
+        indicator.setText(currentPageText);
     }
 
     private void handleShakeEvent(int count) {
@@ -117,11 +158,6 @@ public class WearMainActivity extends WearBaseActivity {
     private void updateDisplay() {
         GoSthlmLog.d("--Update Display--");
         if (isAmbient()) {
-            /*
-            Should surely be some good code here but the app crashes when exiting when setting
-            background resource to a color.
-             */
         }
-
     }
 }

@@ -1,5 +1,6 @@
 package com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.request;
 
+import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.slapi.operations.ResponseCacheStrategy;
 import com.filreas.gosthlm.slapi.operations.ResponseFormat;
 import com.filreas.gosthlm.slapi.operations.SLApiRequest;

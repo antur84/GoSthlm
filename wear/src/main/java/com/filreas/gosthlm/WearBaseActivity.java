@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.wearable.activity.WearableActivity;
 
 import com.filreas.gosthlm.datalayer.PhoneActions;
-import com.filreas.shared.dto.DeparturesDto;
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.DataLayerUri;
 import com.filreas.shared.utils.DtoSerializer;
@@ -64,11 +63,16 @@ public abstract class WearBaseActivity extends WearableActivity
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                GoSthlmLog.d("onRefresh");
-                PhoneActions phoneActions = new PhoneActions(googleApiClient);
-                phoneActions.refreshAll();
+                refreshAllStationsAndDepartures();
             }
         });
+        refreshAllStationsAndDepartures();
+    }
+
+    private void refreshAllStationsAndDepartures() {
+        GoSthlmLog.d("onRefresh");
+        PhoneActions phoneActions = new PhoneActions(googleApiClient);
+        phoneActions.refreshAll();
     }
 
     @Override
@@ -107,6 +111,10 @@ public abstract class WearBaseActivity extends WearableActivity
         }
     }
 
+
+    protected SwipeRefreshLayout getSwipeLayout() {
+        return swipeLayout;
+    }
 
     protected abstract int getLayoutResource();
 

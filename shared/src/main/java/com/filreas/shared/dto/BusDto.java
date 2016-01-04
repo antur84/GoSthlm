@@ -45,4 +45,12 @@ public class BusDto implements Serializable {
     public void setDeviations(List<DeviationDto> deviations) {
         this.deviations = deviations;
     }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getDisplayTime() {
+        return displayTime;
+    }
 }
