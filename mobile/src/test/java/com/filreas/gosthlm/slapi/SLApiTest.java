@@ -40,7 +40,7 @@ public class SLApiTest {
     }
 
     @Test
-    public void getRealTimeStationInfo_should_call_rest() {
+    public void getRealTimeStationInfo_should_call_rest() throws SLApiException {
         when(realTimeStationRequestHandlerMock.get(request)).thenReturn(response);
 
         RealTimeResponse actual = sut.getRealTimeStationInfo(request);
@@ -49,7 +49,7 @@ public class SLApiTest {
     }
 
     @Test
-    public void getLocations_should_call_rest() {
+    public void getLocations_should_call_rest() throws SLApiException {
         LocationFinderRequest request = new LocationFinderRequest(ResponseFormat.JSON, "key", "aa", cacheStrategy);
         LocationFinderResponse expected = new LocationFinderResponse();
         when(locationFinderMock.get(request)).thenReturn(expected);

@@ -2,6 +2,7 @@ package com.filreas.gosthlm.slapi.operations.real_time_station_info;
 
 import android.util.LruCache;
 
+import com.filreas.gosthlm.slapi.SLApiException;
 import com.filreas.gosthlm.slapi.SLRestApiClient;
 import com.filreas.gosthlm.slapi.operations.CacheType;
 import com.filreas.gosthlm.slapi.operations.CachedHttpRequest;
@@ -51,7 +52,7 @@ public class SLRealTimeStationRequestHandlerTest {
     }
 
     @Test
-    public void get_should_return_response_when_success() throws ParseException {
+    public void get_should_return_response_when_success() throws SLApiException, ParseException {
 
         when(responseMock.body()).thenReturn(new RealTimeBasicEmptyResponseTestJson().toString());
         when(apiClientMock.get(anyString())).thenReturn(responseMock);

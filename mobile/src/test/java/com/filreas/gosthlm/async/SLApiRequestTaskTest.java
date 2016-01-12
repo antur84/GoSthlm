@@ -1,5 +1,6 @@
 package com.filreas.gosthlm.async;
 
+import com.filreas.gosthlm.slapi.SLApiException;
 import com.filreas.gosthlm.slapi.operations.CacheType;
 import com.filreas.gosthlm.slapi.operations.ResponseCacheStrategy;
 import com.filreas.gosthlm.slapi.operations.ResponseFormat;
@@ -53,7 +54,7 @@ public class SLApiRequestTaskTest {
     }
 
     @Test
-    public void doInBackground_should_call_slApi_with_first_param_and_return_result() {
+    public void doInBackground_should_call_slApi_with_first_param_and_return_result() throws SLApiException {
         when(slApiCall.perform(realTimeRequest)).thenReturn(realTimeResponse);
         RealTimeResponse actual = sut.doInBackground(realTimeRequest);
 
@@ -61,7 +62,7 @@ public class SLApiRequestTaskTest {
     }
 
     @Test
-    public void doInBackground_should_call_slApi_and_return_null_on_HttpRequestException() {
+    public void doInBackground_should_call_slApi_and_return_null_on_HttpRequestException() throws SLApiException {
         when(slApiCall.perform(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
         RealTimeResponse actual = sut.doInBackground(realTimeRequest);
 
@@ -76,7 +77,7 @@ public class SLApiRequestTaskTest {
     }
 
     @Test
-    public void onPostExecute_should_call_responseHandler_with_parameter_containing_exception_if_response_null() {
+    public void onPostExecute_should_call_responseHandler_with_parameter_containing_exception_if_response_null() throws SLApiException {
         when(slApiCall.perform(realTimeRequest)).thenThrow(HttpRequest.HttpRequestException.class);
 
         sut.doInBackground(realTimeRequest);

@@ -29,9 +29,6 @@ import com.filreas.gosthlm.database.queries.IDataSourceChanged;
 import com.filreas.gosthlm.database.queries.QueryLoader;
 import com.filreas.gosthlm.database.queries.TransportationOfChoiceQuery;
 import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
-import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
-import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
-import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.TransportType;
 import com.filreas.gosthlm.utils.OnItemClickListener;
 import com.filreas.shared.utils.GoSthlmLog;
 import com.filreas.shared.utils.SwipeDismissTouchListener;
@@ -40,7 +37,6 @@ import java.util.List;
 
 public class MobileMainActivity extends MobileBaseActivity implements LoaderManager.LoaderCallbacks<TransportationOfChoice> {
 
-    private DepartureSearch departureSearch;
     private TransportationOfChoice transportationOfChoice;
     private CheckBox metro;
     private CheckBox bus;
@@ -55,7 +51,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         initFavouriteSites();
         initTransportationOfChoice();
         initStationsSearch();
-        initDeparturesSearch();
     }
 
     @Override
@@ -158,45 +153,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         }
     }
 
-    private void initDeparturesSearch() {
-        departureSearch = new DepartureSearch(getSLApi(), getSLApiKeyFetcher());
-        departureSearch.addDepartureSearchListener(new OnDepartureSearchListener() {
-            @Override
-            public void onSearchCompleted(FavouriteSite site, RealTimeResponse response) {
-
-                TextView textView = (TextView) findViewById(R.id.departuresResults);
-                textView.setText("");
-
-                if (transportationOfChoice.isMetro()) {
-                    for (Metro transportType : response.getResponseData().getMetros()) {
-                        textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
-                    }
-                }
-
-                if (transportationOfChoice.isBus()) {
-                    printTransportationResults(response.getResponseData().getBuses());
-                }
-
-                if (transportationOfChoice.isTrain()) {
-                    printTransportationResults(response.getResponseData().getTrains());
-                }
-
-                if (transportationOfChoice.isTram()) {
-                    printTransportationResults(response.getResponseData().getTrams());
-                }
-
-                wearActions.sendDepartureLiveInformation(response);
-            }
-        });
-    }
-
-    private void printTransportationResults(List<? extends TransportType> transportTypes) {
-        TextView textView = (TextView) findViewById(R.id.departuresResults);
-        for (TransportType transportType : transportTypes) {
-            textView.append(transportType.getDestination() + ": " + transportType.getDisplayTime() + "\n");
-        }
-    }
-
     private void initStationsSearch() {
         AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
         final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
@@ -218,7 +174,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
                                                 getApplicationContext())),
                                 favouriteSitesChangedListener,
                                 favouriteSite));
-                departureSearch.search(favouriteSite);
             }
         });
         autoCompleteStationSearch.init(textView);

@@ -28,12 +28,12 @@ public class SLApi implements ISLApi {
     }
 
     @Override
-    public RealTimeResponse getRealTimeStationInfo(RealTimeRequest request) {
+    public RealTimeResponse getRealTimeStationInfo(RealTimeRequest request) throws SLApiException{
         return realTimeStationRequestHandler.get(request);
     }
 
     @Override
-    public LocationFinderResponse getLocations(LocationFinderRequest request) {
+    public LocationFinderResponse getLocations(LocationFinderRequest request) throws SLApiException {
         return locationFinderRequestHandler.get(request);
     }
 }

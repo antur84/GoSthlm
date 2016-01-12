@@ -7,6 +7,7 @@ import com.filreas.gosthlm.async.SLApiTaskResult;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
+import com.filreas.gosthlm.slapi.SLApiException;
 import com.filreas.gosthlm.slapi.operations.CacheType;
 import com.filreas.gosthlm.slapi.operations.ResponseCacheStrategy;
 import com.filreas.gosthlm.slapi.operations.ResponseFormat;
@@ -32,7 +33,7 @@ public class DepartureSearch {
         RealTimeRequest request = CreateNewRequest(site.getSiteId());
         SLApiRequestTask<RealTimeRequest, RealTimeResponse> getDeparturesTask = new SLApiRequestTask<>(new ISLApiCall<RealTimeRequest, RealTimeResponse>() {
             @Override
-            public RealTimeResponse perform(RealTimeRequest request) {
+            public RealTimeResponse perform(RealTimeRequest request) throws SLApiException {
                 return slApi.getRealTimeStationInfo(request);
             }
         },
