@@ -55,7 +55,14 @@ public class StationViewPagerAdapter extends PagerAdapter {
         TextView siteName = (TextView) itemView.findViewById(R.id.fromText);
 
         FavouriteSiteLiveUpdateDto current = sites.get(position);
-        siteName.setText(current.getName());
+
+
+        String name = current.getName();
+        if(current.getErrorMessage() != null){
+            name += " " + current.getErrorMessage();
+        }
+
+        siteName.setText(name);
 
         ArrayList<DepartureListItem> departures = DepartureListItemMapper.CreateDepartures(current);
 

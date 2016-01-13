@@ -5,4 +5,6 @@ import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.resp
 
 public interface OnDepartureSearchListener {
     void onSearchCompleted(FavouriteSite site, RealTimeResponse response);
+
+    void onSearchFailed(FavouriteSite site, String reason);
 }

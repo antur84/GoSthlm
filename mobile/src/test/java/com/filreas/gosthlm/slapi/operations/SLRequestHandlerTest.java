@@ -3,6 +3,7 @@ package com.filreas.gosthlm.slapi.operations;
 import android.util.LruCache;
 
 import com.filreas.gosthlm.slapi.ISLRestApiClient;
+import com.filreas.gosthlm.slapi.SLApiException;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.request.RealTimeRequest;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -44,7 +45,7 @@ public class SLRequestHandlerTest {
     }
 
     @Test
-    public void get_should_return_data_from_web_if_no_cache_strategy() {
+    public void get_should_return_data_from_web_if_no_cache_strategy() throws SLApiException {
         RealTimeRequest request = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.NONE, 0));
         when(apiClientMock.get(anyString())).thenReturn(httpRequestMock);
         when(httpRequestMock.body()).thenReturn("{}");
@@ -55,7 +56,7 @@ public class SLRequestHandlerTest {
     }
 
     @Test
-    public void get_should_return_data_from_web_and_store_in_cache_if_cache_strategy_exists_but_cache_is_empty() {
+    public void get_should_return_data_from_web_and_store_in_cache_if_cache_strategy_exists_but_cache_is_empty() throws SLApiException {
         RealTimeRequest request = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
         when(apiClientMock.get(anyString())).thenReturn(httpRequestMock);
         String response = "{}";
@@ -68,7 +69,7 @@ public class SLRequestHandlerTest {
     }
 
     @Test
-    public void get_should_return_data_from_cache_if_cache_strategy_exists_and_cache_has_the_value() {
+    public void get_should_return_data_from_cache_if_cache_strategy_exists_and_cache_has_the_value() throws SLApiException {
         RealTimeRequest request = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
         String response = "{}";
         when(cacheMock.get(request.getCacheKey())).thenReturn(new CachedHttpRequest(response));
@@ -78,7 +79,7 @@ public class SLRequestHandlerTest {
     }
 
     @Test
-    public void get_should_return_data_from_web_if_cache_strategy_exists_and_cache_has_the_value_but_it_expired() {
+    public void get_should_return_data_from_web_if_cache_strategy_exists_and_cache_has_the_value_but_it_expired() throws SLApiException {
         RealTimeRequest request = new RealTimeRequest(ResponseFormat.JSON, "key", 1, 1, new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, -1));
         when(apiClientMock.get(anyString())).thenReturn(httpRequestMock);
         String response = "{}";

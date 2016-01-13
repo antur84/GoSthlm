@@ -34,16 +34,6 @@ public class WearActions {
         this.context = context;
     }
 
-    public void sendDepartureLiveInformation(RealTimeResponse response) {
-        PutDataRequest request = PutDataRequest.create(DataLayerUri.DEPARTURE_LIVE_INFO_URL);
-        DeparturesDto departures = new DeparturesDto();
-        for (Metro metro : response.getResponseData().getMetros()) {
-            departures.getMetros().add(MetroToMetroDtoMapper.map(metro));
-        }
-
-        sendToPhone(request, departures);
-    }
-
     public void sendFavouriteSiteUpdate(FavouriteSiteLiveUpdateDto site) {
         GoSthlmLog.d("sendFavouriteSiteUpdate " + site.getName());
         PutDataRequest request = PutDataRequest.create(DataLayerUri.FAVOURITE_SITE_UPDATE);
@@ -101,5 +91,11 @@ public class WearActions {
                 }
             }
         });
+    }
+
+    public void notifyFavouriteSiteUpdateFailed(FavouriteSiteLiveUpdateDto site) {
+        GoSthlmLog.d("notifyFavouriteSiteUpdateFailed " + site.getName());
+        PutDataRequest request = PutDataRequest.create(DataLayerUri.FAVOURITE_SITE_UPDATE_FAILED);
+        sendToPhone(request, site);
     }
 }

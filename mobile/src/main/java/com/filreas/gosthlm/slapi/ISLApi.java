@@ -6,7 +6,7 @@ import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.requ
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
 
 public interface ISLApi {
-    RealTimeResponse getRealTimeStationInfo(RealTimeRequest request);
+    RealTimeResponse getRealTimeStationInfo(RealTimeRequest request) throws SLApiException;
 
-    LocationFinderResponse getLocations(LocationFinderRequest request);
+    LocationFinderResponse getLocations(LocationFinderRequest request) throws SLApiException;
 }

@@ -71,10 +71,26 @@ public class FavouriteSitesLiveUpdater implements IFavouriteSitesLiveUpdater, On
             }
             callback.onFavouriteSiteUpdated(updatedSite);
 
-            itemsLeftToProcessInBatch--;
-            if(itemsLeftToProcessInBatch == 0){
-                callback.allFavouriteSitesInBatchUpdated();
-            }
+            finishItemProcessing();
+        }
+    }
+
+    @Override
+    public void onSearchFailed(FavouriteSite site, String reason) {
+        FavouriteSiteLiveUpdateDto updatedSite = new FavouriteSiteLiveUpdateDto();
+        updatedSite.setName(site.getName());
+        updatedSite.setSiteId(site.getSiteId());
+        updatedSite.setErrorMessage(reason);
+
+        callback.onFavouriteSiteUpdateFailed(updatedSite);
+
+        finishItemProcessing();
+    }
+
+    private void finishItemProcessing() {
+        itemsLeftToProcessInBatch--;
+        if(itemsLeftToProcessInBatch == 0){
+            callback.allFavouriteSitesInBatchUpdated();
         }
     }
 }

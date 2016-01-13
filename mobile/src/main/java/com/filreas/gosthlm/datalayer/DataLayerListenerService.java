@@ -87,6 +87,11 @@ public class DataLayerListenerService extends WearableListenerService {
                                         public void allFavouriteSitesInBatchUpdated() {
                                             actions.notifyAllFavouriteSitesUpdated();
                                         }
+
+                                        @Override
+                                        public void onFavouriteSiteUpdateFailed(FavouriteSiteLiveUpdateDto site) {
+                                            actions.notifyFavouriteSiteUpdateFailed(site);
+                                        }
                                     });
                         }
                     }).execute(

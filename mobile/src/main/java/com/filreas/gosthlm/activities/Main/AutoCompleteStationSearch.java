@@ -12,6 +12,7 @@ import com.filreas.gosthlm.async.SLApiRequestTask;
 import com.filreas.gosthlm.async.SLApiTaskResult;
 import com.filreas.gosthlm.slapi.ISLApi;
 import com.filreas.gosthlm.slapi.ISLApiKeyFetcher;
+import com.filreas.gosthlm.slapi.SLApiException;
 import com.filreas.gosthlm.slapi.operations.CacheType;
 import com.filreas.gosthlm.slapi.operations.ResponseCacheStrategy;
 import com.filreas.gosthlm.slapi.operations.ResponseFormat;
@@ -84,7 +85,7 @@ public class AutoCompleteStationSearch implements IAutoCompleteStationSearch {
 
                 searchTask = new SLApiRequestTask<>(new ISLApiCall<LocationFinderRequest, LocationFinderResponse>() {
                     @Override
-                    public LocationFinderResponse perform(LocationFinderRequest request) {
+                    public LocationFinderResponse perform(LocationFinderRequest request) throws SLApiException {
                         return slApi.getLocations(request);
                     }
                 },
