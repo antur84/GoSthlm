@@ -9,12 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.NavigableMap;
-import java.util.TreeMap;
 
 public class DepartureListItemAdapter extends WearableListView.Adapter {
     private ArrayList<DepartureListItem> departures;
@@ -29,13 +25,15 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private TextView destinationText;
         private TextView timeText;
+        private TextView lineNumberText;
         private ImageView icon;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             destinationText = (TextView) itemView.findViewById(R.id.departure_destination);
             timeText = (TextView) itemView.findViewById(R.id.departure_time);
-            icon = (ImageView) itemView.findViewById(R.id.departure_icon);
+            lineNumberText = (TextView) itemView.findViewById(R.id.lineNumber);
+            //icon = (ImageView) itemView.findViewById(R.id.departure_icon);
         }
     }
 
@@ -48,8 +46,11 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
     public void onBindViewHolder(WearableListView.ViewHolder holder, int position) {
         ItemViewHolder itemHolder = (ItemViewHolder) holder;
 
-        ImageView icon = itemHolder.icon;
-        icon.setImageResource(R.drawable.common_ic_googleplayservices); // todo construct icon dynamic
+        //ImageView icon = itemHolder.icon;
+        //icon.setImageResource(R.drawable.common_ic_googleplayservices); // todo construct icon dynamic
+
+        TextView lineNumberText = itemHolder.lineNumberText;
+        lineNumberText.setText(departures.get(position).getLineNumberText());
 
         TextView destinationText = itemHolder.destinationText;
         destinationText.setText(departures.get(position).getDestination());

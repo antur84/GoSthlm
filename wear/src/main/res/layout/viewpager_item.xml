@@ -26,6 +26,7 @@
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
                 tools:text="Hammarbyhöjden (Stockholm)"
+                android:textSize="18sp"
                 android:textColor="@color/white"
                 app:layout_box="top|left|right" />
         </LinearLayout>

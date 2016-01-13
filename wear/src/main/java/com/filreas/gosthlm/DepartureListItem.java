@@ -10,9 +10,12 @@ public class DepartureListItem {
 
     private String departureTimeText;
 
+    private String lineNumberText;
+
     public DepartureListItem(MetroDto metro) {
         destination = metro.getDestination();
         departureTimeText = metro.getDisplayTime();
+        lineNumberText = metro.getLineNumber();
     }
 
     public DepartureListItem(TrainDto train) {
@@ -37,4 +40,9 @@ public class DepartureListItem {
     public String getDepartureTimeText() {
         return departureTimeText;
     }
+
+    public String getLineNumberText() {
+        return lineNumberText;
+    }
+
 }
