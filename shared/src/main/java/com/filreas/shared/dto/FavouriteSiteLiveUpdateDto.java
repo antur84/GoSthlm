@@ -9,6 +9,7 @@ import java.util.Objects;
 public class FavouriteSiteLiveUpdateDto implements Serializable {
     private String name;
     private int siteId;
+    private String errorMessage;
 
     private final List<MetroDto> metros = new ArrayList<>();
     private final List<BusDto> buses = new ArrayList<>();
@@ -59,5 +60,13 @@ public class FavouriteSiteLiveUpdateDto implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, siteId);
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

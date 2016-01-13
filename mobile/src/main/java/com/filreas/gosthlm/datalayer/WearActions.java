@@ -92,4 +92,10 @@ public class WearActions {
             }
         });
     }
+
+    public void notifyFavouriteSiteUpdateFailed(FavouriteSiteLiveUpdateDto site) {
+        GoSthlmLog.d("notifyFavouriteSiteUpdateFailed " + site.getName());
+        PutDataRequest request = PutDataRequest.create(DataLayerUri.FAVOURITE_SITE_UPDATE_FAILED);
+        sendToPhone(request, site);
+    }
 }

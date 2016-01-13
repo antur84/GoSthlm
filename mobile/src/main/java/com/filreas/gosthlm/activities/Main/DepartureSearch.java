@@ -41,7 +41,13 @@ public class DepartureSearch {
                     @Override
                     public void onTaskComplete(SLApiTaskResult<RealTimeResponse> result) {
                         if (result.getResponse().getStatusCode() != 0) {
-                            GoSthlmLog.d("SL Api responded: " + result.getResponse().getMessage());
+                            GoSthlmLog.d("SL Api failure: " + result.getResponse().getMessage());
+                            Exception exception = result.getException();
+                            String reason = "Unknown error";
+                            if(exception != null){
+                                reason = exception.getMessage();
+                            }
+                            notifySearchFailed(site, reason);
                         } else {
                             GoSthlmLog.d("DepartureSearch search completed for : " + site.getName());
                             notifySearchCompleted(site, result.getResponse());
@@ -61,6 +67,12 @@ public class DepartureSearch {
                 new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
         request.setSiteId(siteId);
         return request;
+    }
+
+    private void notifySearchFailed(FavouriteSite site, String reason){
+        for (OnDepartureSearchListener listener : listeners) {
+            listener.onSearchFailed(site, reason);
+        }
     }
 
     private void notifySearchCompleted(FavouriteSite site, RealTimeResponse response) {

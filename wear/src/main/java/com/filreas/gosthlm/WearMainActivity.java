@@ -83,7 +83,7 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     @Override
-    protected void updateScreenInfo(final FavouriteSiteLiveUpdateDto updatedSite) {
+    protected void updateScreenInfoWithSuccess(final FavouriteSiteLiveUpdateDto updatedSite) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -95,11 +95,29 @@ public class WearMainActivity extends WearBaseActivity {
                 } else {
                     favouriteSites.set(currentIndex, updatedSite);
                     View view = viewPager.findViewWithTag(updatedSite.getSiteId());
-                    WearableListView listView =
-                            (WearableListView) view.findViewById(R.id.departures_list);
-                    DepartureListItemAdapter adapter =
-                            (DepartureListItemAdapter) listView.getAdapter();
-                    adapter.updateDepartures(DepartureListItemMapper.CreateDepartures(updatedSite));
+                    if (view != null) {
+                        WearableListView listView =
+                                (WearableListView) view.findViewById(R.id.departures_list);
+                        DepartureListItemAdapter adapter =
+                                (DepartureListItemAdapter) listView.getAdapter();
+                        adapter.updateDepartures(DepartureListItemMapper.CreateDepartures(updatedSite));
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void updateScreenInfoWithFailure(final FavouriteSiteLiveUpdateDto failedSite) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                int currentIndex = favouriteSites.indexOf(failedSite);
+                if (currentIndex >= 0) {
+                    favouriteSites.set(currentIndex, failedSite);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });

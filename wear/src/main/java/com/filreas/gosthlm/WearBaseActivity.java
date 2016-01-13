@@ -102,7 +102,17 @@ public abstract class WearBaseActivity extends WearableActivity
                         FavouriteSiteLiveUpdateDto updatedSite =
                                 (FavouriteSiteLiveUpdateDto) DtoSerializer.convertFromBytes(
                                         event.getDataItem().getData());
-                        this.updateScreenInfo(updatedSite);
+                        this.updateScreenInfoWithSuccess(updatedSite);
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(event.getDataItem().getUri().getPath().equals(DataLayerUri.FAVOURITE_SITE_UPDATE_FAILED)){
+                    try {
+                        FavouriteSiteLiveUpdateDto updatedSite =
+                                (FavouriteSiteLiveUpdateDto) DtoSerializer.convertFromBytes(
+                                        event.getDataItem().getData());
+                        this.updateScreenInfoWithFailure(updatedSite);
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -118,7 +128,9 @@ public abstract class WearBaseActivity extends WearableActivity
 
     protected abstract int getLayoutResource();
 
-    protected abstract void updateScreenInfo(FavouriteSiteLiveUpdateDto updatedSite);
+    protected abstract void updateScreenInfoWithSuccess(FavouriteSiteLiveUpdateDto updatedSite);
+
+    protected abstract void updateScreenInfoWithFailure(FavouriteSiteLiveUpdateDto failedSite);
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {

@@ -6,4 +6,6 @@ public interface IFavouriteSiteLiveUpdateCallback {
     void onFavouriteSiteUpdated(FavouriteSiteLiveUpdateDto site);
 
     void allFavouriteSitesInBatchUpdated();
+
+    void onFavouriteSiteUpdateFailed(FavouriteSiteLiveUpdateDto site);
 }
