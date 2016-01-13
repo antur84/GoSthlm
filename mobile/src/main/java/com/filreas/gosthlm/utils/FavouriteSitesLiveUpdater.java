@@ -5,6 +5,7 @@ import com.filreas.gosthlm.activities.Main.OnDepartureSearchListener;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.RealTimeResponse;
+import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.extras.Departure;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Bus;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Metro;
 import com.filreas.gosthlm.slapi.operations.real_time_station_info.contract.response.vehicles.Train;
@@ -49,26 +50,28 @@ public class FavouriteSitesLiveUpdater implements IFavouriteSitesLiveUpdater, On
             FavouriteSiteLiveUpdateDto updatedSite = new FavouriteSiteLiveUpdateDto();
             updatedSite.setName(site.getName());
             updatedSite.setSiteId(site.getSiteId());
+            Departure responseData = response.getResponseData();
             if(transportationOfChoice.isMetro()) {
-                for (Metro metro : response.getResponseData().getMetros()) {
+                for (Metro metro : responseData.getMetros()) {
                     updatedSite.getMetros().add(MetroToMetroDtoMapper.map(metro));
                 }
             }
             if(transportationOfChoice.isBus()){
-                for (Bus bus : response.getResponseData().getBuses()) {
+                for (Bus bus : responseData.getBuses()) {
                     updatedSite.getBuses().add(BusToBusDtoMapper.map(bus));
                 }
             }
             if(transportationOfChoice.isTrain()){
-                for (Train train : response.getResponseData().getTrains()) {
+                for (Train train : responseData.getTrains()) {
                     updatedSite.getTrains().add(TrainToTrainDtoMapper.map(train));
                 }
             }
             if(transportationOfChoice.isTram()){
-                for (Tram tram : response.getResponseData().getTrams()) {
+                for (Tram tram : responseData.getTrams()) {
                     updatedSite.getTrams().add(TramToTramDtoMapper.map(tram));
                 }
             }
+
             callback.onFavouriteSiteUpdated(updatedSite);
 
             finishItemProcessing();
