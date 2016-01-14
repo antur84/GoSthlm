@@ -4,19 +4,23 @@
     android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="80dp">
-    <ImageView
-        android:id="@+id/departure_icon"
-        android:layout_height="20dp"
+
+    <TextView
+        android:id="@+id/lineNumber"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_margin="8dp"
-        android:layout_width="20dp"
-        tools:src="@drawable/common_ic_googleplayservices"/>
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="19"/>
+
     <TextView
         android:id="@+id/departure_destination"
         android:gravity="center_vertical|start"
         android:layout_width="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_height="match_parent"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/white"
         tools:text="Kungsträdgården"
         android:textSize="16sp"/>
     <TextView
@@ -24,7 +28,7 @@
         android:gravity="center_vertical|end"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/white"
         tools:text="5 min"
         android:textSize="16sp"/>
 
