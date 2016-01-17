@@ -2,6 +2,7 @@ package com.filreas.gosthlm;
 
 import com.filreas.shared.dto.MetroDto;
 
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class DepartureListItemByDepartureTimeComparatorTest {
         testMetro.setDisplayTime("11:00"); // should be sorted last, since it's next day
         unsorted.add(new DepartureListItem(testMetro));
 
-        LocalTime testTime = new LocalTime("12:00");
+        LocalDateTime testTime = new LocalDateTime(2016, 01, 01, 12, 00);
 
         sut = new DepartureListItemByDepartureTimeComparator(testTime);
     }

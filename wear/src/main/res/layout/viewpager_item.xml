@@ -30,8 +30,25 @@
                 android:textColor="@color/white"
                 app:layout_box="top|left|right" />
         </LinearLayout>
-
         <LinearLayout
+            android:id="@+id/departure_error_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            app:layout_box="left|right">
+            <TextView
+                android:id="@+id/departures_errorText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="@string/no_departures_available"
+                android:textColor="@color/white"
+                tools:text="No departures available"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/departure_success_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"

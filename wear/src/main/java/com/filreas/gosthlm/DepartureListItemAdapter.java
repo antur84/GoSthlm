@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
@@ -69,6 +70,6 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
     }
 
     private void sort() {
-        Collections.sort(departures, new DepartureListItemByDepartureTimeComparator(LocalTime.now()));
+        Collections.sort(departures, new DepartureListItemByDepartureTimeComparator(LocalDateTime.now()));
     }
 }

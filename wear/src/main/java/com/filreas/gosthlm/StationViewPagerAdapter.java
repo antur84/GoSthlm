@@ -1,6 +1,7 @@
 package com.filreas.gosthlm;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.support.v4.view.PagerAdapter;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
@@ -8,11 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.filreas.shared.dto.BusDto;
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
-import com.filreas.shared.dto.MetroDto;
-import com.filreas.shared.dto.TrainDto;
-import com.filreas.shared.dto.TramDto;
 import com.filreas.shared.utils.GoSthlmLog;
 
 import java.util.ArrayList;
@@ -24,6 +21,7 @@ public class StationViewPagerAdapter extends PagerAdapter {
     private ISwipeToRefreshEnabler swipeToRefreshEnabler;
 
     LayoutInflater inflater;
+    private DisabledSwipeToRefreshOnCentralPositionChangedListener positionChangedListener;
 
     public StationViewPagerAdapter(
             Context context,
@@ -32,6 +30,7 @@ public class StationViewPagerAdapter extends PagerAdapter {
         this.context = context;
         this.sites = sites;
         this.swipeToRefreshEnabler = swipeToRefreshEnabler;
+        positionChangedListener = new DisabledSwipeToRefreshOnCentralPositionChangedListener();
     }
 
     @Override
@@ -52,39 +51,82 @@ public class StationViewPagerAdapter extends PagerAdapter {
         View itemView = inflater.inflate(R.layout.viewpager_item, container,
                 false);
 
-        TextView siteName = (TextView) itemView.findViewById(R.id.fromText);
-
         FavouriteSiteLiveUpdateDto current = sites.get(position);
-
-
-        String name = current.getName();
-        if(current.getErrorMessage() != null){
-            name += " " + current.getErrorMessage();
-        }
-
-        siteName.setText(name);
+        TextView siteName = (TextView) itemView.findViewById(R.id.fromText);
+        siteName.setText(current.getName());
 
         ArrayList<DepartureListItem> departures = DepartureListItemMapper.CreateDepartures(current);
-
         WearableListView departureListView =
                 (WearableListView) itemView.findViewById(R.id.departures_list);
-        departureListView.setAdapter(new DepartureListItemAdapter(context, departures));
-        departureListView.addOnCentralPositionChangedListener(new WearableListView.OnCentralPositionChangedListener() {
-            @Override
-            public void onCentralPositionChanged(int i) {
-                swipeToRefreshEnabler.onSwipeToRefreshEnabled(i == 0);
-            }
-        });
+        DepartureListItemAdapter adapter = new DepartureListItemAdapter(context, departures);
+        departureListView.setAdapter(adapter);
 
         container.addView(itemView);
 
         itemView.setTag(current.getSiteId());
 
+        updateGuiVisibilityDependingOnResult(itemView, current, departures);
         return itemView;
+    }
+
+    private void updateGuiVisibilityDependingOnResult(
+            View currentPage,
+            FavouriteSiteLiveUpdateDto updatedSite,
+            ArrayList<DepartureListItem> departures) {
+        View errorLayout = currentPage.findViewById(R.id.departure_error_layout);
+        View successLayout = currentPage.findViewById(R.id.departure_success_layout);
+        WearableListView departureListView = (WearableListView) currentPage.findViewById(R.id.departures_list);
+
+        departureListView.removeOnCentralPositionChangedListener(positionChangedListener);
+
+        String errorMessage = updatedSite.getErrorMessage();
+
+        if (departures.isEmpty() || errorMessage != null) {
+            errorLayout.setVisibility(View.VISIBLE);
+            successLayout.setVisibility(View.GONE);
+
+            if (errorMessage != null) {
+                TextView errorText = (TextView) errorLayout.findViewById(R.id.departures_errorText);
+                errorText.setText(errorMessage);
+            }
+        } else {
+            errorLayout.setVisibility(View.GONE);
+            successLayout.setVisibility(View.VISIBLE);
+            departureListView.addOnCentralPositionChangedListener(positionChangedListener);
+        }
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    public void addItem(FavouriteSiteLiveUpdateDto updatedSite) {
+        sites.add(updatedSite);
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(View parent, int index, FavouriteSiteLiveUpdateDto updatedSite) {
+        sites.set(index, updatedSite);
+
+        View view = parent.findViewWithTag(updatedSite.getSiteId());
+        if (view != null) {
+            WearableListView listView =
+                    (WearableListView) view.findViewById(R.id.departures_list);
+            DepartureListItemAdapter departureListItemAdapter =
+                    (DepartureListItemAdapter) listView.getAdapter();
+            ArrayList<DepartureListItem> departures = DepartureListItemMapper.CreateDepartures(updatedSite);
+            departureListItemAdapter.updateDepartures(departures);
+            updateGuiVisibilityDependingOnResult(view, updatedSite, departures);
+
+            notifyDataSetChanged();
+        }
+    }
+
+    private class DisabledSwipeToRefreshOnCentralPositionChangedListener implements WearableListView.OnCentralPositionChangedListener {
+        @Override
+        public void onCentralPositionChanged(int i) {
+            swipeToRefreshEnabler.onSwipeToRefreshEnabled(i == 0);
+        }
     }
 }

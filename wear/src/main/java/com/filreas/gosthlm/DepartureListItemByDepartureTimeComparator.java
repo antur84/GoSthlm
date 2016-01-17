@@ -1,5 +1,6 @@
 package com.filreas.gosthlm;
 
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import java.util.Comparator;
@@ -8,19 +9,19 @@ import java.util.regex.Pattern;
 
 public class DepartureListItemByDepartureTimeComparator implements Comparator<DepartureListItem> {
 
-    private final LocalTime now;
+    private final LocalDateTime now;
     private static Pattern leavingNowPattern = Pattern.compile("Nu");
     private static Pattern leavingSoonPattern = Pattern.compile("(\\d+)\\smin");
     private static Pattern leavingLaterPattern = Pattern.compile("\\d{0,2}:\\d{0,2}");
 
-    public DepartureListItemByDepartureTimeComparator(LocalTime now){
+    public DepartureListItemByDepartureTimeComparator(LocalDateTime now){
         this.now = now;
     }
 
     @Override
     public int compare(DepartureListItem lhs, DepartureListItem rhs) {
-        LocalTime lhsTime = parseTime(lhs.getDepartureTimeText());
-        LocalTime rhsTime = parseTime(rhs.getDepartureTimeText());
+        LocalDateTime lhsTime = parseTime(lhs.getDepartureTimeText());
+        LocalDateTime rhsTime = parseTime(rhs.getDepartureTimeText());
 
         if(lhsTime.isBefore(now)){
             return 1;
@@ -29,7 +30,7 @@ public class DepartureListItemByDepartureTimeComparator implements Comparator<De
         return lhsTime.compareTo(rhsTime);
     }
 
-    private LocalTime parseTime(String text) {
+    private LocalDateTime parseTime(String text) {
         Matcher leavingNow = leavingNowPattern.matcher(text);
         if(leavingNow.matches()){
             return now;
@@ -43,7 +44,12 @@ public class DepartureListItemByDepartureTimeComparator implements Comparator<De
 
         Matcher leavingLater = leavingLaterPattern.matcher(text);
         if (leavingLater.matches()){
-            return new LocalTime(text);
+            LocalTime departureTime = new LocalTime(text);
+            if(now.toLocalTime().isAfter(departureTime)){
+                return now.plusDays(1).withHourOfDay(departureTime.getHourOfDay()).withMinuteOfHour(departureTime.getMinuteOfHour());
+            }
+
+            return now.withHourOfDay(departureTime.getHourOfDay()).withMinuteOfHour(departureTime.getMinuteOfHour());
         }
 
         return now; // fallback
