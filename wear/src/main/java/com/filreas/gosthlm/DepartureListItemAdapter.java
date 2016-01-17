@@ -25,15 +25,11 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
 
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private TextView destinationText;
-        private TextView timeText;
-        private TextView lineNumberText;
         private ImageView icon;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             destinationText = (TextView) itemView.findViewById(R.id.departure_destination);
-            timeText = (TextView) itemView.findViewById(R.id.departure_time);
-            lineNumberText = (TextView) itemView.findViewById(R.id.lineNumber);
             //icon = (ImageView) itemView.findViewById(R.id.departure_icon);
         }
     }
@@ -50,14 +46,13 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
         //ImageView icon = itemHolder.icon;
         //icon.setImageResource(R.drawable.common_ic_googleplayservices); // todo construct icon dynamic
 
-        TextView lineNumberText = itemHolder.lineNumberText;
-        lineNumberText.setText(departures.get(position).getLineNumberText());
+        DepartureListItem item = departures.get(position);
+        String text = item.getLineNumberText() + " "
+                + item.getDestination() + " "
+                + item.getDepartureTimeText();
 
         TextView destinationText = itemHolder.destinationText;
-        destinationText.setText(departures.get(position).getDestination());
-
-        TextView timeText = itemHolder.timeText;
-        timeText.setText(departures.get(position).getDepartureTimeText());
+        destinationText.setText(text);
 
         holder.itemView.setTag(position);
     }
