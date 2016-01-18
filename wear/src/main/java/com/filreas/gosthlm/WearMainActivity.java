@@ -93,6 +93,7 @@ public class WearMainActivity extends WearBaseActivity {
                 } else {
                     sitePagerAdapter.updateItem(viewPager, currentIndex, updatedSite);
                 }
+                hideMainProgressBar();
             }
         });
     }

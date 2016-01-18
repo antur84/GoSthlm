@@ -4,6 +4,9 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.wearable.activity.WearableActivity;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.filreas.gosthlm.datalayer.PhoneActions;
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
@@ -33,12 +36,16 @@ public abstract class WearBaseActivity extends WearableActivity
     private GoogleApiClient googleApiClient;
     private boolean isResolvingError;
     private SwipeRefreshLayout swipeLayout;
+    private ProgressBar progressBar;
+    private TextView barText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        barText = (TextView)findViewById(R.id.progressBarText);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -97,17 +104,9 @@ public abstract class WearBaseActivity extends WearableActivity
             }
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 GoSthlmLog.d("DataItem changed: " + event.getDataItem().getUri());
-                if(event.getDataItem().getUri().getPath().equals(DataLayerUri.FAVOURITE_SITE_UPDATE)){
-                    try {
-                        FavouriteSiteLiveUpdateDto updatedSite =
-                                (FavouriteSiteLiveUpdateDto) DtoSerializer.convertFromBytes(
-                                        event.getDataItem().getData());
-                        this.updateScreenInfo(updatedSite);
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if(event.getDataItem().getUri().getPath().equals(DataLayerUri.FAVOURITE_SITE_UPDATE_FAILED)){
+                String path = event.getDataItem().getUri().getPath();
+                if (path.equals(DataLayerUri.FAVOURITE_SITE_UPDATE) ||
+                        path.equals(DataLayerUri.FAVOURITE_SITE_UPDATE_FAILED)) {
                     try {
                         FavouriteSiteLiveUpdateDto updatedSite =
                                 (FavouriteSiteLiveUpdateDto) DtoSerializer.convertFromBytes(
@@ -163,6 +162,11 @@ public abstract class WearBaseActivity extends WearableActivity
                 }
             });
         }
+    }
+
+    protected void hideMainProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        barText.setVisibility(View.GONE);
     }
 
     private void showErrorDialog(int errorCode) {
