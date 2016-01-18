@@ -4,7 +4,6 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.wearable.view.WearableListView;
 import android.view.View;
@@ -22,7 +21,7 @@ public class WearMainActivity extends WearBaseActivity {
     private Sensor mAccelerometer;
     private ShakeEventListener mShakeDetector;
     private ViewPager viewPager;
-    private PagerAdapter adapter;
+    private StationViewPagerAdapter sitePagerAdapter;
 
     List<FavouriteSiteLiveUpdateDto> favouriteSites;
 
@@ -37,7 +36,7 @@ public class WearMainActivity extends WearBaseActivity {
     private void initStationsViewPageAdapter() {
         favouriteSites = new ArrayList<>();
         viewPager = (ViewPager) findViewById(R.id.pager);
-        adapter = new StationViewPagerAdapter(
+        sitePagerAdapter = new StationViewPagerAdapter(
                 WearMainActivity.this,
                 favouriteSites,
                 new ISwipeToRefreshEnabler() {
@@ -46,7 +45,7 @@ public class WearMainActivity extends WearBaseActivity {
                         getSwipeLayout().setEnabled(enable);
                     }
                 });
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(sitePagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -83,41 +82,16 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     @Override
-    protected void updateScreenInfoWithSuccess(final FavouriteSiteLiveUpdateDto updatedSite) {
+    protected void updateScreenInfo(final FavouriteSiteLiveUpdateDto updatedSite) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 int currentIndex = favouriteSites.indexOf(updatedSite);
                 if (currentIndex < 0) {
-                    favouriteSites.add(updatedSite);
-                    adapter.notifyDataSetChanged();
+                    sitePagerAdapter.addItem(updatedSite);
                     updatePageIndicator();
                 } else {
-                    favouriteSites.set(currentIndex, updatedSite);
-                    View view = viewPager.findViewWithTag(updatedSite.getSiteId());
-                    if (view != null) {
-                        WearableListView listView =
-                                (WearableListView) view.findViewById(R.id.departures_list);
-                        DepartureListItemAdapter adapter =
-                                (DepartureListItemAdapter) listView.getAdapter();
-                        adapter.updateDepartures(DepartureListItemMapper.CreateDepartures(updatedSite));
-                    } else {
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void updateScreenInfoWithFailure(final FavouriteSiteLiveUpdateDto failedSite) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                int currentIndex = favouriteSites.indexOf(failedSite);
-                if (currentIndex >= 0) {
-                    favouriteSites.set(currentIndex, failedSite);
-                    adapter.notifyDataSetChanged();
+                    sitePagerAdapter.updateItem(viewPager, currentIndex, updatedSite);
                 }
             }
         });

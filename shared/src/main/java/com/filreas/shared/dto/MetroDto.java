@@ -40,7 +40,7 @@ public class MetroDto implements Serializable {
     }
 
     public String getLineNumber() {
-        return lineNumber;
+        return "(T)" + lineNumber;
     }
 
     public void setLineNumber(String lineNumber) {
@@ -48,7 +48,7 @@ public class MetroDto implements Serializable {
     }
 
     public GroupOfLine getGroupOfLine() {
-        switch (groupOfLineId){
+        switch (groupOfLineId) {
             case 1:
                 return GroupOfLine.Green;
             case 2:

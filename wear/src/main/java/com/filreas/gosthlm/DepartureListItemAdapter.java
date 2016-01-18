@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
+
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Collections;
 
 public class DepartureListItemAdapter extends WearableListView.Adapter {
     private ArrayList<DepartureListItem> departures;
@@ -24,15 +26,11 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
 
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private TextView destinationText;
-        private TextView timeText;
-        private TextView lineNumberText;
         private ImageView icon;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             destinationText = (TextView) itemView.findViewById(R.id.departure_destination);
-            timeText = (TextView) itemView.findViewById(R.id.departure_time);
-            lineNumberText = (TextView) itemView.findViewById(R.id.lineNumber);
             //icon = (ImageView) itemView.findViewById(R.id.departure_icon);
         }
     }
@@ -49,14 +47,13 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
         //ImageView icon = itemHolder.icon;
         //icon.setImageResource(R.drawable.common_ic_googleplayservices); // todo construct icon dynamic
 
-        TextView lineNumberText = itemHolder.lineNumberText;
-        lineNumberText.setText(departures.get(position).getLineNumberText());
+        DepartureListItem item = departures.get(position);
+        String text = item.getLineNumberText() + " "
+                + item.getDestination() + " "
+                + item.getDepartureTimeText();
 
         TextView destinationText = itemHolder.destinationText;
-        destinationText.setText(departures.get(position).getDestination());
-
-        TextView timeText = itemHolder.timeText;
-        timeText.setText(departures.get(position).getDepartureTimeText());
+        destinationText.setText(text);
 
         holder.itemView.setTag(position);
     }
@@ -73,37 +70,6 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
     }
 
     private void sort() {
-        ArrayList<DepartureListItem> sorted = new ArrayList<>();
-        LinkedHashMap<String, List<DepartureListItem>> arranged = new LinkedHashMap<>();
-        for (DepartureListItem departure :
-                departures) {
-            List<DepartureListItem> departuresForThisDestination = arranged.get(departure.getDestination());
-
-            if (departuresForThisDestination == null) {
-                departuresForThisDestination = new ArrayList<>();
-                arranged.put(departure.getDestination(), departuresForThisDestination);
-            }
-
-            departuresForThisDestination.add(departure);
-        }
-
-        while (sorted.size() < departures.size()) {
-            for (String key : arranged.keySet()) {
-                DepartureListItem item = getFirstItemOrNull(arranged.get(key));
-                if (item != null) {
-                    sorted.add(item);
-                }
-            }
-        }
-
-        departures = sorted;
-    }
-
-    private DepartureListItem getFirstItemOrNull(List<DepartureListItem> list) {
-        if (list.isEmpty()) {
-            return null;
-        }
-
-        return list.remove(0);
+        Collections.sort(departures, new DepartureListItemByDepartureTimeComparator(LocalDateTime.now()));
     }
 }

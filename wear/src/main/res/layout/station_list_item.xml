@@ -1,35 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.filreas.gosthlm.WearableListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center_vertical"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
-
-    <TextView
-        android:id="@+id/lineNumber"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_margin="8dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        tools:text="19"/>
+    android:layout_height="30dp"
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/departure_destination"
-        android:gravity="center_vertical|start"
-        android:layout_width="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
         android:textColor="@color/white"
-        tools:text="Kungsträdgården"
-        android:textSize="16sp"/>
-    <TextView
-        android:id="@+id/departure_time"
-        android:gravity="center_vertical|end"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textColor="@color/white"
-        tools:text="5 min"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        tools:text="10 Kungsträdgården 5 min"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"/>
 
 </com.filreas.gosthlm.WearableListItemLayout>

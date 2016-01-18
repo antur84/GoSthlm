@@ -10,6 +10,7 @@ public class FavouriteSiteLiveUpdateDto implements Serializable {
     private String name;
     private int siteId;
     private String errorMessage;
+    private int lastUpdatedInMillies;
 
     private final List<MetroDto> metros = new ArrayList<>();
     private final List<BusDto> buses = new ArrayList<>();
@@ -68,5 +69,13 @@ public class FavouriteSiteLiveUpdateDto implements Serializable {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public int getLastUpdatedInMillies() {
+        return lastUpdatedInMillies;
+    }
+
+    public void setLastUpdatedInMillies(int lastUpdatedInMillies) {
+        this.lastUpdatedInMillies = lastUpdatedInMillies;
     }
 }

@@ -44,7 +44,7 @@ public class DepartureSearch {
                             GoSthlmLog.d("SL Api failure: " + result.getResponse().getMessage());
                             Exception exception = result.getException();
                             String reason = "Unknown error";
-                            if(exception != null){
+                            if (exception != null) {
                                 reason = exception.getMessage();
                             }
                             notifySearchFailed(site, reason);
@@ -69,7 +69,7 @@ public class DepartureSearch {
         return request;
     }
 
-    private void notifySearchFailed(FavouriteSite site, String reason){
+    private void notifySearchFailed(FavouriteSite site, String reason) {
         for (OnDepartureSearchListener listener : listeners) {
             listener.onSearchFailed(site, reason);
         }

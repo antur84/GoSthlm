@@ -36,4 +36,5 @@ dependencies {
     androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
     compile 'com.android.support:recyclerview-v7:23.1.0'
     compile 'com.android.support:design:23.1.1'
+    compile 'joda-time:joda-time:2.9.1'
 }

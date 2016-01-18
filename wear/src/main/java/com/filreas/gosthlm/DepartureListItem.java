@@ -21,16 +21,19 @@ public class DepartureListItem {
     public DepartureListItem(TrainDto train) {
         destination = train.getDestination();
         departureTimeText = train.getDisplayTime();
+        lineNumberText = train.getLineNumber();
     }
 
     public DepartureListItem(TramDto tram) {
         destination = tram.getDestination();
         departureTimeText = tram.getDisplayTime();
+        lineNumberText = tram.getLineNumber();
     }
 
     public DepartureListItem(BusDto bus) {
         destination = bus.getDestination();
         departureTimeText = bus.getDisplayTime();
+        lineNumberText = bus.getLineNumber();
     }
 
     public String getDestination() {

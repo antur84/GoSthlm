@@ -58,4 +58,8 @@ public class TrainDto implements Serializable {
     public String getDisplayTime() {
         return displayTime;
     }
+
+    public String getLineNumber() {
+        return "(J)" + lineNumber;
+    }
 }
