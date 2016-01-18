@@ -55,6 +55,6 @@ public class BusDto implements Serializable {
     }
 
     public String getLineNumber() {
-        return "(B)" + lineNumber;
+        return "B" + lineNumber;
     }
 }

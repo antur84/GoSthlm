@@ -60,6 +60,6 @@ public class TrainDto implements Serializable {
     }
 
     public String getLineNumber() {
-        return "(J)" + lineNumber;
+        return "J" + lineNumber;
     }
 }

@@ -55,6 +55,6 @@ public class TramDto implements Serializable {
     }
 
     public String getLineNumber() {
-        return "(L)" + lineNumber;
+        return "L" + lineNumber;
     }
 }
