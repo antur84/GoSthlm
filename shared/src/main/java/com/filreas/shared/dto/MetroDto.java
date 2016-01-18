@@ -40,7 +40,7 @@ public class MetroDto implements Serializable {
     }
 
     public String getLineNumber() {
-        return "(T)" + lineNumber;
+        return "T" + lineNumber;
     }
 
     public void setLineNumber(String lineNumber) {
