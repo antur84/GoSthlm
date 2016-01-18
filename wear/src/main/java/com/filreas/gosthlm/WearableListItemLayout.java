@@ -36,11 +36,16 @@ public class WearableListItemLayout extends LinearLayout
     @Override
     public void onCenterPosition(boolean animate) {
         float value = 1.307692307692308f;
-        destinationText.animate().scaleX(value).scaleY(value).alpha(1f);
+
+        if(animate){
+            destinationText.animate().scaleX(value).scaleY(value).alpha(1f).start();
+        }
     }
 
     @Override
     public void onNonCenterPosition(boolean animate) {
-        destinationText.animate().scaleX(1.0f).scaleY(1.0f).alpha(fadedTextAlpha);
+        if(animate) {
+            destinationText.animate().scaleX(1.0f).scaleY(1.0f).alpha(fadedTextAlpha).start();
+        }
     }
 }
