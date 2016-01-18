@@ -10,11 +10,9 @@ import android.widget.TextView;
 public class WearableListItemLayout extends LinearLayout
         implements WearableListView.OnCenterProximityListener {
 
-    //private ImageView icon;
     private TextView destinationText;
 
     private final float fadedTextAlpha;
-    //private final int fadedIconAlpha;
 
     public WearableListItemLayout(Context context) {
         this(context, null);
@@ -26,33 +24,23 @@ public class WearableListItemLayout extends LinearLayout
 
     public WearableListItemLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
         fadedTextAlpha = 40 / 100f;
-        //fadedIconAlpha = 122; // todo does this work?
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        //icon = (ImageView) findViewById(R.id.departure_icon);
         destinationText = (TextView) findViewById(R.id.departure_destination);
     }
 
     @Override
     public void onCenterPosition(boolean animate) {
-        destinationText.setAlpha(1f);
-        setTextSizeOfRow(18);
-        //icon.getDrawable().setAlpha(0);
+        float value = 1.307692307692308f;
+        destinationText.animate().scaleX(value).scaleY(value).alpha(1f);
     }
 
     @Override
     public void onNonCenterPosition(boolean animate) {
-        //icon.getDrawable().setAlpha(fadedIconAlpha);
-        destinationText.setAlpha(fadedTextAlpha);
-        setTextSizeOfRow(13);
-    }
-
-    private void setTextSizeOfRow(int size) {
-        destinationText.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+        destinationText.animate().scaleX(1.0f).scaleY(1.0f).alpha(fadedTextAlpha);
     }
 }
