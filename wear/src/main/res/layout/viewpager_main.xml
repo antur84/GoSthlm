@@ -46,6 +46,16 @@
             android:gravity="center"
             android:textSize="16sp"
             tools:text="Hämtar avgångar..." />
+
+        <TextView
+            android:id="@+id/centerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="16sp"
+            tools:text="Ingen telefon ansluten" />
     </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>
