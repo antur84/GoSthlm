@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +55,11 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
         destinationText.setText(text);
 
         holder.itemView.setTag(position);
+
+        if (position == 0) {
+            float value = 1.307692307692308f;
+            destinationText.animate().scaleX(value).scaleY(value).alpha(1f).start(); // move to some common animator class
+        }
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.filreas.gosthlm;
 import android.content.Context;
 import android.support.wearable.view.WearableListView;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,14 +36,14 @@ public class WearableListItemLayout extends LinearLayout
     public void onCenterPosition(boolean animate) {
         float value = 1.307692307692308f;
 
-        if(animate){
+        if (animate) {
             destinationText.animate().scaleX(value).scaleY(value).alpha(1f).start();
         }
     }
 
     @Override
     public void onNonCenterPosition(boolean animate) {
-        if(animate) {
+        if (animate) {
             destinationText.animate().scaleX(1.0f).scaleY(1.0f).alpha(fadedTextAlpha).start();
         }
     }
