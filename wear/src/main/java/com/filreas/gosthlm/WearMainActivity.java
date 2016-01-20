@@ -94,9 +94,6 @@ public class WearMainActivity extends WearBaseActivity {
                     sitePagerAdapter.updateItem(viewPager, currentIndex, updatedSite);
                 }
                 hideMainProgressBar();
-                GoSthlmLog.d("Vibrating..");
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(100);
             }
         });
     }
