@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.Main.MobileMainActivity" />
+        <activity
+            android:name=".activities.Main.MobileMainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.About"
             android:label="@string/actionAboutLabel"
