@@ -1,7 +1,6 @@
 package com.filreas.gosthlm;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.support.v4.view.PagerAdapter;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;

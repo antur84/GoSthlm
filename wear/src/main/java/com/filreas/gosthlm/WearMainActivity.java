@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
@@ -93,6 +94,9 @@ public class WearMainActivity extends WearBaseActivity {
                     sitePagerAdapter.updateItem(viewPager, currentIndex, updatedSite);
                 }
                 hideMainProgressBar();
+                GoSthlmLog.d("Vibrating..");
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(100);
             }
         });
     }
