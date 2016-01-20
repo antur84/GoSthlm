@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.wearable.view.WearableListView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -136,9 +135,9 @@ public class WearMainActivity extends WearBaseActivity {
 
     @Override
     public void onPause() {
+        super.onPause();
         GoSthlmLog.d("--On Paus--");
         mSensorManager.unregisterListener(mShakeDetector);
-        super.onPause();
     }
 
     @Override
