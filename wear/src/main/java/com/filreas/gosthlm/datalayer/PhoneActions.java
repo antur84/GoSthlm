@@ -1,7 +1,6 @@
 package com.filreas.gosthlm.datalayer;
 
 import com.filreas.shared.utils.DataLayerUri;
-import com.filreas.shared.utils.GoSthlmLog;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.Node;
@@ -17,15 +16,20 @@ public class PhoneActions {
         this.mobileClient = mobileClient;
     }
 
-    public void refreshAll() {
+    public void refreshAll(final IPhoneActionsCallback callback) {
         Wearable.NodeApi.getConnectedNodes(mobileClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
             @Override
             public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
                 List<Node> nodes = getConnectedNodesResult.getNodes();
-                GoSthlmLog.d("refreshAll nodes: " + nodes.size());
+                if (nodes == null || nodes.isEmpty()) {
+                    callback.messageResult(PhoneActionsCallbackResult.NO_CONNECTED_NODES);
+                    return;
+                }
+
                 for (Node node : nodes) {
                     Wearable.MessageApi.sendMessage(mobileClient, node.getId(), DataLayerUri.REFRESH_ALL_DATA_ON_WATCH_REQUESTED, null);
                 }
+                callback.messageResult(PhoneActionsCallbackResult.OK);
             }
         });
     }

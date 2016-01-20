@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.filreas.gosthlm.datalayer.IPhoneActionsCallback;
 import com.filreas.gosthlm.datalayer.PhoneActions;
+import com.filreas.gosthlm.datalayer.PhoneActionsCallbackResult;
 import com.filreas.shared.dto.FavouriteSiteLiveUpdateDto;
 import com.filreas.shared.utils.DataLayerUri;
 import com.filreas.shared.utils.DtoSerializer;
@@ -38,6 +40,7 @@ public abstract class WearBaseActivity extends WearableActivity
     private SwipeRefreshLayout swipeLayout;
     private ProgressBar progressBar;
     private TextView barText;
+    private TextView centerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public abstract class WearBaseActivity extends WearableActivity
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         barText = (TextView)findViewById(R.id.progressBarText);
+        centerText = (TextView)findViewById(R.id.centerText);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -79,7 +83,14 @@ public abstract class WearBaseActivity extends WearableActivity
     private void refreshAllStationsAndDepartures() {
         GoSthlmLog.d("onRefresh");
         PhoneActions phoneActions = new PhoneActions(googleApiClient);
-        phoneActions.refreshAll();
+        phoneActions.refreshAll(new IPhoneActionsCallback() {
+            @Override
+            public void messageResult(PhoneActionsCallbackResult result) {
+                if (result == PhoneActionsCallbackResult.NO_CONNECTED_NODES) {
+                    showErrorTextOnMainScreen(getText(R.string.no_connected_nodes));
+                }
+            }
+        });
     }
 
     @Override
@@ -167,6 +178,12 @@ public abstract class WearBaseActivity extends WearableActivity
     protected void hideMainProgressBar() {
         progressBar.setVisibility(View.GONE);
         barText.setVisibility(View.GONE);
+    }
+
+    protected void showErrorTextOnMainScreen(CharSequence text) {
+        hideMainProgressBar();
+        centerText.setText(text);
+        centerText.setVisibility(View.VISIBLE);
     }
 
     private void showErrorDialog(int errorCode) {
