@@ -2,6 +2,7 @@ package com.filreas.gosthlm;
 
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.wearable.activity.WearableActivity;
 import android.view.View;
@@ -185,6 +186,8 @@ public abstract class WearBaseActivity extends WearableActivity
                 @Override
                 public void run() {
                     swipeLayout.setRefreshing(false);
+                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vibrator.vibrate(100);
                 }
             });
         }
