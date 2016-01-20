@@ -47,22 +47,30 @@ public abstract class WearBaseActivity extends WearableActivity
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        barText = (TextView)findViewById(R.id.progressBarText);
-        centerText = (TextView)findViewById(R.id.centerText);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        barText = (TextView) findViewById(R.id.progressBarText);
+        centerText = (TextView) findViewById(R.id.centerText);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        Wearable.MessageApi.addListener(googleApiClient, this);
+
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshAllStationsAndDepartures();
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (!this.isResolvingError) {
+        GoSthlmLog.d("onStart");
+        if (!this.isResolvingError && !googleApiClient.isConnected()) {
+            GoSthlmLog.d("Connectiong to Data Api in onStart method");
             googleApiClient.connect();
         }
     }
@@ -71,17 +79,12 @@ public abstract class WearBaseActivity extends WearableActivity
     public void onConnected(Bundle connectionHint) {
         GoSthlmLog.d("Connected to Google Api Service");
         Wearable.DataApi.addListener(googleApiClient, this);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshAllStationsAndDepartures();
-            }
-        });
+        Wearable.MessageApi.addListener(googleApiClient, this);
         refreshAllStationsAndDepartures();
     }
 
     private void refreshAllStationsAndDepartures() {
-        GoSthlmLog.d("onRefresh");
+        GoSthlmLog.d("refreshAllStationsAndDepartures");
         PhoneActions phoneActions = new PhoneActions(googleApiClient);
         phoneActions.refreshAll(new IPhoneActionsCallback() {
             @Override
@@ -99,12 +102,24 @@ public abstract class WearBaseActivity extends WearableActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        GoSthlmLog.d("onPause");
+        disconnectFromDataApi();
+    }
+
+    @Override
     protected void onStop() {
-        if (googleApiClient != null && googleApiClient.isConnected()) {
-            Wearable.DataApi.removeListener(googleApiClient, this);
-            googleApiClient.disconnect();
-        }
         super.onStop();
+        GoSthlmLog.d("onStop");
+        disconnectFromDataApi();
+    }
+
+    @Override
+    protected void onResume() {
+        GoSthlmLog.d("onStop");
+        super.onResume();
+        googleApiClient.connect();
     }
 
     @Override
@@ -184,6 +199,17 @@ public abstract class WearBaseActivity extends WearableActivity
         hideMainProgressBar();
         centerText.setText(text);
         centerText.setVisibility(View.VISIBLE);
+    }
+
+    private void disconnectFromDataApi() {
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            GoSthlmLog.d("Disconnected from DataApi");
+            Wearable.DataApi.removeListener(googleApiClient, this);
+            Wearable.MessageApi.removeListener(googleApiClient, this);
+            googleApiClient.unregisterConnectionCallbacks(this);
+            googleApiClient.unregisterConnectionFailedListener(this);
+            googleApiClient.disconnect();
+        }
     }
 
     private void showErrorDialog(int errorCode) {
