@@ -43,7 +43,7 @@ public class WearMainActivity extends WearBaseActivity {
                 new ISwipeToRefreshEnabler() {
                     @Override
                     public void onSwipeToRefreshEnabled(boolean enable) {
-                        getSwipeLayout().setEnabled(enable);
+                        getSwipeDownToRefreshLayout().setEnabled(enable);
                     }
                 });
         viewPager.setAdapter(sitePagerAdapter);
