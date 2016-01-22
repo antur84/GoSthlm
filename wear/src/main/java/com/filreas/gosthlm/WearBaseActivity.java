@@ -2,12 +2,15 @@ package com.filreas.gosthlm;
 
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.wearable.activity.WearableActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.filreas.gosthlm.datalayer.IPhoneActionsCallback;
 import com.filreas.gosthlm.datalayer.PhoneActions;
@@ -26,6 +29,9 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 
+import org.joda.time.LocalTime;
+import org.joda.time.Seconds;
+
 import java.io.IOException;
 
 public abstract class WearBaseActivity extends WearableActivity
@@ -42,6 +48,7 @@ public abstract class WearBaseActivity extends WearableActivity
     private ProgressBar progressBar;
     private TextView barText;
     private TextView centerText;
+    private LocalTime lastStartedRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +99,35 @@ public abstract class WearBaseActivity extends WearableActivity
             public void messageResult(PhoneActionsCallbackResult result) {
                 if (result == PhoneActionsCallbackResult.NO_CONNECTED_NODES) {
                     showErrorTextOnMainScreen(getText(R.string.no_connected_nodes));
+                    getSwipeDownToRefreshLayout().setRefreshing(false);
                 }
+                lastStartedRefresh = LocalTime.now();
+                runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(lastStartedRefresh != null) {
+                            LocalTime now = LocalTime.now();
+                            int secondsSinceUpdateStarted =
+                                    Seconds.secondsBetween(lastStartedRefresh, now).getSeconds();
+                            boolean updateDidNotCompleteInTime = secondsSinceUpdateStarted > 4;
+                            GoSthlmLog.d("updateDidNotCompleteInTime? " + updateDidNotCompleteInTime + " sec: " + secondsSinceUpdateStarted);
+                            if (updateDidNotCompleteInTime) {
+                                getSwipeDownToRefreshLayout().setRefreshing(false);
+                                Toast.makeText(
+                                        WearBaseActivity.this,
+                                        getText(R.string.refreshFailed),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }, 5000);
+
             }
         });
+    }
+
+    private void runLater(Runnable runnable, int delayMillis) {
+        new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
     }
 
     @Override
@@ -148,7 +181,7 @@ public abstract class WearBaseActivity extends WearableActivity
     }
 
 
-    protected SwipeRefreshLayout getSwipeLayout() {
+    protected SwipeRefreshLayout getSwipeDownToRefreshLayout() {
         return swipeLayout;
     }
 
@@ -182,20 +215,22 @@ public abstract class WearBaseActivity extends WearableActivity
     public void onMessageReceived(MessageEvent messageEvent) {
         if (messageEvent.getPath().equals(DataLayerUri.REFRESH_ALL_DATA_ON_WATCH_COMPLETED)) {
             GoSthlmLog.d("onMessageReceived REFRESH_ALL_DATA_ON_WATCH_COMPLETED");
-            runOnUiThread(new Runnable() {
+            runLater(new Runnable() {
                 @Override
                 public void run() {
+                    lastStartedRefresh = null;
                     swipeLayout.setRefreshing(false);
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
                 }
-            });
+            }, 1);
         }
     }
 
     protected void hideMainProgressBar() {
         progressBar.setVisibility(View.GONE);
         barText.setVisibility(View.GONE);
+        centerText.setVisibility(View.GONE);
     }
 
     protected void showErrorTextOnMainScreen(CharSequence text) {

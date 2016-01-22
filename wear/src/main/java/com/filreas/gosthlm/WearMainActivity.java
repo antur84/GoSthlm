@@ -4,8 +4,8 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +24,7 @@ public class WearMainActivity extends WearBaseActivity {
     private StationViewPagerAdapter sitePagerAdapter;
 
     List<FavouriteSiteLiveUpdateDto> favouriteSites;
+    private View touchTarget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +43,13 @@ public class WearMainActivity extends WearBaseActivity {
                 new ISwipeToRefreshEnabler() {
                     @Override
                     public void onSwipeToRefreshEnabled(boolean enable) {
-                        getSwipeLayout().setEnabled(enable);
+                        getSwipeDownToRefreshLayout().setEnabled(enable);
                     }
                 });
         viewPager.setAdapter(sitePagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private int previousScrollState = ViewPager.SCROLL_STATE_IDLE;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -58,8 +61,38 @@ public class WearMainActivity extends WearBaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                if (previousScrollState == ViewPager.SCROLL_STATE_IDLE) {
+                    if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                        touchTarget = viewPager;
+                    }
+                } else {
+                    if (state == ViewPager.SCROLL_STATE_IDLE || state == ViewPager.SCROLL_STATE_SETTLING) {
+                        touchTarget = null;
+                    }
+                }
+
+                previousScrollState = state;
             }
         });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (touchTarget != null) {
+            boolean wasProcessed = touchTarget.onTouchEvent(ev);
+
+            if (!wasProcessed) {
+                touchTarget = null;
+            }
+
+            if(viewPager.getCurrentItem() == 0){
+                return false; // allow for exit app swipe on first page
+            }
+
+            return wasProcessed;
+        }
+
+        return super.dispatchTouchEvent(ev);
     }
 
     private void initRefreshOnShake() {
