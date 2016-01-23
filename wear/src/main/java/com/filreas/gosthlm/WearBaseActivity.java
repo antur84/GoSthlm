@@ -49,6 +49,7 @@ public abstract class WearBaseActivity extends WearableActivity
     private TextView barText;
     private TextView centerText;
     private LocalTime lastStartedRefresh;
+    private int timeoutInSecondsForRefreshAll = 9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +106,11 @@ public abstract class WearBaseActivity extends WearableActivity
                 runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if(lastStartedRefresh != null) {
+                        if (lastStartedRefresh != null) {
                             LocalTime now = LocalTime.now();
                             int secondsSinceUpdateStarted =
                                     Seconds.secondsBetween(lastStartedRefresh, now).getSeconds();
-                            boolean updateDidNotCompleteInTime = secondsSinceUpdateStarted > 4;
+                            boolean updateDidNotCompleteInTime = secondsSinceUpdateStarted > timeoutInSecondsForRefreshAll;
                             GoSthlmLog.d("updateDidNotCompleteInTime? " + updateDidNotCompleteInTime + " sec: " + secondsSinceUpdateStarted);
                             if (updateDidNotCompleteInTime) {
                                 getSwipeDownToRefreshLayout().setRefreshing(false);
@@ -120,7 +121,7 @@ public abstract class WearBaseActivity extends WearableActivity
                             }
                         }
                     }
-                }, 5000);
+                }, (timeoutInSecondsForRefreshAll + 1) * 1000);
 
             }
         });
