@@ -4,7 +4,9 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -85,7 +87,7 @@ public class WearMainActivity extends WearBaseActivity {
                 touchTarget = null;
             }
 
-            if(viewPager.getCurrentItem() == 0){
+            if (viewPager.getCurrentItem() == 0) {
                 return false; // allow for exit app swipe on first page
             }
 
@@ -156,7 +158,7 @@ public class WearMainActivity extends WearBaseActivity {
     public void onUpdateAmbient() {
         GoSthlmLog.d("--Update Ambient--");
         super.onUpdateAmbient();
-        updateDisplay();
+        refreshAllStationsAndDepartures();
     }
 
     @Override
@@ -181,8 +183,33 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     private void updateDisplay() {
-        GoSthlmLog.d("--Update Display--");
+        SwipeRefreshLayout swipeDownToRefreshLayout = getSwipeDownToRefreshLayout();
+
         if (isAmbient()) {
+            int black = ContextCompat.getColor(this, R.color.black);
+            swipeDownToRefreshLayout.setBackgroundColor(black);
+            setViewPagerHeaderColor(black);
+            setViewPagerIndicatorVisibility(View.INVISIBLE);
+        } else {
+            int primaryDark = ContextCompat.getColor(this, R.color.primary_dark);
+            int primary = ContextCompat.getColor(this, R.color.primary);
+            swipeDownToRefreshLayout.setBackgroundColor(primaryDark);
+            setViewPagerHeaderColor(primary);
+            setViewPagerIndicatorVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setViewPagerHeaderColor(int black) {
+        View viewPagerHeader = viewPager.findViewById(R.id.viewPager_header);
+        if (viewPagerHeader != null) {
+            viewPagerHeader.setBackgroundColor(black);
+        }
+    }
+
+    private void setViewPagerIndicatorVisibility(int visible) {
+        TextView pagerIndicator = (TextView) findViewById(R.id.pagerIndicator);
+        if (pagerIndicator != null) {
+            pagerIndicator.setVisibility(visible);
         }
     }
 }
