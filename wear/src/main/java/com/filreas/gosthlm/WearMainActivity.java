@@ -141,9 +141,8 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     private void handleShakeEvent(int count) {
-        /* When a shake is detected, do some crazy stuff here.
-        In our case the refresh view should be called.
-         */
+        GoSthlmLog.d("Detected shake, refreshing view.");
+        refreshAllStationsAndDepartures();
     }
 
     @Override
