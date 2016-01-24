@@ -101,6 +101,7 @@ public abstract class WearBaseActivity extends WearableActivity
                 if (result == PhoneActionsCallbackResult.NO_CONNECTED_NODES) {
                     showErrorTextOnMainScreen(getText(R.string.no_connected_nodes));
                     getSwipeDownToRefreshLayout().setRefreshing(false);
+                    return;
                 }
                 lastStartedRefresh = LocalTime.now();
                 runLater(new Runnable() {
@@ -144,15 +145,8 @@ public abstract class WearBaseActivity extends WearableActivity
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        GoSthlmLog.d("onStop");
-        disconnectFromDataApi();
-    }
-
-    @Override
     protected void onResume() {
-        GoSthlmLog.d("onStop");
+        GoSthlmLog.d("onResume");
         super.onResume();
         googleApiClient.connect();
     }
@@ -245,8 +239,6 @@ public abstract class WearBaseActivity extends WearableActivity
             GoSthlmLog.d("Disconnected from DataApi");
             Wearable.DataApi.removeListener(googleApiClient, this);
             Wearable.MessageApi.removeListener(googleApiClient, this);
-            googleApiClient.unregisterConnectionCallbacks(this);
-            googleApiClient.unregisterConnectionFailedListener(this);
             googleApiClient.disconnect();
         }
     }
