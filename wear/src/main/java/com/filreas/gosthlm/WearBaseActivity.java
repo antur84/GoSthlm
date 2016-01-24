@@ -92,7 +92,7 @@ public abstract class WearBaseActivity extends WearableActivity
         refreshAllStationsAndDepartures();
     }
 
-    public void refreshAllStationsAndDepartures() {
+    protected void refreshAllStationsAndDepartures() {
         GoSthlmLog.d("refreshAllStationsAndDepartures");
         PhoneActions phoneActions = new PhoneActions(googleApiClient);
         phoneActions.refreshAll(new IPhoneActionsCallback() {
