@@ -15,6 +15,8 @@ public class FavouriteSite implements Comparable<FavouriteSite> {
 
     private final String y;
 
+    private int sortPosition;
+
     public FavouriteSite(int id, String name, int siteId, String type, String x, String y) {
         this.id = id;
         this.name = name;
@@ -54,6 +56,8 @@ public class FavouriteSite implements Comparable<FavouriteSite> {
         if (another.getId() > getId()) return 1;
         if (another.getSiteId() < getSiteId()) return -1;
         if (another.getSiteId() > getSiteId()) return 1;
+        if (another.getSortPosition() < getSortPosition()) return -1;
+        if (another.getSortPosition() > getSortPosition()) return 1;
         int nameEquals = another.getName().compareTo(getName());
         if (nameEquals != 0) {
             return nameEquals;
@@ -72,5 +76,13 @@ public class FavouriteSite implements Comparable<FavouriteSite> {
         }
 
         return 0;
+    }
+
+    public int getSortPosition() {
+        return sortPosition;
+    }
+
+    public void setSortPosition(int sortPosition) {
+        this.sortPosition = sortPosition;
     }
 }

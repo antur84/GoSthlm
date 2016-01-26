@@ -120,13 +120,15 @@ public class Favourites extends MobileBaseActivity {
     }
 
     private void updateSortPositionOfFavouriteSite(int position) {
+        FavouriteSite site = favouriteSites.get(position);
+        site.setSortPosition(position);
         new CommandExecuter().execute(
                 new AddOrUpdateFavouriteStationCommand(
                         new FavouriteSiteHelper(
                                 new DbHelperWrapper(
                                         getApplicationContext())),
                         null,
-                        favouriteSites.get(position)));
+                        site));
     }
 
     @Override
