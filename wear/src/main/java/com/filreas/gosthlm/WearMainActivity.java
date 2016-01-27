@@ -200,9 +200,12 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     private void setViewPagerHeaderColor(int black) {
-        View viewPagerHeader = viewPager.findViewById(R.id.viewPager_header);
-        if (viewPagerHeader != null) {
-            viewPagerHeader.setBackgroundColor(black);
+        View currentView = sitePagerAdapter.getCurrentView();
+        if(currentView != null) {
+            View viewPagerHeader = currentView.findViewById(R.id.viewPager_header);
+            if (viewPagerHeader != null) {
+                viewPagerHeader.setBackgroundColor(black);
+            }
         }
     }
 

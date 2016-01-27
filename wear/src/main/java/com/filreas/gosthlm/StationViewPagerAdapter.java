@@ -21,6 +21,7 @@ public class StationViewPagerAdapter extends PagerAdapter {
 
     LayoutInflater inflater;
     private DisabledSwipeToRefreshOnCentralPositionChangedListener positionChangedListener;
+    private View currentView;
 
     public StationViewPagerAdapter(
             Context context,
@@ -120,6 +121,16 @@ public class StationViewPagerAdapter extends PagerAdapter {
 
             notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+        this.currentView = (View)object;
+    }
+
+    public View getCurrentView() {
+        return currentView;
     }
 
     private class DisabledSwipeToRefreshOnCentralPositionChangedListener implements WearableListView.OnCentralPositionChangedListener {
