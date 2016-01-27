@@ -9,7 +9,7 @@ public class ShakeEventListener implements SensorEventListener {
 
     private static final float SHAKE_THRESHOLD_GRAVITY = 1.8F;
     private static final int SHAKE_SLOP_TIME_MS = 500;
-    private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
+    private static final int SHAKE_COUNT_RESET_TIME_MS = 2000;
 
     private OnShakeListener shakeListener;
     private long shakeTimestamp;
@@ -17,6 +17,10 @@ public class ShakeEventListener implements SensorEventListener {
 
     public void setOnShakeListener(OnShakeListener listener) {
         this.shakeListener = listener;
+    }
+
+    public void resetShakeCount() {
+        shakeCount = 0;
     }
 
     public interface OnShakeListener {

@@ -50,6 +50,7 @@ public abstract class WearBaseActivity extends WearableActivity
     private TextView centerText;
     private LocalTime lastStartedRefresh;
     private int timeoutInSecondsForRefreshAll = 9;
+    private boolean manualForceRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public abstract class WearBaseActivity extends WearableActivity
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                manualForceRefresh = true;
                 refreshAllStationsAndDepartures();
             }
         });
@@ -95,38 +97,48 @@ public abstract class WearBaseActivity extends WearableActivity
     protected void refreshAllStationsAndDepartures() {
         GoSthlmLog.d("refreshAllStationsAndDepartures");
         PhoneActions phoneActions = new PhoneActions(googleApiClient);
-        phoneActions.refreshAll(new IPhoneActionsCallback() {
-            @Override
-            public void messageResult(PhoneActionsCallbackResult result) {
-                if (result == PhoneActionsCallbackResult.NO_CONNECTED_NODES) {
-                    showErrorTextOnMainScreen(getText(R.string.no_connected_nodes));
-                    getSwipeDownToRefreshLayout().setRefreshing(false);
-                    return;
-                }
-                lastStartedRefresh = LocalTime.now();
-                runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (lastStartedRefresh != null) {
-                            LocalTime now = LocalTime.now();
-                            int secondsSinceUpdateStarted =
-                                    Seconds.secondsBetween(lastStartedRefresh, now).getSeconds();
-                            boolean updateDidNotCompleteInTime = secondsSinceUpdateStarted > timeoutInSecondsForRefreshAll;
-                            GoSthlmLog.d("updateDidNotCompleteInTime? " + updateDidNotCompleteInTime + " sec: " + secondsSinceUpdateStarted);
-                            if (updateDidNotCompleteInTime) {
-                                getSwipeDownToRefreshLayout().setRefreshing(false);
-                                Toast.makeText(
-                                        WearBaseActivity.this,
-                                        getText(R.string.refreshFailed),
-                                        Toast.LENGTH_SHORT).show();
+        if (manualForceRefresh || !getSwipeDownToRefreshLayout().isRefreshing()) {
+            manualForceRefresh = false;
+            getSwipeDownToRefreshLayout().setRefreshing(true);
+
+            phoneActions.refreshAll(new IPhoneActionsCallback() {
+                @Override
+                public void messageResult(PhoneActionsCallbackResult result) {
+                    if (result == PhoneActionsCallbackResult.NO_CONNECTED_NODES) {
+                        showErrorTextOnMainScreen(getText(R.string.no_connected_nodes));
+                        stopSwipeRefreshSpinner();
+                        return;
+                    }
+                    lastStartedRefresh = LocalTime.now();
+                    runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (lastStartedRefresh != null) {
+                                LocalTime now = LocalTime.now();
+                                int secondsSinceUpdateStarted =
+                                        Seconds.secondsBetween(lastStartedRefresh, now).getSeconds();
+                                boolean updateDidNotCompleteInTime = secondsSinceUpdateStarted > timeoutInSecondsForRefreshAll;
+                                GoSthlmLog.d("updateDidNotCompleteInTime? " + updateDidNotCompleteInTime + " sec: " + secondsSinceUpdateStarted);
+                                if (updateDidNotCompleteInTime) {
+                                    stopSwipeRefreshSpinner();
+                                    Toast.makeText(
+                                            WearBaseActivity.this,
+                                            getText(R.string.refreshFailed),
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
-                    }
-                }, (timeoutInSecondsForRefreshAll + 1) * 1000);
+                    }, (timeoutInSecondsForRefreshAll + 1) * 1000);
 
-            }
-        });
+                }
+            });
+        }
     }
+
+    private void stopSwipeRefreshSpinner() {
+        getSwipeDownToRefreshLayout().setRefreshing(false);
+    }
+
 
     private void runLater(Runnable runnable, int delayMillis) {
         new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
@@ -146,8 +158,8 @@ public abstract class WearBaseActivity extends WearableActivity
 
     @Override
     protected void onResume() {
-        GoSthlmLog.d("onResume");
         super.onResume();
+        GoSthlmLog.d("onResume");
         googleApiClient.connect();
     }
 
