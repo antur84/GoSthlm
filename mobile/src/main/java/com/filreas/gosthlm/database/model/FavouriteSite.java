@@ -15,7 +15,12 @@ public class FavouriteSite implements Comparable<FavouriteSite> {
 
     private final String y;
 
-    private int sortPosition;
+    private int sortPosition = Integer.MAX_VALUE;
+
+    public FavouriteSite(int id, String name, int siteId, String type, String x, String y, int sortPosition) {
+        this(id, name, siteId, type, x, y);
+        this.sortPosition = sortPosition;
+    }
 
     public FavouriteSite(int id, String name, int siteId, String type, String x, String y) {
         this.id = id;
