@@ -27,10 +27,12 @@ public class WearMainActivity extends WearBaseActivity {
 
     List<FavouriteSiteLiveUpdateDto> favouriteSites;
     private View touchTarget;
+    private TextView pagerIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pagerIndicator = (TextView) findViewById(R.id.pagerIndicator);
         setAmbientEnabled();
         initRefreshOnShake();
         initStationsViewPageAdapter();
@@ -118,33 +120,29 @@ public class WearMainActivity extends WearBaseActivity {
 
     @Override
     protected void updateScreenInfo(final FavouriteSiteLiveUpdateDto updatedSite) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                int currentIndex = favouriteSites.indexOf(updatedSite);
-                if (currentIndex < 0) {
-                    sitePagerAdapter.addItem(updatedSite);
-                    updatePageIndicator();
-                } else {
-                    sitePagerAdapter.updateItem(viewPager, currentIndex, updatedSite);
-                }
-                hideMainProgressBar();
-            }
-        });
+        int currentIndex = favouriteSites.indexOf(updatedSite);
+        if (currentIndex < 0) {
+            sitePagerAdapter.addItem(updatedSite);
+            updatePageIndicator();
+        } else {
+            sitePagerAdapter.updateItem(viewPager, currentIndex, updatedSite);
+        }
+        viewPager.setVisibility(View.VISIBLE);
+        pagerIndicator.setVisibility(View.VISIBLE);
+        hideStartupProgressBarAndCenterText();
     }
 
     private void updatePageIndicator() {
-        TextView indicator = (TextView) findViewById(R.id.pagerIndicator);
         String currentPageText = String.format(
                 getString(R.string.item_of_total),
                 viewPager.getCurrentItem() + 1,
                 favouriteSites.size());
-        indicator.setText(currentPageText);
+        pagerIndicator.setText(currentPageText);
     }
 
     private void handleShakeEvent(int count) {
         GoSthlmLog.d("Detected (" + count + ") shake.");
-        if(count >= 3) {
+        if (count >= 3) {
             mShakeDetector.resetShakeCount();
             refreshAllStationsAndDepartures();
         }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Vibrator;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.wearable.activity.WearableActivity;
 import android.view.View;
@@ -89,6 +90,9 @@ public abstract class WearBaseActivity extends WearableActivity
     @Override
     public void onConnected(Bundle connectionHint) {
         GoSthlmLog.d("Connected to Google Api Service");
+        if(barText.getVisibility() == View.VISIBLE){
+            barText.setText(getText(R.string.fetching_departures));
+        }
         Wearable.DataApi.addListener(googleApiClient, this);
         Wearable.MessageApi.addListener(googleApiClient, this);
         refreshAllStationsAndDepartures();
@@ -99,8 +103,9 @@ public abstract class WearBaseActivity extends WearableActivity
         PhoneActions phoneActions = new PhoneActions(googleApiClient);
         if (manualForceRefresh || !getSwipeDownToRefreshLayout().isRefreshing()) {
             manualForceRefresh = false;
-            getSwipeDownToRefreshLayout().setRefreshing(true);
-
+            if(!isAmbient()) {
+                getSwipeDownToRefreshLayout().setRefreshing(true);
+            }
             phoneActions.refreshAll(new IPhoneActionsCallback() {
                 @Override
                 public void messageResult(PhoneActionsCallbackResult result) {
@@ -110,7 +115,7 @@ public abstract class WearBaseActivity extends WearableActivity
                         return;
                     }
                     lastStartedRefresh = LocalTime.now();
-                    runLater(new Runnable() {
+                    runLaterOnScreen(new Runnable() {
                         @Override
                         public void run() {
                             if (lastStartedRefresh != null) {
@@ -140,7 +145,7 @@ public abstract class WearBaseActivity extends WearableActivity
     }
 
 
-    private void runLater(Runnable runnable, int delayMillis) {
+    private void runLaterOnScreen(Runnable runnable, int delayMillis) {
         new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMillis);
     }
 
@@ -175,10 +180,15 @@ public abstract class WearBaseActivity extends WearableActivity
                 if (path.equals(DataLayerUri.FAVOURITE_SITE_UPDATE) ||
                         path.equals(DataLayerUri.FAVOURITE_SITE_UPDATE_FAILED)) {
                     try {
-                        FavouriteSiteLiveUpdateDto updatedSite =
+                        final FavouriteSiteLiveUpdateDto updatedSite =
                                 (FavouriteSiteLiveUpdateDto) DtoSerializer.convertFromBytes(
                                         event.getDataItem().getData());
-                        this.updateScreenInfo(updatedSite);
+                        runLaterOnScreen(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateScreenInfo(updatedSite);
+                            }
+                        }, 25);
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -222,7 +232,7 @@ public abstract class WearBaseActivity extends WearableActivity
     public void onMessageReceived(MessageEvent messageEvent) {
         if (messageEvent.getPath().equals(DataLayerUri.REFRESH_ALL_DATA_ON_WATCH_COMPLETED)) {
             GoSthlmLog.d("onMessageReceived REFRESH_ALL_DATA_ON_WATCH_COMPLETED");
-            runLater(new Runnable() {
+            runLaterOnScreen(new Runnable() {
                 @Override
                 public void run() {
                     lastStartedRefresh = null;
@@ -234,14 +244,18 @@ public abstract class WearBaseActivity extends WearableActivity
         }
     }
 
-    protected void hideMainProgressBar() {
+    protected void hideStartupProgressBarAndCenterText() {
         progressBar.setVisibility(View.GONE);
         barText.setVisibility(View.GONE);
         centerText.setVisibility(View.GONE);
     }
 
     protected void showErrorTextOnMainScreen(CharSequence text) {
-        hideMainProgressBar();
+        hideStartupProgressBarAndCenterText();
+        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+        pager.setVisibility(View.GONE);
+        TextView pagerIndicator = (TextView)findViewById(R.id.pagerIndicator);
+        pagerIndicator.setVisibility(View.GONE);
         centerText.setText(text);
         centerText.setVisibility(View.VISIBLE);
     }
