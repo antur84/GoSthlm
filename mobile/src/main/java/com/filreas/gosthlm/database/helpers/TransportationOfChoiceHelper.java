@@ -36,8 +36,6 @@ public class TransportationOfChoiceHelper implements ITransportationOfChoiceDbHe
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE);
-        onCreate(db);
     }
 
     @Override

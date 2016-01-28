@@ -40,8 +40,10 @@ public class DepartureSearch {
                 new ISLApiTaskResponseHandler<RealTimeResponse>() {
                     @Override
                     public void onTaskComplete(SLApiTaskResult<RealTimeResponse> result) {
-                        if (result.getResponse().getStatusCode() != 0) {
-                            GoSthlmLog.d("SL Api failure: " + result.getResponse().getMessage());
+
+                        RealTimeResponse response = result.getResponse();
+                        if (response == null || response.getStatusCode() != 0) {
+                            GoSthlmLog.d("SL Api failure: " + (response == null ? "No response" : response.getMessage()));
                             Exception exception = result.getException();
                             String reason = "Unknown error";
                             if (exception != null) {
@@ -50,7 +52,7 @@ public class DepartureSearch {
                             notifySearchFailed(site, reason);
                         } else {
                             GoSthlmLog.d("DepartureSearch search completed for : " + site.getName());
-                            notifySearchCompleted(site, result.getResponse());
+                            notifySearchCompleted(site, response);
                         }
                     }
                 });

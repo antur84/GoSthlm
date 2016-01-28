@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
+import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.CommandExecuter;
 import com.filreas.gosthlm.database.commands.DeleteFavouriteStationCommand;
 import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
@@ -84,7 +85,7 @@ public class Favourites extends MobileBaseActivity {
         ItemTouchHelper.Callback callback =
                 new SimpleFavouritesCallback(new ISimpleFavouritesCallbackActions() {
                     @Override
-                    public boolean onItemMove(int from, int to) {
+                    public void onItemMove(int from, int to) {
                         if (from < to) {
                             for (int i = from; i < to; i++) {
                                 Collections.swap(favouriteSites, i, i + 1);
@@ -94,8 +95,11 @@ public class Favourites extends MobileBaseActivity {
                                 Collections.swap(favouriteSites, i, i - 1);
                             }
                         }
+
+                        updateSortPositionOfFavouriteSite(from);
+                        updateSortPositionOfFavouriteSite(to);
+
                         adapter.notifyItemMoved(from, to);
-                        return true;
                     }
 
                     @Override
@@ -113,6 +117,18 @@ public class Favourites extends MobileBaseActivity {
                 });
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void updateSortPositionOfFavouriteSite(int position) {
+        FavouriteSite site = favouriteSites.get(position);
+        site.setSortPosition(position);
+        new CommandExecuter().execute(
+                new AddOrUpdateFavouriteStationCommand(
+                        new FavouriteSiteHelper(
+                                new DbHelperWrapper(
+                                        getApplicationContext())),
+                        null,
+                        site));
     }
 
     @Override

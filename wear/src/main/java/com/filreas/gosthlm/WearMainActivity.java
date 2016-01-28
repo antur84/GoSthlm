@@ -143,8 +143,11 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     private void handleShakeEvent(int count) {
-        GoSthlmLog.d("Detected shake, refreshing view.");
-        refreshAllStationsAndDepartures();
+        GoSthlmLog.d("Detected (" + count + ") shake.");
+        if(count >= 3) {
+            mShakeDetector.resetShakeCount();
+            refreshAllStationsAndDepartures();
+        }
     }
 
     @Override
@@ -152,34 +155,34 @@ public class WearMainActivity extends WearBaseActivity {
         GoSthlmLog.d("--Enter Ambient--");
         super.onEnterAmbient(ambientDetails);
         updateDisplay();
+        removeShakeListener();
+    }
+
+    @Override
+    public void onExitAmbient() {
+        super.onExitAmbient();
+        GoSthlmLog.d("--Exit Ambient--");
+        updateDisplay();
+        addShakeListener();
     }
 
     @Override
     public void onUpdateAmbient() {
-        GoSthlmLog.d("--Update Ambient--");
         super.onUpdateAmbient();
+        GoSthlmLog.d("--Update Ambient--");
         refreshAllStationsAndDepartures();
     }
 
     @Override
     public void onResume() {
-        GoSthlmLog.d("--On Resume--");
         super.onResume();
-        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        addShakeListener();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        GoSthlmLog.d("--On Paus--");
-        mSensorManager.unregisterListener(mShakeDetector);
-    }
-
-    @Override
-    public void onExitAmbient() {
-        GoSthlmLog.d("--Exit Ambient--");
-        updateDisplay();
-        super.onExitAmbient();
+        removeShakeListener();
     }
 
     private void updateDisplay() {
@@ -200,9 +203,12 @@ public class WearMainActivity extends WearBaseActivity {
     }
 
     private void setViewPagerHeaderColor(int black) {
-        View viewPagerHeader = viewPager.findViewById(R.id.viewPager_header);
-        if (viewPagerHeader != null) {
-            viewPagerHeader.setBackgroundColor(black);
+        View currentView = sitePagerAdapter.getCurrentView();
+        if (currentView != null) {
+            View viewPagerHeader = currentView.findViewById(R.id.viewPager_header);
+            if (viewPagerHeader != null) {
+                viewPagerHeader.setBackgroundColor(black);
+            }
         }
     }
 
@@ -211,5 +217,13 @@ public class WearMainActivity extends WearBaseActivity {
         if (pagerIndicator != null) {
             pagerIndicator.setVisibility(visible);
         }
+    }
+
+    private void addShakeListener() {
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    private void removeShakeListener() {
+        mSensorManager.unregisterListener(mShakeDetector);
     }
 }

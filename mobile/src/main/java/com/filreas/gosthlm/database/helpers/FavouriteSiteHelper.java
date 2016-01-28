@@ -20,6 +20,7 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
     private static final String KEY_X = "x";
     private static final String KEY_Y = "y";
     private static final String KEY_NAME = "name";
+    private static final String KEY_SORT_ORDER = "sortorder";
     private final IDbHelper dbHelper;
 
     public FavouriteSiteHelper(IDbHelper dbHelper) {
@@ -40,8 +41,21 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVOURITE_SITE);
-        onCreate(db);
+        switch (newVersion) {
+            case 2:
+                addSortOrderColumn(db);
+                break;
+        }
+    }
+
+    private void addSortOrderColumn(SQLiteDatabase db) {
+        String addColumn = "ALTER TABLE " + TABLE_FAVOURITE_SITE + " ADD COLUMN "
+                + KEY_SORT_ORDER + " INTEGER;";
+
+        db.execSQL(addColumn);
+
+        String migrateData = "UPDATE " + TABLE_FAVOURITE_SITE + " SET " + KEY_SORT_ORDER + " = 0;";
+        db.execSQL(migrateData);
     }
 
     @Override
@@ -127,6 +141,7 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
         values.put(KEY_TYPE, favouriteSite.getType());
         values.put(KEY_X, favouriteSite.getX());
         values.put(KEY_Y, favouriteSite.getY());
+        values.put(KEY_SORT_ORDER, favouriteSite.getSortPosition());
         return values;
     }
 
@@ -137,6 +152,7 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
         String type = cursor.getString(cursor.getColumnIndex(KEY_TYPE));
         String x = cursor.getString(cursor.getColumnIndex(KEY_X));
         String y = cursor.getString(cursor.getColumnIndex(KEY_Y));
-        return new FavouriteSite(id, name, siteId, type, x, y);
+        int sortPosition = cursor.getInt(cursor.getColumnIndex(KEY_SORT_ORDER));
+        return new FavouriteSite(id, name, siteId, type, x, y, sortPosition);
     }
 }
