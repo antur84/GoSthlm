@@ -1,14 +1,15 @@
-package com.filreas.gosthlm.activities.Main;
+package com.filreas.gosthlm.utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.filreas.gosthlm.R;
+import com.filreas.gosthlm.activities.Main.MobileMainActivity;
 
-public class Splash extends Activity {
+public class SplashScreen extends Activity {
 
-    protected final int _splashTime = 3000; // time to display the splash screen in ms
+    protected final int _splashTime = 1500; // time to display the splash screen in ms
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class Splash extends Activity {
 
                 } finally {
 
-                    startActivity(new Intent(Splash.this,
+                    startActivity(new Intent(SplashScreen.this,
                             MobileMainActivity.class));
                     finish();
                 }
