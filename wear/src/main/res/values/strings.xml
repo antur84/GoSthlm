@@ -2,6 +2,7 @@
     <string name="item_of_total">%1$d/%2$d</string>
     <string name="no_departures_available">No departures found =(</string>
     <string name="fetching_departures">Fetching departures…</string>
+    <string name="connecting_to_phone">Connecting…</string>
     <string name="no_connected_nodes">No phone connected</string>
     <string name="refreshFailed">Refresh failed, try again.</string>
 </resources>
