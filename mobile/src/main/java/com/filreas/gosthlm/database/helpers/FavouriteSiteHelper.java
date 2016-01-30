@@ -34,7 +34,8 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
                 + KEY_TYPE + " TEXT,"
                 + KEY_X + " TEXT,"
                 + KEY_Y + " TEXT,"
-                + KEY_NAME + " TEXT);";
+                + KEY_NAME + " TEXT,"
+                + KEY_SORT_ORDER + "INTEGER);";
 
         GoSthlmLog.d("onCreate: " + CREATE_DEFAULT_TRANSPORTATION_TABLE);
         db.execSQL(CREATE_DEFAULT_TRANSPORTATION_TABLE);

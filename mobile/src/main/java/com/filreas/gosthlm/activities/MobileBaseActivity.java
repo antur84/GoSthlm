@@ -70,9 +70,6 @@ public abstract class MobileBaseActivity extends AppCompatActivity {
             case R.id.action_favourites:
                 startActivity(new Intent(this, Favourites.class));
                 return true;
-            case R.id.action_help:
-                startActivity(new Intent(this, Help.class));
-                return true;
             case R.id.action_about:
                 startActivity(new Intent(this, About.class));
                 return true;
@@ -88,9 +85,9 @@ public abstract class MobileBaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
+        super.onPause();
         mobileClient.disconnect();
-        super.onStop();
     }
 
     @Override
@@ -106,18 +103,6 @@ public abstract class MobileBaseActivity extends AppCompatActivity {
 
     public void onDialogDismissed() {
         mobileClient.setIsResolvingError(false);
-    }
-
-    public ISLApi getSLApi() {
-        return slApi;
-    }
-
-    public ISLApiKeyFetcher getSLApiKeyFetcher() {
-        return slApiKeyFetcher;
-    }
-
-    public MobileClient getMobileClient() {
-        return mobileClient;
     }
 
     protected void enableHomeAsUpNavigation() {

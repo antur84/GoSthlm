@@ -126,9 +126,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
             initGetStartedGuide();
             return;
         }
-
-        TextView favs = (TextView) findViewById(R.id.numberOfFavouriteStations);
-        favs.setText(getResources().getString(R.string.numberOfFavorites) + " " + favouriteSites.size());
     }
 
     private class OnTransportationOfChoiceCheckboxClicked implements CompoundButton.OnClickListener {
@@ -159,7 +156,6 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
         autoCompleteStationSearch.setOnClickListener(new OnItemClickListener<Site>() {
             @Override
             public void onClick(Site site) {
-                ((TextView) findViewById(R.id.selectedStationText)).setText(site.getName());
                 FavouriteSite favouriteSite = new FavouriteSite(
                         -1,
                         site.getName(),

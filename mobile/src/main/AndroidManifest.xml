@@ -33,10 +33,6 @@
             android:label="@string/actionAboutLabel"
             android:parentActivityName=".activities.Main.MobileMainActivity" />
         <activity
-            android:name=".activities.Help"
-            android:label="@string/actionHelpLabel"
-            android:parentActivityName=".activities.Main.MobileMainActivity" />
-        <activity
             android:name=".activities.favourites.Favourites"
             android:label="@string/actionFavouritesLabel"
             android:parentActivityName=".activities.Main.MobileMainActivity">

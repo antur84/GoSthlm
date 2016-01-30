@@ -4,14 +4,16 @@
     <string name="actionHelpLabel">Help</string>
     <string name="actionAboutLabel">About</string>
     <string name="actionFavouritesLabel">Favourites</string>
-    <string name="selectStationLabel">Select station</string>
+    <string name="selectStationLabel">Add station to favourites</string>
     <string name="searchingLabel">Searching..</string>
-    <string name="transportationTypeLabel">Select transportation</string>
+    <string name="transportationTypeLabel">Select transportation of interest</string>
     <string name="metroLabel">Metro</string>
     <string name="busLabel">Bus</string>
     <string name="trainLabel">Train</string>
     <string name="tramLabel">Tram</string>
-    <string name="helpLabel">Tip!</string>
-    <string name="helpText">Do not forget to add stations to your favorites!</string>
+    <string name="helpLabel">Get started</string>
+    <string name="helpText">Add your favourite stations and desired modes of transport.
+\n\nThe matching current departures will show up on your watch.
+    </string>
     <string name="numberOfFavorites">Number of favorites:</string>
 </resources>

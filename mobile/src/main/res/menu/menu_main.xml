@@ -14,9 +14,4 @@
         android:orderInCategory="200"
         android:title="@string/actionAboutLabel"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_help"
-        android:orderInCategory="300"
-        android:title="@string/actionHelpLabel"
-        app:showAsAction="never" />
 </menu>

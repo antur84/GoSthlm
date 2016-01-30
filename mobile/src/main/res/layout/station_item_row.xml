@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
     <ProgressBar
         android:id="@+id/stationProgressbar"
@@ -17,10 +18,11 @@
         android:id="@+id/stationText"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:padding="8dp"
         android:gravity="center_vertical"
-        android:textColor="#000000"
+        android:textColor="@color/primary_text"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="Huvudsta (Solna)"/>
+    <include layout="@layout/divider" />
 </LinearLayout>
