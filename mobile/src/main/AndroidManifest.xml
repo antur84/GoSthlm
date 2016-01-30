@@ -16,7 +16,7 @@
             </intent-filter>
         </service>
         <activity
-            android:name=".activities.Main.Splash"
+            android:name=".utils.SplashScreen"
             android:label="@string/appName"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
             <intent-filter>
