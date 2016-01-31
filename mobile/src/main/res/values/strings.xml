@@ -2,8 +2,12 @@
     <string name="appName">GoSTHLM</string>
     <string name="actionSettingsLabel">Settings</string>
     <string name="actionHelpLabel">Help</string>
-    <string name="actionAboutLabel">About</string>
+    <string name="actionAboutLabel">About GoSTHLM</string>
     <string name="actionFavouritesLabel">Favourites</string>
+    <string name="aboutSummary">The Wear app was tested on a Moto 360 second generation (round).
+        Square watches were only tested in emulator. For issues and feedback,
+        the project can be found on GitHub.</string>
+    <string name="aboutTrafficData">The data used to present all traffic information is based on information retrieved from Trafiklab.se</string>
     <string name="selectStationLabel">Add station to favourites</string>
     <string name="searchingLabel">Searching..</string>
     <string name="transportationTypeLabel">Select transportation of interest</string>
@@ -15,6 +19,22 @@
     <string name="helpText">Add your favourite stations and desired modes of transport.
 \n\nThe matching current departures will show up on your watch.
     </string>
+    <string name="licenseHeadline">License</string>
+    <string name="aboutLicense">Copyright 2016 Andreas Turku\n\nLicensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at\n\n
+
+    http://www.apache.org/licenses/LICENSE-2.0\n\n
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+    <string name="opensourceHeadline">Third party software</string>
+    <string name="aboutOpensource">SwipeDismissTouchListener.java Copyright 2012 Roman Nurik, Apache License, Version 2.0</string>
+    <string name="testHeadline">Device compatibility</string>
+    <string name="trafiklabHeadline">Data vendor</string>
     <string name="numberOfFavorites">Number of favorites:</string>
     <string name="stationAddedToFavourites">%1$s added to favourites</string>
     <string name="stationRemovedFromFavourites">%1$s removed</string>

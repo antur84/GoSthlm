@@ -92,7 +92,7 @@ public class FavouriteSiteHelper implements IFavouriteSiteDbHelper {
         db.delete(TABLE_FAVOURITE_SITE, "id=?", args);
         db.close();
 
-        GoSthlmLog.d("db remove " + args.toString());
+        GoSthlmLog.d("db remove id " + favouriteSite.getId());
     }
 
     @Override

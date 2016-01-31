@@ -8,7 +8,7 @@
         android:orderInCategory="100"
         android:title="@string/actionFavouritesLabel"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/staricon"/>
+        android:icon="@drawable/ic_star_white_36dp"/>
     <item
         android:id="@+id/action_about"
         android:orderInCategory="200"

@@ -25,12 +25,9 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
 
     public static class ItemViewHolder extends WearableListView.ViewHolder {
         private TextView destinationText;
-        private ImageView icon;
-
         public ItemViewHolder(View itemView) {
             super(itemView);
             destinationText = (TextView) itemView.findViewById(R.id.departure_destination);
-            //icon = (ImageView) itemView.findViewById(R.id.departure_icon);
         }
     }
 
@@ -42,9 +39,6 @@ public class DepartureListItemAdapter extends WearableListView.Adapter {
     @Override
     public void onBindViewHolder(WearableListView.ViewHolder holder, int position) {
         ItemViewHolder itemHolder = (ItemViewHolder) holder;
-
-        //ImageView icon = itemHolder.icon;
-        //icon.setImageResource(R.drawable.common_ic_googleplayservices); // todo construct icon dynamic
 
         DepartureListItem item = departures.get(position);
         String text = item.getLineNumberText() + " "

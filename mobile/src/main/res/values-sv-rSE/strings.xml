@@ -2,7 +2,7 @@
     <string name="appName">GoSTHLM</string>
     <string name="actionSettingsLabel">Inställningar</string>
     <string name="actionHelpLabel">Hjälp</string>
-    <string name="actionAboutLabel">Info</string>
+    <string name="actionAboutLabel">Om GoSTHLM</string>
     <string name="actionFavouritesLabel">Favoriter</string>
     <string name="selectStationLabel">Välj station</string>
     <string name="searchingLabel">Söker..</string>
@@ -20,4 +20,11 @@
     <string name="stationAddedToFavourites">%1$s sparad som favorit</string>
     <string name="stationRemovedFromFavourites">%1$s togs bort</string>
     <string name="undo">Ångra</string>
+    <string name="aboutSummary">Wear
+        Wear-appen är testad på en Moto 360 second generation (rund).
+        Klockor med fyrkantiga skärmar har endast testats via emulator. Vid problem eller frågeställningar
+        kan man titta in på projektsidan på GitHub.</string>
+    <string name="aboutTrafficData">All data som används för att visa trafikinformation är baserad på information som är hämtad från Trafiklab.se</string>
+    <string name="testHeadline">Kompabilitet</string>
+    <string name="trafiklabHeadline">Trafikdata</string>
 </resources>

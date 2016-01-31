@@ -3,4 +3,4 @@
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:alpha="0.12"
-    android:background="@android:color/black"></View>
+    android:background="@android:color/black"/>
