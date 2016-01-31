@@ -29,6 +29,7 @@ public class AddOrUpdateFavouriteStationCommand implements ICommand {
                 dataSourceChangedListener.dataSourceChanged();
             }
         } else {
+            item.setId(current.getId());
             if (current.compareTo(item) != 0) {
                 favouriteSiteHelper.update(item);
             }

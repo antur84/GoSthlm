@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
 import com.filreas.gosthlm.activities.FavouriteSiteSaveOnClickListener;
@@ -34,6 +37,7 @@ import com.filreas.shared.utils.GoSthlmLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Favourites extends MobileBaseActivity {
@@ -74,6 +78,14 @@ public class Favourites extends MobileBaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                site.setSortPosition(favouriteSites.size());
+                                new CommandExecuter().execute(
+                                        new AddOrUpdateFavouriteStationCommand(
+                                                new FavouriteSiteHelper(
+                                                        new DbHelperWrapper(
+                                                                getApplicationContext())),
+                                                null, site));
+                                
                                 favouriteSites.add(site);
                                 adapter.notifyDataSetChanged();
                                 toggleBottomToolbar();
@@ -119,7 +131,7 @@ public class Favourites extends MobileBaseActivity {
                     super.onAnimationEnd(animation);
                     View view = getCurrentFocus();
                     if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                     bottomToolbar.setVisibility(View.INVISIBLE);
@@ -188,7 +200,7 @@ public class Favourites extends MobileBaseActivity {
 
                     @Override
                     public void onItemDismissed(final int position) {
-                        FavouriteSite removed = favouriteSites.remove(position);
+                        final FavouriteSite removed = favouriteSites.remove(position);
                         new CommandExecuter().execute(
                                 new DeleteFavouriteStationCommand(
                                         new FavouriteSiteHelper(
@@ -200,7 +212,13 @@ public class Favourites extends MobileBaseActivity {
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        adapter.notifyItemRemoved(position);
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                adapter.notifyItemRemoved(position);
+                                                                showStationRemovedSnackbar(removed);
+                                                            }
+                                                        });
                                                     }
                                                 });
                                             }
@@ -213,7 +231,7 @@ public class Favourites extends MobileBaseActivity {
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                if(bottomToolbar.getVisibility() == View.VISIBLE){
+                if (bottomToolbar.getVisibility() == View.VISIBLE) {
                     toggleBottomToolbar();
                 }
                 return false;
@@ -229,6 +247,48 @@ public class Favourites extends MobileBaseActivity {
 
             }
         });
+    }
+
+    private void showStationRemovedSnackbar(final FavouriteSite favouriteSite) {
+        String removed = String.format(getString(R.string.stationRemovedFromFavourites), favouriteSite.getName());
+
+        Snackbar snackbar = Snackbar
+                .make(findViewById(R.id.favView), removed, Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.undo), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new CommandExecuter().execute(
+                                new AddOrUpdateFavouriteStationCommand(
+                                        new FavouriteSiteHelper(
+                                                new DbHelperWrapper(
+                                                        getApplicationContext())),
+                                        new IDataSourceChanged() {
+                                            @Override
+                                            public void dataSourceChanged() {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        favouriteSites.add(favouriteSite);
+                                                        Collections.sort(favouriteSites, new Comparator<FavouriteSite>() {
+                                                            @Override
+                                                            public int compare(FavouriteSite lhs, FavouriteSite rhs) {
+                                                                return lhs.getSortPosition() - rhs.getSortPosition();
+                                                            }
+                                                        });
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        favouriteSite
+                                )
+                        );
+                    }
+                });
+        View view = snackbar.getView();
+        TextView actionText = (TextView) view.findViewById(android.support.design.R.id.snackbar_action);
+        actionText.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent));
+        snackbar.show();
     }
 
     private void updateSortPositionOfFavouriteSite(int position) {

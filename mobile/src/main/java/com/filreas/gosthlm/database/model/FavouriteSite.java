@@ -3,7 +3,7 @@ package com.filreas.gosthlm.database.model;
 import android.support.annotation.NonNull;
 
 public class FavouriteSite implements Comparable<FavouriteSite> {
-    private final int id;
+    private int id;
 
     private final String name;
 
@@ -53,6 +53,10 @@ public class FavouriteSite implements Comparable<FavouriteSite> {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

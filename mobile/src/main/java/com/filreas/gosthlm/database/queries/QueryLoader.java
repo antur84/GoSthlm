@@ -27,8 +27,4 @@ public class QueryLoader<T> extends AsyncTaskLoader<T> {
             forceLoad();
         }
     }
-
-    public void notifyContentChanged() {
-        onContentChanged();
-    }
 }

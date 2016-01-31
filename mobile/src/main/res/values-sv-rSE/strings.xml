@@ -18,5 +18,6 @@
     </string>
     <string name="numberOfFavorites">Antal sparade favoriter:</string>
     <string name="stationAddedToFavourites">%1$s sparad som favorit</string>
+    <string name="stationRemovedFromFavourites">%1$s togs bort</string>
     <string name="undo">Ångra</string>
 </resources>
