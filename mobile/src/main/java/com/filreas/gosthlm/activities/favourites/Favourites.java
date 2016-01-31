@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 
 import com.filreas.gosthlm.R;
@@ -40,6 +41,7 @@ public class Favourites extends MobileBaseActivity {
     private final List<FavouriteSite> favouriteSites = new ArrayList<>();
     private FloatingActionButton fab;
     private View bottomToolbar;
+    private AutoCompleteTextView autoCompleteTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,8 @@ public class Favourites extends MobileBaseActivity {
             }
         });
         bottomToolbar = findViewById(R.id.bottomToolBar);
-
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
+        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
+        autoCompleteTextView.setFocusableInTouchMode(true);
         AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
 
         autoCompleteStationSearch.setOnClickListener(new FavouriteSiteSaveOnClickListener(
@@ -77,7 +79,7 @@ public class Favourites extends MobileBaseActivity {
                         });
                     }
                 }));
-        autoCompleteStationSearch.init(textView);
+        autoCompleteStationSearch.init(autoCompleteTextView);
     }
 
     private void toggleBottomToolbar() {
@@ -88,6 +90,15 @@ public class Favourites extends MobileBaseActivity {
 
         if (bottomToolbar.getVisibility() == View.INVISIBLE) {
             final Animator showToolbar = ViewAnimationUtils.createCircularReveal(bottomToolbar, cx, cy, 0, radius);
+            showToolbar.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    autoCompleteTextView.requestFocus();
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.showSoftInput(autoCompleteTextView, 0);
+                }
+            });
             fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
                 @Override
                 public void onHidden(FloatingActionButton fab) {
@@ -102,6 +113,7 @@ public class Favourites extends MobileBaseActivity {
             hideToolbar.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
                     bottomToolbar.setVisibility(View.INVISIBLE);
                     fab.show();
                 }

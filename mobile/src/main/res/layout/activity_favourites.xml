@@ -32,7 +32,10 @@
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:textColorHint="@android:color/white"
+                android:shadowColor="@android:color/white"
+                android:backgroundTint="@android:color/transparent"
+                />
         </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.RecyclerView
