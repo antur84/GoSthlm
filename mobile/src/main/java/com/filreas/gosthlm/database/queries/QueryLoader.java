@@ -16,20 +16,6 @@ public class QueryLoader<T> extends AsyncTaskLoader<T> {
         onContentChanged();
     }
 
-    public QueryLoader(
-            Context context,
-            IQuery<T> query,
-            IDataSourceCallbackListener dataSourceCallbackListener) {
-        this(context, query);
-        dataSourceCallbackListener.setOnDataChangedListener(new IDataSourceChanged() {
-
-            @Override
-            public void dataSourceChanged() {
-                onContentChanged();
-            }
-        });
-    }
-
     @Override
     public T loadInBackground() {
         return query.get();
@@ -40,5 +26,9 @@ public class QueryLoader<T> extends AsyncTaskLoader<T> {
         if (takeContentChanged()) {
             forceLoad();
         }
+    }
+
+    public void notifyContentChanged() {
+        onContentChanged();
     }
 }

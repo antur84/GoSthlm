@@ -24,7 +24,7 @@ public class DeleteFavouriteStationCommand implements ICommand {
     public void execute() {
         FavouriteSite current = favouriteSiteHelper.getBySiteId(item.getSiteId());
         if (current != null) {
-            favouriteSiteHelper.remove(item);
+            favouriteSiteHelper.remove(current);
             if(dataSourceChangedListener != null) {
                 dataSourceChangedListener.dataSourceChanged();
             }

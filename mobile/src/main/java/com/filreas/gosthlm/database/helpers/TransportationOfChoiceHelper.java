@@ -47,7 +47,7 @@ public class TransportationOfChoiceHelper implements ITransportationOfChoiceDbHe
         db.insert(TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE, null, values);
         db.close();
 
-        GoSthlmLog.d("create", values.toString());
+        GoSthlmLog.d("db create " + values.toString());
     }
 
     @Override
@@ -60,7 +60,7 @@ public class TransportationOfChoiceHelper implements ITransportationOfChoiceDbHe
         db.update(TABLE_DEFAULT_TRANSPORTATION_OF_CHOICE, values, "id=?", args);
         db.close();
 
-        GoSthlmLog.d("update", values.toString());
+        GoSthlmLog.d("db update " + values.toString());
     }
 
     @Override
@@ -77,7 +77,6 @@ public class TransportationOfChoiceHelper implements ITransportationOfChoiceDbHe
             transportationOfChoice.setBus(cursor.getInt(2) == 1);
             transportationOfChoice.setTrain(cursor.getInt(3) == 1);
             transportationOfChoice.setTram(cursor.getInt(4) == 1);
-            GoSthlmLog.d("getBySiteId", transportationOfChoice.toString());
         }
         cursor.close();
 

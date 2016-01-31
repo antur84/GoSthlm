@@ -16,4 +16,6 @@
 \n\nThe matching current departures will show up on your watch.
     </string>
     <string name="numberOfFavorites">Number of favorites:</string>
+    <string name="stationAddedToFavourites">%1$s added to favourites</string>
+    <string name="undo">Undo</string>
 </resources>

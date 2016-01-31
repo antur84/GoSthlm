@@ -11,7 +11,12 @@
     <string name="busLabel">Buss</string>
     <string name="trainLabel">Pendeltåg</string>
     <string name="tramLabel">Lokalbana</string>
-    <string name="helpLabel">Visste du att?</string>
-    <string name="helpText">Du kan lägga till stationer i dina favoriter!</string>
+    <string name="helpLabel">Kom igång direkt</string>
+    <string name="helpText">
+        Lägg till dina favoritstationer och önskade transportmedel.
+        \n\nMatchande avgångar kommer att dyka upp på din klocka.
+    </string>
     <string name="numberOfFavorites">Antal sparade favoriter:</string>
+    <string name="stationAddedToFavourites">%1$s sparad som favorit</string>
+    <string name="undo">Ångra</string>
 </resources>

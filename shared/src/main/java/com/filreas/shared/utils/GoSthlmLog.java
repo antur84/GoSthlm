@@ -10,11 +10,6 @@ public class GoSthlmLog {
         Log.d(gosthlmTag, msg);
     }
 
-    public static void d(String tag, String msg) {
-        Log.d(tag, msg);
-        Log.d(gosthlmTag, msg);
-    }
-
     public static void e(Exception e) {
         Log.e(gosthlmTag, Log.getStackTraceString(e));
     }

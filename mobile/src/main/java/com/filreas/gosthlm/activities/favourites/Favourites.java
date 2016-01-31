@@ -17,7 +17,6 @@ import com.filreas.gosthlm.database.helpers.DbHelperWrapper;
 import com.filreas.gosthlm.database.helpers.FavouriteSiteHelper;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.database.queries.FavouriteSitesQuery;
-import com.filreas.gosthlm.database.queries.IDataSourceCallbackListener;
 import com.filreas.gosthlm.database.queries.IDataSourceChanged;
 import com.filreas.gosthlm.database.queries.QueryLoader;
 import com.filreas.shared.utils.GoSthlmLog;
@@ -29,7 +28,6 @@ import java.util.List;
 public class Favourites extends MobileBaseActivity {
 
     private RecyclerView.Adapter adapter;
-    private IDataSourceChanged favouriteSitesChangedListener;
     private final List<FavouriteSite> favouriteSites = new ArrayList<>();
 
     @Override
@@ -49,14 +47,7 @@ public class Favourites extends MobileBaseActivity {
                         context,
                         new FavouriteSitesQuery(
                                 new FavouriteSiteHelper(
-                                        new DbHelperWrapper(context))),
-                        new IDataSourceCallbackListener() {
-
-                            @Override
-                            public void setOnDataChangedListener(IDataSourceChanged dataChangedListener) {
-                                favouriteSitesChangedListener = dataChangedListener;
-                            }
-                        });
+                                        new DbHelperWrapper(context))));
             }
 
             @Override
@@ -103,15 +94,24 @@ public class Favourites extends MobileBaseActivity {
                     }
 
                     @Override
-                    public void onItemDismissed(int position) {
+                    public void onItemDismissed(final int position) {
                         FavouriteSite removed = favouriteSites.remove(position);
-                        adapter.notifyItemRemoved(position);
                         new CommandExecuter().execute(
                                 new DeleteFavouriteStationCommand(
                                         new FavouriteSiteHelper(
                                                 new DbHelperWrapper(
                                                         getApplicationContext())),
-                                        favouriteSitesChangedListener,
+                                        new IDataSourceChanged() {
+                                            @Override
+                                            public void dataSourceChanged() {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        adapter.notifyItemRemoved(position);
+                                                    }
+                                                });
+                                            }
+                                        },
                                         removed));
                     }
                 });

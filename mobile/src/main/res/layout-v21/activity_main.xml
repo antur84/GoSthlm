@@ -8,6 +8,7 @@
     <include layout="@layout/app_bar" />
 
     <ScrollView
+        android:id="@+id/mainWindowScroll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
