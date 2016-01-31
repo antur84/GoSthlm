@@ -9,7 +9,7 @@ public class SimpleFavouritesCallback extends ItemTouchHelper.SimpleCallback {
     private final ISimpleFavouritesCallbackActions actions;
 
     public SimpleFavouritesCallback(ISimpleFavouritesCallbackActions actions) {
-        super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT);
         this.actions = actions;
     }
 
