@@ -42,6 +42,7 @@ public class Favourites extends MobileBaseActivity {
     private FloatingActionButton fab;
     private View bottomToolbar;
     private AutoCompleteTextView autoCompleteTextView;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class Favourites extends MobileBaseActivity {
                                 favouriteSites.add(site);
                                 adapter.notifyDataSetChanged();
                                 toggleBottomToolbar();
+                                recyclerView.smoothScrollToPosition(favouriteSites.indexOf(site));
                             }
                         });
                     }
@@ -151,7 +153,7 @@ public class Favourites extends MobileBaseActivity {
     }
 
     private void initFavouritesView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFavourites);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFavourites);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
