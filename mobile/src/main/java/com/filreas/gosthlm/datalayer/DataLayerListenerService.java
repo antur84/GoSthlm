@@ -44,6 +44,7 @@ public class DataLayerListenerService extends WearableListenerService {
         super();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         final String message = new String(messageEvent.getData());
