@@ -1,16 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.filreas.gosthlm.activities.favourites.Favourites">
 
-    <include layout="@layout/app_bar" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
+    <RelativeLayout
+        android:id="@+id/favView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-      />
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/topToolBar"
+            layout="@layout/app_bar" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/bottomToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/primary"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <AutoCompleteTextView
+                android:id="@+id/stationsSearch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="3"
+                android:hint="@string/selectStationLabel"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewFavourites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/bottomToolBar"
+            android:layout_below="@id/topToolBar"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_add_white_18dp"
+        app:backgroundTint="@color/accent"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/bottomToolBar"
+        app:layout_anchorGravity="center_vertical|right|end"
+        app:rippleColor="@color/primary_dark" />
+
+</android.support.design.widget.CoordinatorLayout>

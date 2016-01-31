@@ -1,14 +1,23 @@
 package com.filreas.gosthlm.activities.favourites;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.widget.AutoCompleteTextView;
 
 import com.filreas.gosthlm.R;
+import com.filreas.gosthlm.activities.FavouriteSiteSaveOnClickListener;
+import com.filreas.gosthlm.activities.IFavouriteSiteSaveOnClick;
+import com.filreas.gosthlm.activities.Main.AutoCompleteStationSearch;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
 import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.CommandExecuter;
@@ -29,12 +38,76 @@ public class Favourites extends MobileBaseActivity {
 
     private RecyclerView.Adapter adapter;
     private final List<FavouriteSite> favouriteSites = new ArrayList<>();
+    private FloatingActionButton fab;
+    private View bottomToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         enableHomeAsUpNavigation();
         initFavouriteSites();
+        initAddButton();
+    }
+
+    private void initAddButton() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleBottomToolbar();
+            }
+        });
+        bottomToolbar = findViewById(R.id.bottomToolBar);
+
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
+        AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
+
+        autoCompleteStationSearch.setOnClickListener(new FavouriteSiteSaveOnClickListener(
+                getApplicationContext(),
+                new IFavouriteSiteSaveOnClick() {
+                    @Override
+                    public void siteSaved(final FavouriteSite site) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                favouriteSites.add(site);
+                                adapter.notifyDataSetChanged();
+                                toggleBottomToolbar();
+                            }
+                        });
+                    }
+                }));
+        autoCompleteStationSearch.init(textView);
+    }
+
+    private void toggleBottomToolbar() {
+
+        final int cx = bottomToolbar.getWidth() / 2;
+        final int cy = bottomToolbar.getHeight() / 2;
+        final float radius = Math.max(bottomToolbar.getWidth(), bottomToolbar.getHeight()) * 2.0f;
+
+        if (bottomToolbar.getVisibility() == View.INVISIBLE) {
+            final Animator showToolbar = ViewAnimationUtils.createCircularReveal(bottomToolbar, cx, cy, 0, radius);
+            fab.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(FloatingActionButton fab) {
+                    super.onHidden(fab);
+                    bottomToolbar.setVisibility(View.VISIBLE);
+                    showToolbar.start();
+                }
+            });
+        } else {
+            Animator hideToolbar = ViewAnimationUtils.createCircularReveal(
+                    bottomToolbar, cx, cy, radius, 0);
+            hideToolbar.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    bottomToolbar.setVisibility(View.INVISIBLE);
+                    fab.show();
+                }
+            });
+            hideToolbar.start();
+        }
     }
 
     private void initFavouriteSites() {
@@ -66,7 +139,7 @@ public class Favourites extends MobileBaseActivity {
     }
 
     private void initFavouritesView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFavourites);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 

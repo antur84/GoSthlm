@@ -16,8 +16,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.filreas.gosthlm.R;
+import com.filreas.gosthlm.activities.FavouriteSiteSaveOnClickListener;
+import com.filreas.gosthlm.activities.IFavouriteSiteSaveOnClick;
 import com.filreas.gosthlm.activities.MobileBaseActivity;
-import com.filreas.gosthlm.database.commands.AddOrUpdateFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.CommandExecuter;
 import com.filreas.gosthlm.database.commands.DeleteFavouriteStationCommand;
 import com.filreas.gosthlm.database.commands.UpdateTransportationOfChoiceCommand;
@@ -27,11 +28,8 @@ import com.filreas.gosthlm.database.helpers.TransportationOfChoiceHelper;
 import com.filreas.gosthlm.database.model.FavouriteSite;
 import com.filreas.gosthlm.database.model.TransportationOfChoice;
 import com.filreas.gosthlm.database.queries.FavouriteSitesQuery;
-import com.filreas.gosthlm.database.queries.IDataSourceChanged;
 import com.filreas.gosthlm.database.queries.QueryLoader;
 import com.filreas.gosthlm.database.queries.TransportationOfChoiceQuery;
-import com.filreas.gosthlm.slapi.operations.location_finder.contract.request.response.Site;
-import com.filreas.gosthlm.utils.OnItemClickListener;
 import com.filreas.shared.utils.GoSthlmLog;
 import com.filreas.shared.utils.SwipeDismissTouchListener;
 
@@ -144,32 +142,17 @@ public class MobileMainActivity extends MobileBaseActivity implements LoaderMana
     }
 
     private void initStationsSearch() {
-        AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
         final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stationsSearch);
-        autoCompleteStationSearch.setOnClickListener(new OnItemClickListener<Site>() {
-            @Override
-            public void onClick(Site site) {
-                final FavouriteSite favouriteSite = new FavouriteSite(
-                        -1,
-                        site.getName(),
-                        site.getSiteId(),
-                        site.getType(),
-                        site.getX(),
-                        site.getY());
-                new CommandExecuter().execute(
-                        new AddOrUpdateFavouriteStationCommand(
-                                new FavouriteSiteHelper(
-                                        new DbHelperWrapper(
-                                                getApplicationContext())),
-                                new IDataSourceChanged() {
-                                    @Override
-                                    public void dataSourceChanged() {
-                                        showStationAddedSnackbar(favouriteSite);
-                                    }
-                                },
-                                favouriteSite));
-            }
-        });
+        AutoCompleteStationSearch autoCompleteStationSearch = new AutoCompleteStationSearch(slApi, slApiKeyFetcher);
+
+        autoCompleteStationSearch.setOnClickListener(new FavouriteSiteSaveOnClickListener(
+                getApplicationContext(),
+                new IFavouriteSiteSaveOnClick() {
+                    @Override
+                    public void siteSaved(FavouriteSite site) {
+                        showStationAddedSnackbar(site);
+                    }
+                }));
         autoCompleteStationSearch.init(textView);
     }
 
