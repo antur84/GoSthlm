@@ -19,8 +19,8 @@
     <string name="helpText">Add your favourite stations and desired modes of transport.
 \n\nThe matching current departures will show up on your watch.
     </string>
-    <string name="licenseHeadline">License</string>
-    <string name="aboutLicense">Copyright 2016 Andreas Turku\n\nLicensed under the Apache License, Version 2.0 (the "License");
+    <string name="licenseHeadline" translatable="false">License</string>
+    <string name="aboutLicense" translatable="false">Copyright 2016 Andreas Turku\n\nLicensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at\n\n
 
@@ -31,8 +31,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.</string>
-    <string name="opensourceHeadline">Third party software</string>
-    <string name="aboutOpensource">SwipeDismissTouchListener.java Copyright 2012 Roman Nurik, Apache License, Version 2.0</string>
+    <string name="opensourceHeadline" translatable="false">Third party software</string>
+    <string name="aboutOpensource" translatable="false">SwipeDismissTouchListener.java Copyright 2012 Roman Nurik, Apache License, Version 2.0</string>
     <string name="testHeadline">Device compatibility</string>
     <string name="trafiklabHeadline">Data vendor</string>
     <string name="numberOfFavorites">Number of favorites:</string>
