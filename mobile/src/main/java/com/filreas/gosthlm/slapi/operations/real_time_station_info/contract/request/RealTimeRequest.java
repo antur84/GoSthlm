@@ -22,7 +22,7 @@ public class RealTimeRequest extends SLApiRequest {
 
     @Override
     public String toString() {
-        String url = "realtimedepartures.%s?key=%s&siteid=%s&timewindow=%s";
+        String url = "realtimedeparturesV4.%s?key=%s&siteid=%s&timewindow=%s";
         return String.format(Locale.US, url, getResponseFormat(), getKey(), siteId, timeWindow);
     }
 

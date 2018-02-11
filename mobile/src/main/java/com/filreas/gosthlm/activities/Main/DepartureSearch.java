@@ -63,7 +63,7 @@ public class DepartureSearch {
     private RealTimeRequest CreateNewRequest(int siteId) {
         RealTimeRequest request = new RealTimeRequest(
                 ResponseFormat.JSON,
-                slApiKeyFetcher.getKey("slrealtidsinformation3"),
+                slApiKeyFetcher.getKey("slrealtidsinformation4"),
                 -1,
                 30,
                 new ResponseCacheStrategy(CacheType.ABSOLUTE_EXPIRATION, 1));
