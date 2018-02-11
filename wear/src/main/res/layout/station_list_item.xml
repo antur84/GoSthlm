@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center_vertical|center_horizontal"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="13sp"
         android:alpha="0.4"
         tools:text="10 Kungsträdgården 5 min"

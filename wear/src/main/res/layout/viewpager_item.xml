@@ -27,7 +27,7 @@
                 android:paddingStart="5dp"
                 tools:text="Hammarbyhöjden (Stockholm)"
                 android:textSize="18sp"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 app:layout_box="top|left|right" />
         </LinearLayout>
         <LinearLayout
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:textSize="18sp"
                 android:text="@string/no_departures_available"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 tools:text="No departures available"/>
         </LinearLayout>
         <LinearLayout

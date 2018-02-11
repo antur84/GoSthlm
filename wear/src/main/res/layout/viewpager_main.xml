@@ -48,7 +48,7 @@
                 android:layout_below="@+id/progressBar"
                 android:gravity="center"
                 android:text="@string/connecting_to_phone"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
                 tools:text="Ansluter till telefonen..." />
 
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
                 tools:text="Ingen telefon ansluten" />
         </RelativeLayout>
